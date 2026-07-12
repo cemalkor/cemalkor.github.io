@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cemal Kör — Gömülü Yazılım Mühendisi</title>
+<meta name="description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<style>
+:root{
+  --paper:#F7F8F6;
+  --ink:#17251F;
+  --ink-soft:#4A5A52;
+  --pcb:#1E6E52;          /* solder-mask yeşili */
+  --pcb-dark:#124534;
+  --copper:#B87333;       /* bakır iz */
+  --line:#D8DED9;
+  --card:#FFFFFF;
+  --term-bg:#0E1B15;
+  --term-green:#6FDCA8;
+  --term-dim:#3E6B57;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+  --disp:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
+::selection{background:var(--pcb);color:#fff}
+
+/* ---------- kare dalga bölüm ayracı ---------- */
+.sq-divider{height:14px;margin:0 auto;max-width:1080px;padding:0 24px}
+.sq-divider svg{width:100%;height:14px;display:block}
+.sq-divider path{stroke:var(--line);stroke-width:1.5;fill:none}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
+.logo b{color:var(--pcb)}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
+.nav-links a:hover{color:var(--pcb)}
+.nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
+
+/* ---------- hero ---------- */
+header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:.8rem;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em}
+h1 span{color:var(--pcb)}
+.hero-sub{margin-top:18px;color:var(--ink-soft);max-width:46ch;font-size:1.05rem}
+.hero-cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:11px 20px;border-radius:6px;transition:transform .15s ease, box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--pcb);color:#fff;box-shadow:0 2px 0 var(--pcb-dark)}
+.btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
+
+/* terminal */
+.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:var(--term-dim)}
+.term-bar i:first-child{background:var(--copper)}
+.term-title{margin-left:auto;font-size:.7rem;color:var(--term-dim)}
+.term-body{padding:16px 18px 20px;font-size:.78rem;line-height:1.8;min-height:230px}
+.term-body .t{color:var(--term-dim)}
+.term-body .ok{color:var(--term-green)}
+.term-body .val{color:#E8C48A}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--term-green);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- section genel ---------- */
+section{max-width:1080px;margin:0 auto;padding:64px 24px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+.sec-head h2{font-family:var(--disp);font-size:1.7rem;font-weight:600;letter-spacing:-.01em}
+.sec-head .pin{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
+
+/* ---------- hakkımda ---------- */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+.about-grid p{color:var(--ink-soft);margin-bottom:14px}
+.spec-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;font-family:var(--mono);font-size:.8rem}
+.spec-card h3{font-family:var(--disp);font-size:.95rem;margin-bottom:14px;color:var(--pcb)}
+.spec-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{color:var(--ink-soft)}
+.spec-row .v{color:var(--ink);text-align:right}
+
+/* ---------- deneyim ---------- */
+.xp{border-left:2px solid var(--line);margin-left:6px;padding-left:28px;display:flex;flex-direction:column;gap:30px}
+.xp-item{position:relative}
+.xp-item::before{content:'';position:absolute;left:-35px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2.5px solid var(--pcb)}
+.xp-item.current::before{background:var(--pcb);box-shadow:0 0 0 4px rgba(30,110,82,.15)}
+.xp-date{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
+.xp-item h3{font-family:var(--disp);font-size:1.15rem;margin:4px 0 2px}
+.xp-role{font-size:.9rem;color:var(--pcb);font-weight:500}
+.xp-item p{color:var(--ink-soft);font-size:.95rem;margin-top:8px;max-width:70ch}
+.xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:.7rem;background:#EDF2EE;border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
+
+/* ---------- projeler ---------- */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;display:flex;flex-direction:column;transition:border-color .15s, transform .15s}
+.proj:hover{border-color:var(--pcb);transform:translateY(-3px)}
+.proj .ref{font-family:var(--mono);font-size:.7rem;color:var(--copper);margin-bottom:10px}
+.proj h3{font-family:var(--disp);font-size:1.1rem;margin-bottom:8px}
+.proj p{color:var(--ink-soft);font-size:.9rem;flex:1}
+.proj .xp-tags{margin-top:14px}
+.proj a{margin-top:14px;font-family:var(--mono);font-size:.78rem;color:var(--pcb);text-decoration:none}
+.proj a:hover{color:var(--copper)}
+
+/* ---------- yetkinlikler ---------- */
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.skill-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+.skill-box h3{font-family:var(--mono);font-size:.8rem;color:var(--pcb);margin-bottom:12px;letter-spacing:.04em}
+.skill-box ul{list-style:none}
+.skill-box li{font-size:.88rem;color:var(--ink-soft);padding:5px 0;border-bottom:1px dashed var(--line)}
+.skill-box li:last-child{border:none}
+.skill-box li::before{content:'▸';color:var(--copper);margin-right:8px;font-size:.75rem}
+
+/* ---------- blog ---------- */
+#blog-list{display:grid;gap:16px}
+.post-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;cursor:pointer;transition:border-color .15s}
+.post-card:hover{border-color:var(--pcb)}
+.post-card .meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:6px}
+.post-card h3{font-family:var(--disp);font-size:1.15rem;margin-bottom:6px}
+.post-card p{color:var(--ink-soft);font-size:.9rem}
+#post-view{display:none}
+#post-content{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:36px 40px;max-width:760px}
+#post-content h1,#post-content h2,#post-content h3{font-family:var(--disp);margin:1.2em 0 .5em;line-height:1.25}
+#post-content h1{font-size:1.8rem;margin-top:0}
+#post-content p{margin-bottom:1em;color:#26352E}
+#post-content ul,#post-content ol{margin:0 0 1em 1.4em}
+#post-content li{margin-bottom:.35em}
+#post-content code{font-family:var(--mono);font-size:.85em;background:#EDF2EE;padding:2px 6px;border-radius:4px}
+#post-content pre{background:var(--term-bg);color:var(--term-green);padding:18px;border-radius:8px;overflow-x:auto;margin-bottom:1em}
+#post-content pre code{background:none;color:inherit;padding:0}
+#post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
+#post-content img{max-width:100%;border-radius:8px}
+#post-content a{color:var(--pcb)}
+.back-btn{font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
+.back-btn:hover{color:var(--copper)}
+.blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:#EDF2EE;border:1px dashed var(--line);border-radius:8px;padding:16px}
+
+/* ---------- footer ---------- */
+footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
+.foot-in{max-width:1080px;margin:0 auto;padding:56px 24px 40px}
+.foot-in h2{font-family:var(--disp);color:#fff;font-size:1.6rem;margin-bottom:10px}
+.foot-in p{max-width:52ch;color:#8FA79A;margin-bottom:24px}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:.85rem}
+.foot-links a{color:var(--term-green);text-decoration:none}
+.foot-links a:hover{color:var(--copper)}
+.foot-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:36px;padding-top:20px;font-family:var(--mono);font-size:.72rem;color:#5E7268}
+
+@media (max-width:840px){
+  header{grid-template-columns:1fr;padding-top:48px}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{gap:14px}
+  #post-content{padding:24px 20px}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .cursor{animation:none}
+  .btn:hover,.proj:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="#top">cemal<b>@</b>kor:~$</a>
+    <div class="nav-links">
+      <a href="#hakkimda">hakkımda</a>
+      <a href="#deneyim">deneyim</a>
+      <a href="#projeler">projeler</a>
+      <a href="#yetkinlikler">yetkinlikler</a>
+      <a href="#blog">blog</a>
+      <a href="#iletisim">iletişim</a>
+    </div>
+  </div>
+</nav>
+
+<header id="top">
+  <div>
+    <div class="eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
+    <h1>Sahadaki cihazın içindeki <span>yazılımı</span> yazıyorum.</h1>
+    <p class="hero-sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projeler">Projelerime bak</a>
+      <a class="btn btn-ghost" href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </div>
+  <div class="terminal" aria-hidden="true">
+    <div class="term-bar"><i></i><i></i><i></i><span class="term-title">UART0 · 115200 8N1</span></div>
+    <div class="term-body" id="bootlog"></div>
+  </div>
+</header>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/></svg></div>
+
+<section id="hakkimda">
+  <div class="sec-head"><h2>Hakkımda</h2><span class="pin">// about.c</span></div>
+  <div class="about-grid">
+    <div>
+      <p>Gazi Üniversitesi Teknoloji Fakültesi Elektrik-Elektronik Mühendisliği mezunuyum; öncesinde teknik lisede elektrik-elektronik bakım-onarım okudum. Bu ikili eğitim sayesinde hem masa başında firmware yazabiliyor hem de sahada, osiloskopun başında donanım hatası ayıklayabiliyorum.</p>
+      <p>2022'den beri İnodya Teknoloji'de gömülü yazılım mühendisi olarak çalışıyorum. Güncel odağım akıllı su ve gaz sayaçları: NFC ile kredi yükleme, BLE ile yerinde okuma, Sigfox ve NB-IoT ile uzaktan veri iletimi. Bu cihazlar pille yıllarca çalışmak zorunda olduğu için düşük güç tüketimi benim için bir özellik değil, tasarımın kendisi.</p>
+      <p>Register seviyesinde programlamayı, datasheet okumayı ve AT komutlarıyla modem konuşturmayı seviyorum. Önceki işimde Aselsan UGES kapsamında medikal cihaz yazılımları geliştirdim; FreeRTOS ve ThreadX ile üretim kalitesinde firmware deneyimim var.</p>
+    </div>
+    <div class="spec-card">
+      <h3>ÖZET / DATASHEET</h3>
+      <div class="spec-row"><span class="k">Konum</span><span class="v">Ankara, TR</span></div>
+      <div class="spec-row"><span class="k">Rol</span><span class="v">Embedded SW Eng.</span></div>
+      <div class="spec-row"><span class="k">Uzmanlık</span><span class="v">Sigfox · BLE · Low-Power</span></div>
+      <div class="spec-row"><span class="k">Diller</span><span class="v">C/C++ · C# · Python</span></div>
+      <div class="spec-row"><span class="k">RTOS</span><span class="v">FreeRTOS · ThreadX</span></div>
+      <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
+      <div class="spec-row"><span class="k">Durum</span><span class="v ok" style="color:var(--pcb)">● Aktif — İnodya Teknoloji</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
+
+<section id="deneyim">
+  <div class="sec-head"><h2>Deneyim</h2><span class="pin">// experience.log</span></div>
+  <div class="xp">
+    <div class="xp-item current">
+      <div class="xp-date">2022 — devam ediyor</div>
+      <h3>İnodya Teknoloji San. ve Tic. A.Ş.</h3>
+      <div class="xp-role">Gömülü Yazılım Mühendisi</div>
+      <p>Akıllı su ve gaz sayaçları üzerine ürün geliştirme. Belediye Su ve Kanalizasyon İdareleri ile iş birliği kapsamında akıllı kartlı sayaçlar ve uzaktan kredi yükleme teknolojileri; proje geliştirme, iş planı ve teknik sunum süreçleri. NFC + Bluetooth destekli akıllı su sayacı ve endüstriyel IoT platform AR-GE'si.</p>
+      <div class="xp-tags">
+        <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">ThreadX</span><span class="tag">Low-Power</span><span class="tag">AT Komutları</span><span class="tag">STM32</span>
+      </div>
+    </div>
+    <div class="xp-item">
+      <div class="xp-date">2021 — 2022</div>
+      <h3>BESoft Yazılım Teknolojileri</h3>
+      <div class="xp-role">Gömülü Yazılım Mühendisi</div>
+      <p>Aselsan UGES birim başkanlığı tarafından sağlık sektörü için geliştirilen özel projede firmware geliştirme: medikal cihaz haberleşmeleri, kontrol ve simülasyonları, C# ile test/simülasyon arayüzleri, ASELSAN standartlarında (YATT, YGÖ, YTER…) dokümantasyon.</p>
+      <div class="xp-tags">
+        <span class="tag">Embedded C</span><span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag">Şifreleme</span><span class="tag">C#</span><span class="tag">Medikal</span>
+      </div>
+    </div>
+    <div class="xp-item">
+      <div class="xp-date">2013</div>
+      <h3>Mavi Elektronik</h3>
+      <div class="xp-role">Teknik Personel</div>
+    </div>
+    <div class="xp-item">
+      <div class="xp-date">2012</div>
+      <h3>TürkTelekom</h3>
+      <div class="xp-role">Lise Stajı</div>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
+
+<section id="projeler">
+  <div class="sec-head"><h2>Projeler</h2><span class="pin">// projects/</span></div>
+  <div class="proj-grid">
+    <div class="proj">
+      <div class="ref">REF-001 · İNODYA</div>
+      <h3>Akıllı Sayaç Teknolojileri</h3>
+      <p>Elektronik akıllı kartlı su ve gaz sayaçları; NFC ile uzaktan kredi yükleme, BLE ile yerinde okuma, Sigfox/NB-IoT ile veri iletimi. Yıllarca pille çalışacak şekilde optimize edilmiş firmware.</p>
+      <div class="xp-tags"><span class="tag">STM32</span><span class="tag">Sigfox</span><span class="tag">NFC</span><span class="tag">Low-Power</span></div>
+    </div>
+    <div class="proj">
+      <div class="ref">REF-002 · ASELSAN UGES</div>
+      <h3>Medikal Cihaz Yazılımları</h3>
+      <p>Sağlık sektörü için geliştirilen özel projede medikal cihaz haberleşme, kontrol ve simülasyon yazılımları. FreeRTOS tabanlı, ASELSAN dokümantasyon standartlarında geliştirme.</p>
+      <div class="xp-tags"><span class="tag">FreeRTOS</span><span class="tag">Embedded C</span><span class="tag">C#</span></div>
+    </div>
+    <div class="proj">
+      <div class="ref">REF-003 · BİTİRME TEZİ</div>
+      <h3>IoT Kontrollü Akıllı Mantarhane</h3>
+      <p>Sıcaklık, nem, CO₂ ve kompost değerlerini Raspberry Pi ve ESP32 ile izleyip çiftçinin belirlediği aralıkta tutan sistem. Firebase üzerinden gerçek zamanlı takip, C# kontrol arayüzü.</p>
+      <div class="xp-tags"><span class="tag">ESP32</span><span class="tag">Firebase</span><span class="tag">MQTT</span><span class="tag">Python</span></div>
+    </div>
+    <div class="proj">
+      <div class="ref">REF-004 · AÇIK KAYNAK</div>
+      <h3>STM32 AT Command Library</h3>
+      <p>STM32 platformu için, STM32CubeMX ile kolayca kullanılabilen AT komut kütüphanesi. Modem entegrasyonlarını (NB-IoT, GSM) hızlandırmak için geliştirildi.</p>
+      <div class="xp-tags"><span class="tag">STM32</span><span class="tag">AT Komutları</span><span class="tag">C</span></div>
+      <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
+    </div>
+    <div class="proj">
+      <div class="ref">REF-005 · IEEE CSCON'25</div>
+      <h3>Gömülü Sistemlerde BLE</h3>
+      <p>IEEE CSCON'25 kapsamında gömülü sistemlerde Bluetooth Low Energy üzerine hazırlanan çalışma ve örnek kodlar.</p>
+      <div class="xp-tags"><span class="tag">BLE</span><span class="tag">C</span></div>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener">Repo'yu incele →</a>
+    </div>
+    <div class="proj">
+      <div class="ref">REF-006 · AÇIK KAYNAK</div>
+      <h3>Bellek Yönetim Kütüphaneleri</h3>
+      <p>SPI-Flash-Manager ve I2c-Eeprom-Manager: harici flash ve EEPROM yongalarını yönetmek için yazılmış, yeniden kullanılabilir C kütüphaneleri.</p>
+      <div class="xp-tags"><span class="tag">SPI</span><span class="tag">I2C</span><span class="tag">C</span></div>
+      <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
+
+<section id="yetkinlikler">
+  <div class="sec-head"><h2>Yetkinlikler</h2><span class="pin">// skills.h</span></div>
+  <div class="skill-cols">
+    <div class="skill-box">
+      <h3>DİLLER</h3>
+      <ul><li>Embedded C / C++</li><li>C# (test & arayüz)</li><li>Python</li><li>Assembly → C çeviri</li></ul>
+    </div>
+    <div class="skill-box">
+      <h3>HABERLEŞME</h3>
+      <ul><li>Sigfox · NB-IoT · GPRS</li><li>BLE 5.4 · NFC</li><li>UART · I2C · SPI · CANBUS</li><li>TCP · UDP · MQTT</li></ul>
+    </div>
+    <div class="skill-box">
+      <h3>MCU / PLATFORM</h3>
+      <ul><li>STM32 (F070, WBA52)</li><li>ESP32 · ESP8266</li><li>PIC 16F / 12F serisi</li><li>Raspberry Pi</li></ul>
+    </div>
+    <div class="skill-box">
+      <h3>SİSTEM</h3>
+      <ul><li>FreeRTOS · Azure ThreadX</li><li>Low-power firmware optimizasyonu</li><li>Register seviyesi programlama</li><li>Donanım hata ayıklama</li></ul>
+    </div>
+    <div class="skill-box">
+      <h3>ARAÇLAR</h3>
+      <ul><li>STM32CubeIDE · Keil uVision</li><li>ESP-IDF · MPLAB X</li><li>Git · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H110 V2 H230 V12 H390 V2 H470 V12 H610 V2 H770 V12 H870 V2 H1032"/></svg></div>
+
+<section id="blog">
+  <div class="sec-head"><h2>Blog</h2><span class="pin">// posts/*.md</span></div>
+  <div id="blog-list"></div>
+  <div id="post-view">
+    <button class="back-btn" onclick="location.hash='#blog'">← Tüm yazılar</button>
+    <article id="post-content"></article>
+  </div>
+</section>
+
+<footer id="iletisim">
+  <div class="foot-in">
+    <h2>İletişim</h2>
+    <p>Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
+    <div class="foot-links">
+      <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
+      <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.instagram.com/cemalkor" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="foot-bottom">© <span id="yil"></span> Cemal Kör · [0.000] system halted. goodbye.</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('yil').textContent = new Date().getFullYear();
+
+/* ---------- boot log animasyonu ---------- */
+const bootLines = [
+  ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.07\n'],
+  ['t','[ 0.012] '], ['ok','cpu:  '], ['val','embedded software engineer\n'],
+  ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... OK\n'],
+  ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
+  ['t','[ 0.066] '], ['ok','pwr:  '], ['val','low-power mode enabled (uA)\n'],
+  ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
+  ['t','[ 0.102] '], ['ok','init: '], ['val','portfolio ready.\n'],
+  ['t','$ ']
+];
+const logEl = document.getElementById('bootlog');
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduced){
+  logEl.innerHTML = bootLines.map(([c,t])=>`<span class="${c}">${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
+}else{
+  // basitleştirilmiş: satır satır yaz
+  let i = 0;
+  (function lineByLine(){
+    if(i >= bootLines.length){ logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); return; }
+    const [c,t] = bootLines[i];
+    logEl.insertAdjacentHTML('beforeend', `<span class="${c}">${t.replace('\n','<br>')}</span>`);
+    i++;
+    setTimeout(lineByLine, t.includes('\n') ? 260 : 60);
+  })();
+}
+
+/* ---------- blog motoru ---------- */
+const listEl = document.getElementById('blog-list');
+const viewEl = document.getElementById('post-view');
+const contentEl = document.getElementById('post-content');
+let posts = [];
+
+async function loadPosts(){
+  try{
+    const r = await fetch('posts/posts.json', {cache:'no-store'});
+    if(!r.ok) throw new Error();
+    posts = await r.json();
+    renderRoute();
+  }catch(e){
+    listEl.innerHTML = '<div class="blog-note">⚠ Yazılar yüklenemedi. Bu site bir sunucu üzerinden (ör. GitHub Pages) açıldığında blog otomatik çalışır. Bilgisayarında denemek için klasörde <code>python -m http.server</code> çalıştırıp <code>localhost:8000</code> adresini aç.</div>';
+  }
+}
+
+function renderList(){
+  viewEl.style.display = 'none';
+  listEl.style.display = 'grid';
+  if(!posts.length){
+    listEl.innerHTML = '<div class="blog-note">Henüz yazı yok. İlk yazını eklemek için <code>posts/</code> klasörüne bir <code>.md</code> dosyası koyup <code>posts.json</code>\'a bir satır ekle.</div>';
+    return;
+  }
+  listEl.innerHTML = posts.map(p => `
+    <div class="post-card" onclick="location.hash='#yazi/${p.slug}'">
+      <div class="meta">${p.date} · ${(p.tags||[]).join(' · ')}</div>
+      <h3>${p.title}</h3>
+      <p>${p.summary||''}</p>
+    </div>`).join('');
+}
+
+async function renderPost(slug){
+  const p = posts.find(x => x.slug === slug);
+  if(!p){ location.hash = '#blog'; return; }
+  try{
+    const r = await fetch(`posts/${p.file}`, {cache:'no-store'});
+    const md = await r.text();
+    contentEl.innerHTML = marked.parse(md);
+    listEl.style.display = 'none';
+    viewEl.style.display = 'block';
+    document.getElementById('blog').scrollIntoView();
+  }catch(e){
+    contentEl.innerHTML = '<p>Yazı yüklenemedi.</p>';
+  }
+}
+
+function renderRoute(){
+  const h = location.hash;
+  if(h.startsWith('#yazi/')) renderPost(decodeURIComponent(h.slice(6)));
+  else renderList();
+}
+window.addEventListener('hashchange', renderRoute);
+loadPosts();
+</script>
+</body>
+</html>

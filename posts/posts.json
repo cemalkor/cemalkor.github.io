@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "stm32-dusuk-guc",
+    "file": "stm32-dusuk-guc.md",
+    "title": "STM32'de Düşük Güç Tüketimi: uA Avına Nereden Başlamalı?",
+    "date": "2026-07-12",
+    "tags": ["STM32", "Low-Power"],
+    "summary": "Pille yıllarca çalışması gereken bir cihazda güç bütçesini nasıl çıkarırım, stop mode'da hangi hatalar akımı yükseltir?"
+  },
+  {
+    "slug": "merhaba-dunya",
+    "file": "merhaba-dunya.md",
+    "title": "printf(\"Merhaba Dünya\"); — Bu Blog Neden Var?",
+    "date": "2026-07-10",
+    "tags": ["Genel"],
+    "summary": "Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı."
+  }
+]
