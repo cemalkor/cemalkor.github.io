@@ -9,8 +9,7 @@ portfolio/
 ├── index.html          → sitenin tamamı (HTML + CSS + JS)
 └── posts/
     ├── posts.json      → yazı listesi (başlık, tarih, dosya adı)
-    ├── merhaba-dunya.md
-    └── stm32-dusuk-guc.md
+    └── merhaba-dunya.md
 ```
 
 ## Yeni blog yazısı nasıl eklenir? (HTML'e dokunmadan!)

@@ -45,6 +45,8 @@ nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-f
 .nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
 .nav-links a:hover{color:var(--pcb)}
 .nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
+.lang-btn{font-family:var(--mono);font-size:.78rem;color:var(--ink-soft);background:none;border:1.5px solid var(--line);border-radius:4px;padding:2px 9px;cursor:pointer;letter-spacing:.04em}
+.lang-btn:hover{color:var(--pcb);border-color:var(--pcb)}
 
 /* ---------- hero ---------- */
 header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
@@ -173,23 +175,25 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   <div class="nav-in">
     <a class="logo" href="#top">cemal<b>@</b>kor:~$</a>
     <div class="nav-links">
-      <a href="#hakkimda">hakkımda</a>
-      <a href="#deneyim">deneyim</a>
-      <a href="#projeler">projeler</a>
-      <a href="#yetkinlikler">yetkinlikler</a>
+      <a href="#hakkimda" data-i18n="nav.about">hakkımda</a>
+      <a href="#deneyim" data-i18n="nav.xp">deneyim</a>
+      <a href="#projeler" data-i18n="nav.proj">projeler</a>
+      <a href="#yetkinlikler" data-i18n="nav.skills">yetkinlikler</a>
+      <a href="#egitimler" data-i18n="nav.edu">eğitimler</a>
       <a href="#blog">blog</a>
-      <a href="#iletisim">iletişim</a>
+      <a href="#iletisim" data-i18n="nav.contact">iletişim</a>
+      <button id="lang-btn" class="lang-btn" aria-label="Türkçe / English">EN</button>
     </div>
   </div>
 </nav>
 
 <header id="top">
   <div>
-    <div class="eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
-    <h1>Sahadaki cihazın içindeki <span>yazılımı</span> yazıyorum.</h1>
-    <p class="hero-sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
+    <h1 data-i18n="hero.h1">Sahadaki cihazın içindeki <span>yazılımı</span> yazıyorum.</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#projeler">Projelerime bak</a>
+      <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
       <a class="btn btn-ghost" href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub →</a>
     </div>
   </div>
@@ -202,22 +206,22 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/></svg></div>
 
 <section id="hakkimda">
-  <div class="sec-head"><h2>Hakkımda</h2><span class="pin">// about.c</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.about">Hakkımda</h2><span class="pin">// about.c</span></div>
   <div class="about-grid">
     <div>
-      <p>Gazi Üniversitesi Teknoloji Fakültesi Elektrik-Elektronik Mühendisliği mezunuyum; öncesinde teknik lisede elektrik-elektronik bakım-onarım okudum. Bu ikili eğitim sayesinde hem masa başında firmware yazabiliyor hem de sahada, osiloskopun başında donanım hatası ayıklayabiliyorum.</p>
-      <p>2022'den beri İnodya Teknoloji'de gömülü yazılım mühendisi olarak çalışıyorum. Güncel odağım akıllı su ve gaz sayaçları: NFC ile kredi yükleme, BLE ile yerinde okuma, Sigfox ve NB-IoT ile uzaktan veri iletimi. Bu cihazlar pille yıllarca çalışmak zorunda olduğu için düşük güç tüketimi benim için bir özellik değil, tasarımın kendisi.</p>
-      <p>Register seviyesinde programlamayı, datasheet okumayı ve AT komutlarıyla modem konuşturmayı seviyorum. Önceki işimde Aselsan UGES kapsamında medikal cihaz yazılımları geliştirdim; FreeRTOS ve ThreadX ile üretim kalitesinde firmware deneyimim var.</p>
+      <p data-i18n="about.p1">Sahada gerçekten çalışan cihazlara yazılım yazıyorum: evlere takılan akıllı su ve gaz sayaçlarından sağlık sektöründe kullanılan medikal cihazlara kadar. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum; teknik lise kökenim sayesinde masa başında firmware yazarken de osiloskop başında donanım hatası ararken de aynı rahatlıktayım.</p>
+      <p data-i18n="about.p2">2022'den beri İnodya Teknoloji'de akıllı sayaç teknolojileri geliştiriyorum. Bu cihazlar tek pille yıllarca çalışmak zorunda; o yüzden düşük güç tüketimi benim için bir detay değil, tasarımın kendisi. Veriler BLE ile yerinde, Sigfox ve NB-IoT ile uzaktan okunuyor.</p>
+      <p data-i18n="about.p3">Öncesinde Aselsan UGES kapsamında medikal cihaz yazılımları geliştirdim — hatanın lüks olmadığı, her satırın dokümante edildiği bir alan. Oradan gelen disiplinle FreeRTOS ve ThreadX üzerinde üretim kalitesinde firmware geliştiriyorum.</p>
     </div>
     <div class="spec-card">
-      <h3>ÖZET / DATASHEET</h3>
-      <div class="spec-row"><span class="k">Konum</span><span class="v">Ankara, TR</span></div>
-      <div class="spec-row"><span class="k">Rol</span><span class="v">Embedded SW Eng.</span></div>
-      <div class="spec-row"><span class="k">Uzmanlık</span><span class="v">Sigfox · BLE · Low-Power</span></div>
-      <div class="spec-row"><span class="k">Diller</span><span class="v">C/C++ · C# · Python</span></div>
+      <h3 data-i18n="spec.h3">ÖZET / DATASHEET</h3>
+      <div class="spec-row"><span class="k" data-i18n="spec.loc">Konum</span><span class="v">Ankara, TR</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.role">Rol</span><span class="v">Embedded SW Eng.</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.exp">Uzmanlık</span><span class="v">Sigfox · BLE · Low-Power</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.langs">Diller</span><span class="v">C/C++ · C# · Python</span></div>
       <div class="spec-row"><span class="k">RTOS</span><span class="v">FreeRTOS · ThreadX</span></div>
       <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
-      <div class="spec-row"><span class="k">Durum</span><span class="v ok" style="color:var(--pcb)">● Aktif — İnodya Teknoloji</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — İnodya Teknoloji</span></div>
     </div>
   </div>
 </section>
@@ -225,35 +229,35 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
 
 <section id="deneyim">
-  <div class="sec-head"><h2>Deneyim</h2><span class="pin">// experience.log</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.xp">Deneyim</h2><span class="pin">// experience.log</span></div>
   <div class="xp">
     <div class="xp-item current">
-      <div class="xp-date">2022 — devam ediyor</div>
+      <div class="xp-date" data-i18n="xp.date1">2022 — devam ediyor</div>
       <h3>İnodya Teknoloji San. ve Tic. A.Ş.</h3>
-      <div class="xp-role">Gömülü Yazılım Mühendisi</div>
-      <p>Akıllı su ve gaz sayaçları üzerine ürün geliştirme. Belediye Su ve Kanalizasyon İdareleri ile iş birliği kapsamında akıllı kartlı sayaçlar ve uzaktan kredi yükleme teknolojileri; proje geliştirme, iş planı ve teknik sunum süreçleri. NFC + Bluetooth destekli akıllı su sayacı ve endüstriyel IoT platform AR-GE'si.</p>
+      <div class="xp-role" data-i18n="xp.role1">Gömülü Yazılım Mühendisi</div>
+      <p data-i18n="xp.inodya">Akıllı su ve gaz sayaçlarının yazılımını uçtan uca geliştiriyorum: tek pille yıllarca çalışan, NFC ve Bluetooth destekli, Sigfox/NB-IoT ile uzaktan okunan cihazlar. Belediye Su ve Kanalizasyon İdareleriyle yürütülen projelerde yazılımın yanı sıra iş planı ve teknik sunum süreçlerinde de aktif rol alıyorum.</p>
       <div class="xp-tags">
-        <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">ThreadX</span><span class="tag">Low-Power</span><span class="tag">AT Komutları</span><span class="tag">STM32</span>
+        <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">ThreadX</span><span class="tag">Low-Power</span><span class="tag" data-i18n="tag.at">AT Komutları</span><span class="tag">STM32</span>
       </div>
     </div>
     <div class="xp-item">
       <div class="xp-date">2021 — 2022</div>
       <h3>BESoft Yazılım Teknolojileri</h3>
-      <div class="xp-role">Gömülü Yazılım Mühendisi</div>
-      <p>Aselsan UGES birim başkanlığı tarafından sağlık sektörü için geliştirilen özel projede firmware geliştirme: medikal cihaz haberleşmeleri, kontrol ve simülasyonları, C# ile test/simülasyon arayüzleri, ASELSAN standartlarında (YATT, YGÖ, YTER…) dokümantasyon.</p>
+      <div class="xp-role" data-i18n="xp.role2">Gömülü Yazılım Mühendisi</div>
+      <p data-i18n="xp.besoft">Aselsan UGES kapsamında sağlık sektörüne yönelik özel bir projede medikal cihaz firmware'i geliştirdim: cihaz haberleşmesi, kontrol ve simülasyon yazılımları ile C# test arayüzleri. Tüm geliştirme ASELSAN standartlarında (YATT, YGÖ, YTER) dokümante edildi.</p>
       <div class="xp-tags">
-        <span class="tag">Embedded C</span><span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag">Şifreleme</span><span class="tag">C#</span><span class="tag">Medikal</span>
+        <span class="tag">Embedded C</span><span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag" data-i18n="tag.crypto">Şifreleme</span><span class="tag">C#</span><span class="tag" data-i18n="tag.medical">Medikal</span>
       </div>
     </div>
     <div class="xp-item">
       <div class="xp-date">2013</div>
       <h3>Mavi Elektronik</h3>
-      <div class="xp-role">Teknik Personel</div>
+      <div class="xp-role" data-i18n="xp.role3">Teknik Personel</div>
     </div>
     <div class="xp-item">
       <div class="xp-date">2012</div>
       <h3>TürkTelekom</h3>
-      <div class="xp-role">Lise Stajı</div>
+      <div class="xp-role" data-i18n="xp.role4">Lise Stajı</div>
     </div>
   </div>
 </section>
@@ -261,44 +265,45 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
 
 <section id="projeler">
-  <div class="sec-head"><h2>Projeler</h2><span class="pin">// projects/</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin">// projects/</span></div>
   <div class="proj-grid">
     <div class="proj">
       <div class="ref">REF-001 · İNODYA</div>
-      <h3>Akıllı Sayaç Teknolojileri</h3>
-      <p>Elektronik akıllı kartlı su ve gaz sayaçları; NFC ile uzaktan kredi yükleme, BLE ile yerinde okuma, Sigfox/NB-IoT ile veri iletimi. Yıllarca pille çalışacak şekilde optimize edilmiş firmware.</p>
+      <h3 data-i18n="proj1.h">Akıllı Sayaç Teknolojileri</h3>
+      <p data-i18n="proj1.p">Evlere kurulan ve tek pille yıllarca çalışan akıllı su ve gaz sayaçları. Veriler BLE ile yerinde, Sigfox/NB-IoT ile uzaktan okunuyor; güç bütçesi mikroamper seviyesinde hesaplanmış firmware.</p>
       <div class="xp-tags"><span class="tag">STM32</span><span class="tag">Sigfox</span><span class="tag">NFC</span><span class="tag">Low-Power</span></div>
     </div>
     <div class="proj">
       <div class="ref">REF-002 · ASELSAN UGES</div>
-      <h3>Medikal Cihaz Yazılımları</h3>
-      <p>Sağlık sektörü için geliştirilen özel projede medikal cihaz haberleşme, kontrol ve simülasyon yazılımları. FreeRTOS tabanlı, ASELSAN dokümantasyon standartlarında geliştirme.</p>
+      <h3 data-i18n="proj2.h">Medikal Cihaz Yazılımları</h3>
+      <p data-i18n="proj2.p">Hataya yer olmayan bir alanda, sağlık sektörü için medikal cihaz yazılımları: haberleşme, kontrol ve simülasyon. FreeRTOS tabanlı, ASELSAN standartlarında geliştirildi ve dokümante edildi.</p>
       <div class="xp-tags"><span class="tag">FreeRTOS</span><span class="tag">Embedded C</span><span class="tag">C#</span></div>
     </div>
     <div class="proj">
-      <div class="ref">REF-003 · BİTİRME TEZİ</div>
-      <h3>IoT Kontrollü Akıllı Mantarhane</h3>
-      <p>Sıcaklık, nem, CO₂ ve kompost değerlerini Raspberry Pi ve ESP32 ile izleyip çiftçinin belirlediği aralıkta tutan sistem. Firebase üzerinden gerçek zamanlı takip, C# kontrol arayüzü.</p>
-      <div class="xp-tags"><span class="tag">ESP32</span><span class="tag">Firebase</span><span class="tag">MQTT</span><span class="tag">Python</span></div>
+      <div class="ref" data-i18n="proj3.ref">REF-003 · BİTİRME TEZİ</div>
+      <h3 data-i18n="proj3.h">IoT Kontrollü Akıllı Mantarhane</h3>
+      <p data-i18n="proj3.p">Mantar üretim tesisini kendi kendine yöneten sistem: sıcaklık, nem ve CO₂ sürekli izleniyor, ortam çiftçinin belirlediği aralıkta otomatik tutuluyor. Çalışma, EGE 6. Uluslararası Uygulamalı Bilimler Kongresi'nde (İzmir, 2022) sözlü bildiri olarak sunuldu ve sertifikayla tanındı.</p>
+      <div class="xp-tags"><span class="tag">ESP32</span><span class="tag">Firebase</span><span class="tag">MQTT</span><span class="tag" data-i18n="tag.paper">Bildiri</span></div>
+      <a href="https://avesis.gazi.edu.tr/yayin/5b25a76e-266d-4661-a03f-e57faa7cc5e8/iot-tabanli-mobil-cihazlar-ile-izlenebilen-ve-kontrol-edilebilen-yeni-ve-modern-bir-hassas-mantar-tarim-sistemi" target="_blank" rel="noopener" data-i18n="proj3.a">Bildiriyi incele (AVESİS) →</a>
     </div>
     <div class="proj">
-      <div class="ref">REF-004 · AÇIK KAYNAK</div>
+      <div class="ref" data-i18n="proj4.ref">REF-004 · AÇIK KAYNAK</div>
       <h3>STM32 AT Command Library</h3>
-      <p>STM32 platformu için, STM32CubeMX ile kolayca kullanılabilen AT komut kütüphanesi. Modem entegrasyonlarını (NB-IoT, GSM) hızlandırmak için geliştirildi.</p>
-      <div class="xp-tags"><span class="tag">STM32</span><span class="tag">AT Komutları</span><span class="tag">C</span></div>
+      <p data-i18n="proj4.p">NB-IoT ve GSM modem entegrasyonunu günlerden saatlere indiren açık kaynak AT komut kütüphanesi. STM32CubeMX ile herhangi bir projeye kolayca eklenebiliyor.</p>
+      <div class="xp-tags"><span class="tag">STM32</span><span class="tag" data-i18n="tag.at2">AT Komutları</span><span class="tag">C</span></div>
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
     </div>
     <div class="proj">
       <div class="ref">REF-005 · IEEE CSCON'25</div>
-      <h3>Gömülü Sistemlerde BLE</h3>
-      <p>IEEE CSCON'25 kapsamında gömülü sistemlerde Bluetooth Low Energy üzerine hazırlanan çalışma ve örnek kodlar.</p>
+      <h3 data-i18n="proj5.h">Gömülü Sistemlerde BLE</h3>
+      <p data-i18n="proj5.p">IEEE CSCON'25'te verdiğim BLE eğitimi için hazırladığım çalışma ve örnek kodlar; gömülü sistemlerde Bluetooth Low Energy'ye uygulamalı bir giriş.</p>
       <div class="xp-tags"><span class="tag">BLE</span><span class="tag">C</span></div>
-      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener">Repo'yu incele →</a>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="proj5.a">Repo'yu incele →</a>
     </div>
     <div class="proj">
-      <div class="ref">REF-006 · AÇIK KAYNAK</div>
-      <h3>Bellek Yönetim Kütüphaneleri</h3>
-      <p>SPI-Flash-Manager ve I2c-Eeprom-Manager: harici flash ve EEPROM yongalarını yönetmek için yazılmış, yeniden kullanılabilir C kütüphaneleri.</p>
+      <div class="ref" data-i18n="proj6.ref">REF-006 · AÇIK KAYNAK</div>
+      <h3 data-i18n="proj6.h">Bellek Yönetim Kütüphaneleri</h3>
+      <p data-i18n="proj6.p">Harici flash ve EEPROM yongalarını yönetme derdini bir kez çözüp her projede kullanmak için yazdığım açık kaynak C kütüphaneleri: SPI-Flash-Manager ve I2C-EEPROM-Manager.</p>
       <div class="xp-tags"><span class="tag">SPI</span><span class="tag">I2C</span><span class="tag">C</span></div>
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
     </div>
@@ -308,27 +313,48 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
 
 <section id="yetkinlikler">
-  <div class="sec-head"><h2>Yetkinlikler</h2><span class="pin">// skills.h</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.skills">Yetkinlikler</h2><span class="pin">// skills.h</span></div>
   <div class="skill-cols">
     <div class="skill-box">
-      <h3>DİLLER</h3>
-      <ul><li>Embedded C / C++</li><li>C# (test & arayüz)</li><li>Python</li><li>Assembly → C çeviri</li></ul>
+      <h3 data-i18n="sk.lang">DİLLER</h3>
+      <ul><li>Embedded C / C++</li><li data-i18n="sk.csharp">C# (test & arayüz)</li><li>Python</li><li data-i18n="sk.asm">Assembly → C çeviri</li></ul>
     </div>
     <div class="skill-box">
-      <h3>HABERLEŞME</h3>
+      <h3 data-i18n="sk.comm">HABERLEŞME</h3>
       <ul><li>Sigfox · NB-IoT · GPRS</li><li>BLE 5.4 · NFC</li><li>UART · I2C · SPI · CANBUS</li><li>TCP · UDP · MQTT</li></ul>
     </div>
     <div class="skill-box">
       <h3>MCU / PLATFORM</h3>
-      <ul><li>STM32 (F070, WBA52)</li><li>ESP32 · ESP8266</li><li>PIC 16F / 12F serisi</li><li>Raspberry Pi</li></ul>
+      <ul><li>STM32 (WBA, WB55)</li><li>ESP32 · ESP8266</li><li data-i18n="sk.pic">PIC 16F / 12F serisi</li><li>Raspberry Pi</li></ul>
     </div>
     <div class="skill-box">
-      <h3>SİSTEM</h3>
-      <ul><li>FreeRTOS · Azure ThreadX</li><li>Low-power firmware optimizasyonu</li><li>Register seviyesi programlama</li><li>Donanım hata ayıklama</li></ul>
+      <h3 data-i18n="sk.sys">SİSTEM</h3>
+      <ul><li>FreeRTOS · Azure ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li data-i18n="sk.reg">Register seviyesi programlama</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
     </div>
     <div class="skill-box">
-      <h3>ARAÇLAR</h3>
-      <ul><li>STM32CubeIDE · Keil uVision</li><li>ESP-IDF · MPLAB X</li><li>Git · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
+      <h3 data-i18n="sk.tools">ARAÇLAR</h3>
+      <ul><li>STM32CubeIDE</li><li>ESP-IDF · MPLAB X</li><li>Git · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
+
+<section id="egitimler">
+  <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin">// workshops/</span></div>
+  <div class="proj-grid">
+    <div class="proj">
+      <div class="ref" data-i18n="edu1.ref">CSCON'25 · GAZİ ÜNİVERSİTESİ · ANKARA</div>
+      <h3 data-i18n="edu1.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
+      <p data-i18n="edu1.p">IEEE CSCON'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'nin temelleri ve gömülü sistemlerde kullanımı. Eğitimin örnek kodları GitHub'da herkese açık.</p>
+      <div class="xp-tags"><span class="tag">BLE</span><span class="tag" data-i18n="tag.teach1">Eğitmenlik</span></div>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="edu1.a">Eğitim materyalleri →</a>
+    </div>
+    <div class="proj">
+      <div class="ref" data-i18n="edu2.ref">VES'25 · ANKARA BİLİM ÜNİVERSİTESİ · ANKARA</div>
+      <h3 data-i18n="edu2.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
+      <p data-i18n="edu2.p">VES'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'yi sahada geliştirdiğim gerçek ürünlerden örneklerle anlattım.</p>
+      <div class="xp-tags"><span class="tag">BLE</span><span class="tag" data-i18n="tag.teach2">Eğitmenlik</span></div>
     </div>
   </div>
 </section>
@@ -339,15 +365,15 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   <div class="sec-head"><h2>Blog</h2><span class="pin">// posts/*.md</span></div>
   <div id="blog-list"></div>
   <div id="post-view">
-    <button class="back-btn" onclick="location.hash='#blog'">← Tüm yazılar</button>
+    <button class="back-btn" onclick="location.hash='#blog'" data-i18n="blog.back">← Tüm yazılar</button>
     <article id="post-content"></article>
   </div>
 </section>
 
 <footer id="iletisim">
   <div class="foot-in">
-    <h2>İletişim</h2>
-    <p>Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
+    <h2 data-i18n="foot.h2">İletişim</h2>
+    <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
     <div class="foot-links">
       <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
       <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="noopener">LinkedIn</a>
@@ -360,6 +386,83 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
+
+/* ---------- dil desteği (TR/EN) ---------- */
+const I18N = {
+  'nav.about':'about','nav.xp':'experience','nav.proj':'projects','nav.skills':'skills','nav.edu':'workshops','nav.contact':'contact',
+  'hero.eyebrow':'Embedded Software Engineer · Ankara',
+  'hero.h1':'I write the <span>software</span> inside devices out in the field.',
+  'hero.sub':'Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.',
+  'hero.cta':'See my projects',
+  'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
+  'about.p1':"I write software for devices that actually run in the field: from smart water and gas meters installed in homes to medical devices used in healthcare. I hold an Electrical & Electronics Engineering degree from Gazi University; thanks to my technical high school background, I'm just as comfortable writing firmware at a desk as I am hunting hardware bugs behind an oscilloscope.",
+  'about.p2':"Since 2022 I've been building smart metering technology at İnodya Teknoloji. These devices have to run for years on a single battery — so low power isn't a detail for me, it's the design itself. Data is read locally over BLE and remotely via Sigfox and NB-IoT.",
+  'about.p3':"Before that, I developed medical device software under Aselsan UGES — a field where mistakes aren't an option and every line is documented. I bring that discipline to production-grade firmware on FreeRTOS and ThreadX.",
+  'spec.h3':'SUMMARY / DATASHEET','spec.loc':'Location','spec.role':'Role','spec.exp':'Expertise','spec.langs':'Languages','spec.status':'Status','spec.statusv':'● Active — İnodya Teknoloji',
+  'xp.date1':'2022 — present','xp.role1':'Embedded Software Engineer','xp.role2':'Embedded Software Engineer','xp.role3':'Technician','xp.role4':'High School Internship',
+  'xp.inodya':"I develop smart water and gas meter firmware end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
+  'xp.besoft':"In a healthcare project under Aselsan UGES, I developed medical device firmware: device communication, control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).",
+  'tag.at':'AT Commands','tag.at2':'AT Commands','tag.crypto':'Encryption','tag.medical':'Medical','tag.paper':'Paper','tag.teach1':'Teaching','tag.teach2':'Teaching',
+  'proj1.h':'Smart Metering Technologies',
+  'proj1.p':'Smart water and gas meters installed in homes, running for years on a single battery. Data is read locally over BLE and remotely via Sigfox/NB-IoT; the firmware is built on a microamp-level power budget.',
+  'proj2.h':'Medical Device Software',
+  'proj2.p':'Medical device software for healthcare, where there is no room for error: communication, control and simulation. FreeRTOS-based, developed and documented to ASELSAN standards.',
+  'proj3.ref':'REF-003 · THESIS PROJECT','proj3.h':'IoT-Controlled Smart Mushroom Farm',
+  'proj3.p':'A system that runs a mushroom farm on its own: temperature, humidity and CO₂ are monitored continuously and kept within the range the farmer sets. The work was presented as an oral paper at the EGE 6th International Conference on Applied Sciences (İzmir, 2022) and recognized with a certificate.',
+  'proj3.a':'View the paper (AVESİS) →',
+  'proj4.ref':'REF-004 · OPEN SOURCE',
+  'proj4.p':'An open-source AT command library that cuts NB-IoT and GSM modem integration from days down to hours. Drops easily into any project via STM32CubeMX.',
+  'proj5.h':'BLE in Embedded Systems',
+  'proj5.p':"The material and sample code I prepared for the BLE training I gave at IEEE CSCON'25; a hands-on introduction to Bluetooth Low Energy in embedded systems.",
+  'proj5.a':'Browse the repo →',
+  'proj6.ref':'REF-006 · OPEN SOURCE','proj6.h':'Memory Management Libraries',
+  'proj6.p':'Open-source C libraries I wrote to solve external flash and EEPROM management once and reuse it in every project: SPI-Flash-Manager and I2C-EEPROM-Manager.',
+  'sk.lang':'LANGUAGES','sk.comm':'COMMUNICATION','sk.sys':'SYSTEM','sk.tools':'TOOLS',
+  'sk.csharp':'C# (test &amp; UI)','sk.asm':'Assembly → C translation','sk.pic':'PIC 16F / 12F series','sk.lp':'Low-power firmware optimization','sk.reg':'Register-level programming','sk.dbg':'Hardware debugging',
+  'edu1.ref':"CSCON'25 · GAZİ UNIVERSITY · ANKARA",'edu1.h':'Bluetooth Low Energy in Embedded Systems',
+  'edu1.p':"A volunteer training I gave as part of IEEE CSCON'25: BLE fundamentals and how to use it in embedded systems. The sample code is publicly available on GitHub.",
+  'edu1.a':'Training materials →',
+  'edu2.ref':"VES'25 · ANKARA SCIENCE UNIVERSITY · ANKARA",'edu2.h':'Bluetooth Low Energy in Embedded Systems',
+  'edu2.p':"A volunteer training I gave as part of VES'25: I taught BLE through examples from real products I've built in the field.",
+  'blog.back':'← All posts',
+  'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out."
+};
+const MSG = {
+  tr:{
+    docTitle:'Cemal Kör — Gömülü Yazılım Mühendisi',
+    desc:'Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.',
+    empty:'Henüz yazı yok. İlk yazını eklemek için <code>posts/</code> klasörüne bir <code>.md</code> dosyası koyup <code>posts.json</code>\'a bir satır ekle.',
+    loadErr:'⚠ Yazılar yüklenemedi. Bu site bir sunucu üzerinden (ör. GitHub Pages) açıldığında blog otomatik çalışır. Bilgisayarında denemek için klasörde <code>python -m http.server</code> çalıştırıp <code>localhost:8000</code> adresini aç.',
+    postErr:'Yazı yüklenemedi.'
+  },
+  en:{
+    docTitle:'Cemal Kör — Embedded Software Engineer',
+    desc:'Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.',
+    empty:'No posts yet.',
+    loadErr:'⚠ Posts could not be loaded. The blog works automatically when the site is served over HTTP (e.g. GitHub Pages).',
+    postErr:'Could not load this post.'
+  }
+};
+let lang = localStorage.getItem('lang') || 'tr';
+const trCache = {};
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.dataset.i18n;
+    if(!(k in trCache)) trCache[k] = el.innerHTML;
+    el.innerHTML = (lang==='en' && I18N[k]!==undefined) ? I18N[k] : trCache[k];
+  });
+  document.documentElement.lang = lang;
+  document.title = MSG[lang].docTitle;
+  document.querySelector('meta[name="description"]').setAttribute('content', MSG[lang].desc);
+  document.getElementById('lang-btn').textContent = lang==='en' ? 'TR' : 'EN';
+}
+document.getElementById('lang-btn').addEventListener('click', ()=>{
+  lang = lang==='en' ? 'tr' : 'en';
+  localStorage.setItem('lang', lang);
+  applyLang();
+  renderRoute();
+});
+applyLang();
 
 /* ---------- boot log animasyonu ---------- */
 const bootLines = [
@@ -401,7 +504,7 @@ async function loadPosts(){
     posts = await r.json();
     renderRoute();
   }catch(e){
-    listEl.innerHTML = '<div class="blog-note">⚠ Yazılar yüklenemedi. Bu site bir sunucu üzerinden (ör. GitHub Pages) açıldığında blog otomatik çalışır. Bilgisayarında denemek için klasörde <code>python -m http.server</code> çalıştırıp <code>localhost:8000</code> adresini aç.</div>';
+    listEl.innerHTML = `<div class="blog-note">${MSG[lang].loadErr}</div>`;
   }
 }
 
@@ -409,14 +512,14 @@ function renderList(){
   viewEl.style.display = 'none';
   listEl.style.display = 'grid';
   if(!posts.length){
-    listEl.innerHTML = '<div class="blog-note">Henüz yazı yok. İlk yazını eklemek için <code>posts/</code> klasörüne bir <code>.md</code> dosyası koyup <code>posts.json</code>\'a bir satır ekle.</div>';
+    listEl.innerHTML = `<div class="blog-note">${MSG[lang].empty}</div>`;
     return;
   }
   listEl.innerHTML = posts.map(p => `
     <div class="post-card" onclick="location.hash='#yazi/${p.slug}'">
       <div class="meta">${p.date} · ${(p.tags||[]).join(' · ')}</div>
-      <h3>${p.title}</h3>
-      <p>${p.summary||''}</p>
+      <h3>${(lang==='en' && p.title_en) ? p.title_en : p.title}</h3>
+      <p>${(lang==='en' && p.summary_en) ? p.summary_en : (p.summary||'')}</p>
     </div>`).join('');
 }
 
@@ -424,14 +527,15 @@ async function renderPost(slug){
   const p = posts.find(x => x.slug === slug);
   if(!p){ location.hash = '#blog'; return; }
   try{
-    const r = await fetch(`posts/${p.file}`, {cache:'no-store'});
+    const file = (lang==='en' && p.file_en) ? p.file_en : p.file;
+    const r = await fetch(`posts/${file}`, {cache:'no-store'});
     const md = await r.text();
     contentEl.innerHTML = marked.parse(md);
     listEl.style.display = 'none';
     viewEl.style.display = 'block';
     document.getElementById('blog').scrollIntoView();
   }catch(e){
-    contentEl.innerHTML = '<p>Yazı yüklenemedi.</p>';
+    contentEl.innerHTML = `<p>${MSG[lang].postErr}</p>`;
   }
 }
 
