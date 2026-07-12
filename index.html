@@ -112,6 +112,8 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .proj .xp-tags{margin-top:14px}
 .proj a{margin-top:14px;font-family:var(--mono);font-size:.78rem;color:var(--pcb);text-decoration:none}
 .proj a:hover{color:var(--copper)}
+.proj .links{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}
+.proj .links a{margin-top:0}
 
 /* ---------- yetkinlikler ---------- */
 .skill-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
@@ -180,6 +182,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
       <a href="#projeler" data-i18n="nav.proj">projeler</a>
       <a href="#yetkinlikler" data-i18n="nav.skills">yetkinlikler</a>
       <a href="#egitimler" data-i18n="nav.edu">eğitimler</a>
+      <a href="#hobi" data-i18n="nav.hobby">hobi</a>
       <a href="#blog">blog</a>
       <a href="#iletisim" data-i18n="nav.contact">iletişim</a>
       <button id="lang-btn" class="lang-btn" aria-label="Türkçe / English">EN</button>
@@ -190,7 +193,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <header id="top">
   <div>
     <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
-    <h1 data-i18n="hero.h1">Sahadaki cihazın içindeki <span>yazılımı</span> yazıyorum.</h1>
+    <h1 data-i18n="hero.h1">IoT ekosistemindeki cihazlar için uçtan uca <span>güvenilir yazılım</span> çözümleri üretiyorum.</h1>
     <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
@@ -209,9 +212,9 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   <div class="sec-head"><h2 data-i18n="sec.about">Hakkımda</h2><span class="pin">// about.c</span></div>
   <div class="about-grid">
     <div>
-      <p data-i18n="about.p1">Sahada gerçekten çalışan cihazlara yazılım yazıyorum: evlere takılan akıllı su ve gaz sayaçlarından sağlık sektöründe kullanılan medikal cihazlara kadar. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum; teknik lise kökenim sayesinde masa başında firmware yazarken de osiloskop başında donanım hatası ararken de aynı rahatlıktayım.</p>
-      <p data-i18n="about.p2">2022'den beri İnodya Teknoloji'de akıllı sayaç teknolojileri geliştiriyorum. Bu cihazlar tek pille yıllarca çalışmak zorunda; o yüzden düşük güç tüketimi benim için bir detay değil, tasarımın kendisi. Veriler BLE ile yerinde, Sigfox ve NB-IoT ile uzaktan okunuyor.</p>
-      <p data-i18n="about.p3">Öncesinde Aselsan UGES kapsamında medikal cihaz yazılımları geliştirdim — hatanın lüks olmadığı, her satırın dokümante edildiği bir alan. Oradan gelen disiplinle FreeRTOS ve ThreadX üzerinde üretim kalitesinde firmware geliştiriyorum.</p>
+      <p data-i18n="about.p1">Ben Cemal Kör. Akıllı sayaçlardan medikal cihazlara kadar, gerçek dünyada aralıksız çalışan sistemlere yazılımlarımla hayat veriyorum. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum ve temelim teknik liseye dayanıyor. Bu sayede kod yazmakla yetinmiyor; masa başında firmware geliştirirken de, osiloskop başında donanım hatalarını çözerken de aynı yetkinlikle hareket ediyorum.</p>
+      <p data-i18n="about.p2">Şu anda İnodya Teknoloji'de akıllı su ve gaz sayacı teknolojileri üzerine çalışıyorum. Tek pille yıllarca sahada kalması gereken bu cihazlar için düşük güç tüketimi merkezli tasarımlar yapıyor; BLE, Sigfox ve NB-IoT gibi haberleşme altyapılarıyla veri iletişimini sağlıyorum.</p>
+      <p data-i18n="about.p3">Öncesinde görev aldığım Aselsan UGES medikal cihaz projeleri, bana hataya yer olmayan kritik sistemler tasarlama disiplinini kazandırdı. Oradan gelen mühendislik kültürüyle — ister FreeRTOS ve ThreadX üzerinde, ister bugün geliştirdiğim sayaçlarda olduğu gibi bare-metal — yüksek kaliteli ve güvenilir gömülü sistem mimarileri kurmaya devam ediyorum.</p>
     </div>
     <div class="spec-card">
       <h3 data-i18n="spec.h3">ÖZET / DATASHEET</h3>
@@ -321,7 +324,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
     </div>
     <div class="skill-box">
       <h3 data-i18n="sk.comm">HABERLEŞME</h3>
-      <ul><li>Sigfox · NB-IoT · GPRS</li><li>BLE 5.4 · NFC</li><li>UART · I2C · SPI · CANBUS</li><li>TCP · UDP · MQTT</li></ul>
+      <ul><li>Sigfox · NB-IoT · GPRS</li><li>BLE 5.4 · NFC · Zigbee</li><li>UART · I2C · SPI</li><li>TCP · UDP · MQTT</li></ul>
     </div>
     <div class="skill-box">
       <h3>MCU / PLATFORM</h3>
@@ -329,11 +332,11 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
     </div>
     <div class="skill-box">
       <h3 data-i18n="sk.sys">SİSTEM</h3>
-      <ul><li>FreeRTOS · Azure ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li data-i18n="sk.reg">Register seviyesi programlama</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
+      <ul><li>Bare-metal · FreeRTOS · ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li data-i18n="sk.reg">Register seviyesi programlama</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
     </div>
     <div class="skill-box">
       <h3 data-i18n="sk.tools">ARAÇLAR</h3>
-      <ul><li>STM32CubeIDE</li><li>ESP-IDF · MPLAB X</li><li>Git · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
+      <ul><li>STM32CubeIDE</li><li>ESP-IDF · MPLAB X</li><li>Git · Jira · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
     </div>
   </div>
 </section>
@@ -355,6 +358,30 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
       <h3 data-i18n="edu2.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
       <p data-i18n="edu2.p">VES'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'yi sahada geliştirdiğim gerçek ürünlerden örneklerle anlattım.</p>
       <div class="xp-tags"><span class="tag">BLE</span><span class="tag" data-i18n="tag.teach2">Eğitmenlik</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
+
+<section id="hobi">
+  <div class="sec-head"><h2 data-i18n="sec.hobby">Hobi</h2><span class="pin">// hobby.txt</span></div>
+  <div class="proj-grid">
+    <div class="proj">
+      <div class="ref" data-i18n="hobby.ref">TECHNOPETTO · KİŞİSEL ATÖLYE</div>
+      <h3 data-i18n="hobby.h">Eski Elektroniklerden Maket Robotlar</h3>
+      <p data-i18n="hobby.p">Boş zamanlarımda eski elektronik parçaları — kondansatörler, motorlar, hurda kartlar — maket robotlara dönüştürüyorum. Gündüz firmware yazdığım türden parçalar, akşamları küçük karakterlere dönüşüyor.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.upcycle">Geri Dönüşüm</span><span class="tag" data-i18n="tag.craft">El Yapımı</span></div>
+      <div class="links">
+        <a href="https://www.instagram.com/technopetto/" target="_blank" rel="noopener">@technopetto (Instagram) →</a>
+        <a href="https://tr.pinterest.com/cemalkor94/robots/kendi-%C3%A7al%C4%B1%C5%9Fmalar%C4%B1m/" target="_blank" rel="noopener" data-i18n="hobby.pin">Pinterest panosu →</a>
+      </div>
+    </div>
+    <div class="proj">
+      <div class="ref" data-i18n="hobby2.ref">AKILLI EV · EV LABORATUVARI</div>
+      <h3 data-i18n="hobby2.h">Home Assistant ile Akıllı Ev</h3>
+      <p data-i18n="hobby2.p">Evim Home Assistant üzerinde çalışıyor: aydınlatmadan sensörlere her şey Zigbee ile haberleşiyor. Hazır cihazların yetmediği yerde kendi Zigbee'li cihazlarımı tasarlayıp yapıyorum.</p>
+      <div class="xp-tags"><span class="tag">Home Assistant</span><span class="tag">Zigbee</span><span class="tag">DIY</span></div>
     </div>
   </div>
 </section>
@@ -389,15 +416,15 @@ document.getElementById('yil').textContent = new Date().getFullYear();
 
 /* ---------- dil desteği (TR/EN) ---------- */
 const I18N = {
-  'nav.about':'about','nav.xp':'experience','nav.proj':'projects','nav.skills':'skills','nav.edu':'workshops','nav.contact':'contact',
+  'nav.about':'about','nav.xp':'experience','nav.proj':'projects','nav.skills':'skills','nav.edu':'workshops','nav.hobby':'hobby','nav.contact':'contact',
   'hero.eyebrow':'Embedded Software Engineer · Ankara',
-  'hero.h1':'I write the <span>software</span> inside devices out in the field.',
+  'hero.h1':'I build end-to-end, <span>reliable software</span> solutions for devices in the IoT ecosystem.',
   'hero.sub':'Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.',
   'hero.cta':'See my projects',
   'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
-  'about.p1':"I write software for devices that actually run in the field: from smart water and gas meters installed in homes to medical devices used in healthcare. I hold an Electrical & Electronics Engineering degree from Gazi University; thanks to my technical high school background, I'm just as comfortable writing firmware at a desk as I am hunting hardware bugs behind an oscilloscope.",
-  'about.p2':"Since 2022 I've been building smart metering technology at İnodya Teknoloji. These devices have to run for years on a single battery — so low power isn't a detail for me, it's the design itself. Data is read locally over BLE and remotely via Sigfox and NB-IoT.",
-  'about.p3':"Before that, I developed medical device software under Aselsan UGES — a field where mistakes aren't an option and every line is documented. I bring that discipline to production-grade firmware on FreeRTOS and ThreadX.",
+  'about.p1':"I'm Cemal Kör. From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code: I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
+  'about.p2':"I currently work on smart water and gas metering technology at İnodya Teknoloji. For devices that must stay in the field for years on a single battery, I create designs centered on low power consumption and handle data communication over BLE, Sigfox and NB-IoT.",
+  'about.p3':"Earlier, the Aselsan UGES medical device projects I worked on taught me the discipline of designing critical systems where there is no room for error. I carry that engineering culture forward, building high-quality, reliable embedded architectures — whether on FreeRTOS and ThreadX, or bare-metal like the meters I build today.",
   'spec.h3':'SUMMARY / DATASHEET','spec.loc':'Location','spec.role':'Role','spec.exp':'Expertise','spec.langs':'Languages','spec.status':'Status','spec.statusv':'● Active — İnodya Teknoloji',
   'xp.date1':'2022 — present','xp.role1':'Embedded Software Engineer','xp.role2':'Embedded Software Engineer','xp.role3':'Technician','xp.role4':'High School Internship',
   'xp.inodya':"I develop smart water and gas meter firmware end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
@@ -424,6 +451,11 @@ const I18N = {
   'edu1.a':'Training materials →',
   'edu2.ref':"VES'25 · ANKARA SCIENCE UNIVERSITY · ANKARA",'edu2.h':'Bluetooth Low Energy in Embedded Systems',
   'edu2.p':"A volunteer training I gave as part of VES'25: I taught BLE through examples from real products I've built in the field.",
+  'sec.hobby':'Hobby','hobby.ref':'TECHNOPETTO · PERSONAL WORKSHOP','hobby.h':'Model Robots from Old Electronics',
+  'hobby.p':'In my spare time I turn old electronic parts — capacitors, motors, scrap boards — into model robots. The same kind of parts I write firmware for by day become little characters in the evening.',
+  'hobby.pin':'Pinterest board →','tag.upcycle':'Upcycling','tag.craft':'Handmade',
+  'hobby2.ref':'SMART HOME · HOME LAB','hobby2.h':'Smart Home with Home Assistant',
+  'hobby2.p':'My home runs on Home Assistant: everything from lighting to sensors talks over Zigbee. Where off-the-shelf devices fall short, I design and build my own Zigbee devices.',
   'blog.back':'← All posts',
   'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out."
 };
