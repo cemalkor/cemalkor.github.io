@@ -48,6 +48,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .sq-divider svg{width:100%;height:14px;display:block}
 .sq-divider path{stroke:var(--line);stroke-width:1.5;fill:none}
 .sq-divider .pulse{stroke:var(--pcb);stroke-width:2;stroke-linecap:round;stroke-dasharray:30 970;animation:pulse-flow 7s linear infinite;opacity:.6}
+.sq-divider .pulse.cu{stroke:var(--copper)}
 
 /* ---------- nav ---------- */
 nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -75,7 +76,7 @@ h1 span{color:var(--pcb)}
 .btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
 
 /* terminal */
-.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono)}
+.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono);cursor:pointer}
 .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
 .term-bar i{width:10px;height:10px;border-radius:50%;background:var(--term-dim)}
 .term-bar i:first-child{background:var(--copper)}
@@ -162,14 +163,21 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:#EDF2EE;border:1px dashed var(--line);border-radius:8px;padding:16px}
 
 /* ---------- footer ---------- */
-footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
-.foot-in{max-width:1080px;margin:0 auto;padding:56px 24px 40px}
-.foot-in h2{font-family:var(--disp);color:#fff;font-size:1.6rem;margin-bottom:10px}
-.foot-in p{max-width:52ch;color:#8FA79A;margin-bottom:24px}
+footer{background:#EDF2EE;color:var(--ink-soft);border-top:1px solid var(--line);margin-top:40px;position:relative}
+.foot-in{max-width:1080px;margin:0 auto;padding:36px 24px 26px}
+.foot-in .sec-head{margin-bottom:14px}
+.foot-in h2{font-family:var(--disp);color:var(--ink);font-size:1.35rem}
+.foot-in p{max-width:52ch;color:var(--ink-soft);margin-bottom:16px;font-size:.95rem}
 .foot-links{display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:.85rem}
-.foot-links a{color:var(--term-green);text-decoration:none}
+.foot-links a{color:var(--pcb);text-decoration:none}
 .foot-links a:hover{color:var(--copper)}
-.foot-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:36px;padding-top:20px;font-family:var(--mono);font-size:.72rem;color:#5E7268}
+.foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+
+/* ---------- easter egg: kediler ---------- */
+.cat-bg{position:absolute;right:48px;bottom:12px;opacity:0;transition:opacity .6s ease;pointer-events:none}
+.cat-bg path,.cat-bg circle{stroke:var(--pcb);stroke-width:1.5;fill:none}
+footer:hover .cat-bg{opacity:.3}
+.term-body .ascii{white-space:pre;display:block}
 
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
@@ -184,6 +192,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   .btn:hover,.proj:hover{transform:none}
   .bg-circuit .pulses{display:none}
   .sq-divider .pulse{display:none}
+  .cat-bg{transition:none}
 }
 </style>
 </head>
@@ -191,49 +200,49 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 
 <svg class="bg-circuit" aria-hidden="true" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
   <g class="traces">
+    <!-- merkez rotalar -->
+    <path d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
+    <path class="cu" d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
     <!-- sol bölge -->
-    <path d="M-20,140 H180 L230,190 V380 L180,430 H60"/>
-    <path d="M-20,170 H168 L212,214 V372"/>
-    <path d="M-20,520 H120 L170,570 V760 L220,810 H420"/>
-    <path d="M90,-20 V120 L140,170 H300 L350,220 V300"/>
+    <path d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
     <path class="cu" d="M240,-20 V60 L290,110 H480"/>
-    <!-- sağ bölge -->
-    <path d="M1620,220 H1400 L1350,270 V460 L1300,510 H1180"/>
-    <path d="M1620,250 H1412 L1368,294 V452"/>
-    <path d="M1620,640 H1460 L1410,590 V420"/>
-    <path d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
-    <path d="M1350,920 V800 L1400,750 H1560"/>
-    <path class="cu" d="M1060,920 V840 L1110,790 H1240"/>
+    <path d="M-20,470 H120 L170,520 V560 L220,610 H400"/>
+    <path class="cu" d="M-20,790 H150 L200,840 V920"/>
     <!-- alt / üst kenar -->
     <path d="M560,920 V830 L610,780 H900 L950,830 V920"/>
-    <path d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
+    <path class="cu" d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
+    <!-- sağ bölge -->
+    <path d="M1620,160 H1400 L1350,210 V250 L1300,300 H1180"/>
+    <path class="cu" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
+    <path class="cu" d="M1620,470 H1420 L1370,520 V560 L1320,610 H1200"/>
+    <path d="M1350,920 V800 L1400,750 H1560"/>
     <!-- via'lar (iz uçları) -->
-    <circle cx="60" cy="430" r="4.5"/><circle cx="212" cy="372" r="4.5"/><circle cx="420" cy="810" r="4.5"/>
-    <circle cx="350" cy="300" r="4.5"/><circle class="cu" cx="480" cy="110" r="4.5"/>
-    <circle cx="1180" cy="510" r="4.5"/><circle cx="1368" cy="452" r="4.5"/><circle cx="1410" cy="420" r="4.5"/>
-    <circle cx="1240" cy="280" r="4.5"/><circle cx="1560" cy="750" r="4.5"/><circle class="cu" cx="1240" cy="790" r="4.5"/>
+    <circle cx="60" cy="300" r="4.5"/><circle class="cu" cx="480" cy="110" r="4.5"/>
+    <circle cx="400" cy="610" r="4.5"/><circle cx="1180" cy="300" r="4.5"/>
+    <circle class="cu" cx="1240" cy="280" r="4.5"/><circle class="cu" cx="1200" cy="610" r="4.5"/>
+    <circle cx="1560" cy="750" r="4.5"/>
     <!-- via stitching (dolu pad'ler) -->
     <circle class="pad" cx="500" cy="60" r="2.5"/><circle class="pad" cx="860" cy="830" r="2.5"/>
-    <circle class="pad" cx="100" cy="700" r="2.5"/><circle class="pad" cx="1540" cy="330" r="2.5"/>
-    <circle class="pad" cx="1500" cy="500" r="2.5"/>
+    <circle class="pad" cx="100" cy="730" r="2.5"/><circle class="pad" cx="1540" cy="330" r="2.5"/>
+    <circle class="pad" cx="1500" cy="560" r="2.5"/>
+    <circle class="pad" cx="600" cy="390" r="2.5"/><circle class="pad" cx="1000" cy="340" r="2.5"/>
     <!-- IC ayak izi -->
     <rect x="1330" y="60" width="64" height="64" rx="3"/>
     <path d="M1346,60 V44 M1362,60 V44 M1378,60 V44 M1346,124 V140 M1362,124 V140 M1378,124 V140"/>
-    <!-- merkezden geçen izler -->
-    <path d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
-    <path d="M760,-20 V150 L810,200 H1040 L1090,250 V420"/>
-    <path d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
-    <path d="M480,920 V760 L530,710 H720 L770,660 V560"/>
-    <circle cx="1090" cy="420" r="4.5"/><circle cx="770" cy="560" r="4.5"/>
-    <circle class="pad" cx="600" cy="390" r="2.5"/><circle class="pad" cx="1000" cy="340" r="2.5"/>
   </g>
   <g class="pulses">
-    <path pathLength="1000" style="animation-duration:11s" d="M-20,140 H180 L230,190 V380 L180,430 H60"/>
-    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,220 H1400 L1350,270 V460 L1300,510 H1180"/>
-    <path pathLength="1000" style="animation-duration:9s;animation-delay:-3s" d="M560,920 V830 L610,780 H900 L950,830 V920"/>
-    <path class="cu" pathLength="1000" style="animation-duration:16s;animation-delay:-8s" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
-    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,520 H120 L170,570 V760 L220,810 H420"/>
     <path pathLength="1000" style="animation-duration:13s;animation-delay:-6s" d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
+    <path class="cu" pathLength="1000" style="animation-duration:16s;animation-delay:-8s" d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
+    <path pathLength="1000" style="animation-duration:11s" d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M240,-20 V60 L290,110 H480"/>
+    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,470 H120 L170,520 V560 L220,610 H400"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10s;animation-delay:-4.5s" d="M-20,790 H150 L200,840 V920"/>
+    <path pathLength="1000" style="animation-duration:9s;animation-delay:-3s" d="M560,920 V830 L610,780 H900 L950,830 V920"/>
+    <path class="cu" pathLength="1000" style="animation-duration:7.5s;animation-delay:-1s" d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
+    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,160 H1400 L1350,210 V250 L1300,300 H1180"/>
+    <path class="cu" pathLength="1000" style="animation-duration:15s;animation-delay:-7s" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
+    <path class="cu" pathLength="1000" style="animation-duration:11.5s;animation-delay:-9s" d="M1620,470 H1420 L1370,520 V560 L1320,610 H1200"/>
+    <path pathLength="1000" style="animation-duration:8.5s;animation-delay:-3.5s" d="M1350,920 V800 L1400,750 H1560"/>
   </g>
 </svg>
 
@@ -277,30 +286,30 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   <div class="about-grid">
     <div>
       <p data-i18n="about.p1">Akıllı sayaçlardan medikal cihazlara kadar, gerçek dünyada aralıksız çalışan sistemlere yazılımlarımla hayat veriyorum. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum ve temelim teknik liseye dayanıyor. Bu sayede kod yazmakla yetinmiyor; masa başında firmware geliştirirken de, osiloskop başında donanım hatalarını çözerken de aynı yetkinlikle hareket ediyorum.</p>
-      <p data-i18n="about.p2">Şu anda İnodya Teknoloji'de akıllı su ve gaz sayacı teknolojileri üzerine çalışıyorum. Tek pille yıllarca sahada kalması gereken bu cihazlar için düşük güç tüketimi merkezli tasarımlar yapıyor; BLE, Sigfox ve NB-IoT gibi haberleşme altyapılarıyla veri iletişimini sağlıyorum.</p>
+      <p data-i18n="about.p2">Şu anda Inodya Teknoloji'de akıllı su ve gaz sayacı teknolojileri üzerine çalışıyorum. Tek pille yıllarca sahada kalması gereken bu cihazlar için düşük güç tüketimi merkezli tasarımlar yapıyor; BLE, Sigfox ve NB-IoT gibi haberleşme altyapılarıyla veri iletişimini sağlıyorum.</p>
       <p data-i18n="about.p3">Geçmişte görev aldığım Aselsan UGES medikal cihaz projeleri, bana hataya yer olmayan kritik sistemler tasarlama disiplinini kazandırdı. Oradan gelen mühendislik kültürüyle — ister FreeRTOS ve ThreadX üzerinde, ister bugün geliştirdiğim sayaçlarda olduğu gibi bare-metal — yüksek kaliteli ve güvenilir gömülü sistem mimarileri kurmaya devam ediyorum.</p>
     </div>
     <div class="spec-card">
       <h3 data-i18n="spec.h3">ÖZET / DATASHEET</h3>
       <div class="spec-row"><span class="k" data-i18n="spec.loc">Konum</span><span class="v">Ankara, TR</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.role">Rol</span><span class="v">Embedded SW Eng.</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.role">Rol</span><span class="v" data-i18n="spec.rolev">Gömülü Yazılım Müh.</span></div>
       <div class="spec-row"><span class="k" data-i18n="spec.exp">Uzmanlık</span><span class="v">Sigfox · BLE · Low-Power</span></div>
       <div class="spec-row"><span class="k" data-i18n="spec.langs">Diller</span><span class="v">C/C++ · C# · Python</span></div>
       <div class="spec-row"><span class="k">RTOS</span><span class="v">FreeRTOS · ThreadX</span></div>
       <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — İnodya Teknoloji</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — Inodya Teknoloji</span></div>
     </div>
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:8s;animation-delay:-4s" d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:8s;animation-delay:-4s" d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
 
 <section id="deneyim">
   <div class="sec-head"><h2 data-i18n="sec.xp">Deneyim</h2><span class="pin">// experience.log</span></div>
   <div class="xp">
     <div class="xp-item current">
       <div class="xp-date" data-i18n="xp.date1">2022 — devam ediyor</div>
-      <h3>İnodya Teknoloji San. ve Tic. A.Ş.</h3>
+      <h3>Inodya Teknoloji San. ve Tic. A.Ş.</h3>
       <div class="xp-role" data-i18n="xp.role1">Gömülü Yazılım Mühendisi</div>
       <p data-i18n="xp.inodya">Akıllı su ve gaz sayaçlarının yazılımını uçtan uca geliştiriyorum: tek pille yıllarca çalışan, NFC ve Bluetooth destekli, Sigfox/NB-IoT ile uzaktan okunan cihazlar. Belediye Su ve Kanalizasyon İdareleriyle yürütülen projelerde yazılımın yanı sıra iş planı ve teknik sunum süreçlerinde de aktif rol alıyorum.</p>
       <div class="xp-tags">
@@ -332,10 +341,10 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7s;animation-delay:-2.5s" d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
 
 <section id="projeler">
-  <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin">// projects/</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin">// projects.hex</span></div>
   <div class="proj-grid">
     <div class="proj">
-      <div class="ref">REF-001 · İNODYA</div>
+      <div class="ref">REF-001 · INODYA</div>
       <h3 data-i18n="proj1.h">Akıllı Sayaç Teknolojileri</h3>
       <p data-i18n="proj1.p">Evlere kurulan ve tek pille yıllarca çalışan akıllı su ve gaz sayaçları. Veriler BLE ile yerinde, Sigfox/NB-IoT ile uzaktan okunuyor; güç bütçesi mikroamper seviyesinde hesaplanmış firmware.</p>
       <div class="xp-tags"><span class="tag">STM32</span><span class="tag">Sigfox</span><span class="tag">NFC</span><span class="tag">Low-Power</span></div>
@@ -377,7 +386,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:9s;animation-delay:-6s" d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:9s;animation-delay:-6s" d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
 
 <section id="yetkinlikler">
   <div class="sec-head"><h2 data-i18n="sec.skills">Yetkinlikler</h2><span class="pin">// skills.h</span></div>
@@ -408,7 +417,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7.5s;animation-delay:-3s" d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
 
 <section id="egitimler">
-  <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin">// workshops/</span></div>
+  <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin">// workshops.exe</span></div>
   <div class="proj-grid">
     <div class="proj">
       <div class="ref" data-i18n="edu1.ref">CSCON'25 · GAZİ ÜNİVERSİTESİ · ANKARA</div>
@@ -426,7 +435,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:6s;animation-delay:-1.5s" d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:6s;animation-delay:-1.5s" d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
 
 <section id="hobi">
   <div class="sec-head"><h2 data-i18n="sec.hobby">Hobi</h2><span class="pin">// hobby.txt</span></div>
@@ -462,8 +471,15 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
 </section>
 
 <footer id="iletisim">
+  <svg class="cat-bg" aria-hidden="true" width="240" height="150" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+    <path d="M85,115 Q68,98 70,75 Q71,58 85,46 L79,18 L103,36 Q112,32 120,32 Q128,32 137,36 L161,18 L155,46 Q169,58 170,75 Q172,98 155,115 Q140,127 120,127 Q100,127 85,115 Z"/>
+    <circle cx="100" cy="72" r="4.5"/><circle cx="140" cy="72" r="4.5"/>
+    <path d="M115,86 H125 L120,92 Z"/>
+    <path d="M84,80 H52 L40,92 H18 M84,66 H56 L44,54 H22 M156,80 H188 L200,92 H222 M156,66 H184 L196,54 H218"/>
+    <circle cx="14" cy="92" r="3.5"/><circle cx="18" cy="54" r="3.5"/><circle cx="226" cy="92" r="3.5"/><circle cx="222" cy="54" r="3.5"/>
+  </svg>
   <div class="foot-in">
-    <h2 data-i18n="foot.h2">İletişim</h2>
+    <div class="sec-head"><h2 data-i18n="foot.h2">İletişim</h2><span class="pin">// contact.cfg</span></div>
     <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
     <div class="foot-links">
       <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
@@ -487,9 +503,9 @@ const I18N = {
   'hero.cta':'See my projects',
   'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
   'about.p1':"From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code: I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
-  'about.p2':"I currently work on smart water and gas metering technology at İnodya Teknoloji. For devices that must stay in the field for years on a single battery, I create designs centered on low power consumption and handle data communication over BLE, Sigfox and NB-IoT.",
+  'about.p2':"I currently work on smart water and gas metering technology at Inodya Teknoloji. For devices that must stay in the field for years on a single battery, I create designs centered on low power consumption and handle data communication over BLE, Sigfox and NB-IoT.",
   'about.p3':"In the past, the Aselsan UGES medical device projects I worked on taught me the discipline of designing critical systems where there is no room for error. I carry that engineering culture forward, building high-quality, reliable embedded architectures — whether on FreeRTOS and ThreadX, or bare-metal like the meters I build today.",
-  'spec.h3':'SUMMARY / DATASHEET','spec.loc':'Location','spec.role':'Role','spec.exp':'Expertise','spec.langs':'Languages','spec.status':'Status','spec.statusv':'● Active — İnodya Teknoloji',
+  'spec.h3':'SUMMARY / DATASHEET','spec.loc':'Location','spec.role':'Role','spec.rolev':'Embedded SW Eng.','spec.exp':'Expertise','spec.langs':'Languages','spec.status':'Status','spec.statusv':'● Active — Inodya Teknoloji',
   'xp.date1':'2022 — present','xp.role1':'Embedded Software Engineer','xp.role2':'Embedded Software Engineer','xp.role3':'Technician','xp.role4':'High School Internship',
   'xp.inodya':"I develop smart water and gas meter firmware end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
   'xp.besoft':"In a healthcare project under Aselsan UGES, I developed medical device firmware: device communication, control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).",
@@ -556,36 +572,75 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
   lang = lang==='en' ? 'tr' : 'en';
   localStorage.setItem('lang', lang);
   applyLang();
+  renderBootlog();
   renderRoute();
 });
 applyLang();
 
 /* ---------- boot log animasyonu ---------- */
-const bootLines = [
-  ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.07\n'],
-  ['t','[ 0.012] '], ['ok','cpu:  '], ['val','embedded software engineer\n'],
-  ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... OK\n'],
-  ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
-  ['t','[ 0.066] '], ['ok','pwr:  '], ['val','low-power mode enabled (uA)\n'],
-  ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
-  ['t','[ 0.102] '], ['ok','init: '], ['val','portfolio ready.\n'],
-  ['t','$ ']
-];
 const logEl = document.getElementById('bootlog');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(reduced){
-  logEl.innerHTML = bootLines.map(([c,t])=>`<span class="${c}">${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
-}else{
-  // basitleştirilmiş: satır satır yaz
+let bootToken = 0;
+let catShown = false;
+function bootLines(){
+  const en = lang==='en';
+  return [
+    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.07\n'],
+    ['t','[ 0.012] '], ['ok','cpu:  '], ['val',(en ? 'embedded software engineer' : 'gömülü yazılım mühendisi')+'\n'],
+    ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... '+(en ? 'OK' : 'TAMAM')+'\n'],
+    ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
+    ['t','[ 0.066] '], ['ok','pwr:  '], ['val',(en ? 'low-power mode enabled (uA)' : 'düşük güç modu etkin (uA)')+'\n'],
+    ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
+    ['t','[ 0.102] '], ['ok','init: '], ['val',(en ? 'portfolio ready.' : 'portfolyo hazır.')+'\n'],
+    ['t','$ ']
+  ];
+}
+function renderBootlog(){
+  const lines = bootLines();
+  const token = ++bootToken;
+  catShown = false;
+  logEl.innerHTML = '';
+  if(reduced){
+    logEl.innerHTML = lines.map(([c,t])=>`<span class="${c}">${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
+    return;
+  }
+  // satır satır yaz; token eski animasyonların devam etmesini engeller
   let i = 0;
   (function lineByLine(){
-    if(i >= bootLines.length){ logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); return; }
-    const [c,t] = bootLines[i];
+    if(token !== bootToken) return;
+    if(i >= lines.length){ logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); return; }
+    const [c,t] = lines[i];
     logEl.insertAdjacentHTML('beforeend', `<span class="${c}">${t.replace('\n','<br>')}</span>`);
     i++;
     setTimeout(lineByLine, t.includes('\n') ? 260 : 60);
   })();
 }
+renderBootlog();
+
+/* ---------- easter egg: cat kedi.txt ---------- */
+document.querySelector('.terminal').addEventListener('click', ()=>{
+  const cur = logEl.querySelector('.cursor');
+  if(catShown || !cur) return; // boot bitmeden veya ikinci kez tetiklenmesin
+  catShown = true;
+  cur.remove();
+  const cmd = 'cat kedi.txt';
+  const art = ' /\\_/\\\n( o.o )  ' + (lang==='en' ? 'meow!' : 'miyav!') + '\n > ^ <';
+  const tail = `<br><span class="ok ascii">${art}</span><span class="t">$ </span><span class="cursor"></span>`;
+  if(reduced){
+    logEl.insertAdjacentHTML('beforeend', `<span class="val">${cmd}</span>${tail}`);
+    return;
+  }
+  const token = bootToken;
+  const span = document.createElement('span');
+  span.className = 'val';
+  logEl.appendChild(span);
+  let j = 0;
+  (function typeChar(){
+    if(token !== bootToken) return;
+    if(j < cmd.length){ span.textContent += cmd[j++]; setTimeout(typeChar, 70); }
+    else logEl.insertAdjacentHTML('beforeend', tail);
+  })();
+});
 
 /* ---------- blog motoru ---------- */
 const listEl = document.getElementById('blog-list');
