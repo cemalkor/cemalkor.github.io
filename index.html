@@ -173,10 +173,35 @@ footer{background:#EDF2EE;color:var(--ink-soft);border-top:1px solid var(--line)
 .foot-links a:hover{color:var(--copper)}
 .foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
 
-/* ---------- easter egg: kediler ---------- */
-.cat-bg{position:absolute;right:48px;bottom:12px;opacity:0;transition:opacity .6s ease;pointer-events:none}
-.cat-bg path,.cat-bg circle{stroke:var(--pcb);stroke-width:1.5;fill:none}
-footer:hover .cat-bg{opacity:.3}
+/* ---------- easter eggs ---------- */
+.easter-egg-wrap{position:relative;display:inline-flex;align-items:center;max-width:100%}
+.wire-svg{width:32px;height:16px;flex-shrink:0}
+.foot-text{position:relative;margin:0 8px;white-space:nowrap}
+.arc-over-text{position:absolute;top:50%;left:0;width:100%;height:24px;transform:translateY(-50%);pointer-events:none;overflow:visible}
+.arc-path{opacity:0}
+footer:hover .arc-path{animation:arcFlash 1s forwards}
+@keyframes arcFlash{
+  0%{opacity:0}
+  5%,15%,25%,45%,65%,85%{opacity:1;filter:drop-shadow(0 0 3px #0ff) drop-shadow(0 0 6px #0ff)}
+  10%,20%,35%,55%,75%,95%{opacity:0}
+  100%{opacity:0}
+}
+.arc-path-2{opacity:0}
+footer:hover .arc-path-2{animation:arcFlash2 1s forwards}
+@keyframes arcFlash2{
+  0%{opacity:0}
+  8%,18%,38%,58%,78%,92%{opacity:1;filter:drop-shadow(0 0 2px #fff)}
+  12%,28%,48%,68%,88%,98%{opacity:0}
+  100%{opacity:0}
+}
+.wire-glow{opacity:0}
+footer:hover .wire-glow{animation:wireFlash 1s forwards}
+@keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
+@media (max-width:480px){.foot-text{white-space:normal}.arc-over-text{display:none}}
+.term-wrap{position:relative}
+.term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
+@keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
+.term-bug.eating{animation:bugEat 0.25s infinite}
 .term-body .ascii{white-space:pre;display:block}
 
 @media (max-width:840px){
@@ -192,7 +217,7 @@ footer:hover .cat-bg{opacity:.3}
   .btn:hover,.proj:hover{transform:none}
   .bg-circuit .pulses{display:none}
   .sq-divider .pulse{display:none}
-  .cat-bg{transition:none}
+  .term-bug{transition:none}
 }
 </style>
 </head>
@@ -273,9 +298,12 @@ footer:hover .cat-bg{opacity:.3}
       <a class="btn btn-ghost" href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub →</a>
     </div>
   </div>
-  <div class="terminal" aria-hidden="true">
-    <div class="term-bar"><i></i><i></i><i></i><span class="term-title">UART0 · 115200 8N1</span></div>
-    <div class="term-body" id="bootlog"></div>
+  <div class="term-wrap">
+    <div class="terminal" aria-hidden="true">
+      <div class="term-bar"><i></i><i></i><i></i><span class="term-title">UART0 · 115200 8N1</span></div>
+      <div class="term-body" id="bootlog"></div>
+    </div>
+    <div class="term-bug">🪲</div>
   </div>
 </header>
 
@@ -471,13 +499,7 @@ footer:hover .cat-bg{opacity:.3}
 </section>
 
 <footer id="iletisim">
-  <svg class="cat-bg" aria-hidden="true" width="240" height="150" viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
-    <path d="M85,115 Q68,98 70,75 Q71,58 85,46 L79,18 L103,36 Q112,32 120,32 Q128,32 137,36 L161,18 L155,46 Q169,58 170,75 Q172,98 155,115 Q140,127 120,127 Q100,127 85,115 Z"/>
-    <circle cx="100" cy="72" r="4.5"/><circle cx="140" cy="72" r="4.5"/>
-    <path d="M115,86 H125 L120,92 Z"/>
-    <path d="M84,80 H52 L40,92 H18 M84,66 H56 L44,54 H22 M156,80 H188 L200,92 H222 M156,66 H184 L196,54 H218"/>
-    <circle cx="14" cy="92" r="3.5"/><circle cx="18" cy="54" r="3.5"/><circle cx="226" cy="92" r="3.5"/><circle cx="222" cy="54" r="3.5"/>
-  </svg>
+
   <div class="foot-in">
     <div class="sec-head"><h2 data-i18n="foot.h2">İletişim</h2><span class="pin">// contact.cfg</span></div>
     <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
@@ -487,7 +509,27 @@ footer:hover .cat-bg{opacity:.3}
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.instagram.com/cemalkor" target="_blank" rel="noopener">Instagram</a>
     </div>
-    <div class="foot-bottom">© <span id="yil"></span> Cemal Kör · [0.000] system halted. goodbye.</div>
+    <div class="foot-bottom">
+      <span class="easter-egg-wrap">
+        <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
+          <line x1="0" y1="8" x2="22" y2="8" stroke="#17251F" stroke-width="6" stroke-linecap="round"/>
+          <line x1="22" y1="8" x2="30" y2="8" stroke="#B87333" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="30" cy="8" r="1.5" fill="#fff" class="wire-glow"/>
+        </svg>
+        <span class="foot-text">
+          © <span id="yil"></span> Cemal Kör · [0.000] system halted. goodbye.
+          <svg class="arc-over-text" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
+            <path class="arc-path" d="M 0 12 L 10 5 L 20 18 L 30 8 L 45 15 L 60 4 L 75 20 L 90 9 L 100 12" fill="none" stroke="#0ff" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+            <path class="arc-path-2" d="M 0 12 L 15 17 L 25 6 L 40 19 L 55 5 L 70 16 L 85 7 L 100 12" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </span>
+        <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
+          <line x1="32" y1="8" x2="10" y2="8" stroke="#17251F" stroke-width="6" stroke-linecap="round"/>
+          <line x1="10" y1="8" x2="2" y2="8" stroke="#B87333" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="2" cy="8" r="1.5" fill="#fff" class="wire-glow"/>
+        </svg>
+      </span>
+    </div>
   </div>
 </footer>
 
@@ -585,7 +627,7 @@ let catShown = false;
 function bootLines(){
   const en = lang==='en';
   return [
-    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.07\n'],
+    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.0'], ['val','7','bug-target'], ['val','\n'],
     ['t','[ 0.012] '], ['ok','cpu:  '], ['val',(en ? 'embedded software engineer' : 'gömülü yazılım mühendisi')+'\n'],
     ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... '+(en ? 'OK' : 'TAMAM')+'\n'],
     ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
@@ -601,46 +643,128 @@ function renderBootlog(){
   catShown = false;
   logEl.innerHTML = '';
   if(reduced){
-    logEl.innerHTML = lines.map(([c,t])=>`<span class="${c}">${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
+    logEl.innerHTML = lines.map(([c,t,id])=>`<span class="${c}"${id?' id="'+id+'"':''}>${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
     return;
   }
-  // satır satır yaz; token eski animasyonların devam etmesini engeller
-  let i = 0;
-  (function lineByLine(){
+  let lineIdx = 0;
+  let charIdx = 0;
+  let currentSpan = null;
+  (function typeWriter(){
     if(token !== bootToken) return;
-    if(i >= lines.length){ logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); return; }
-    const [c,t] = lines[i];
-    logEl.insertAdjacentHTML('beforeend', `<span class="${c}">${t.replace('\n','<br>')}</span>`);
-    i++;
-    setTimeout(lineByLine, t.includes('\n') ? 260 : 60);
+    if(lineIdx >= lines.length){ 
+      logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); 
+      return; 
+    }
+    const [c, t, id] = lines[lineIdx];
+    if(charIdx === 0){
+      currentSpan = document.createElement('span');
+      currentSpan.className = c;
+      if(id) currentSpan.id = id;
+      logEl.appendChild(currentSpan);
+    }
+    if(charIdx < t.length){
+      const char = t[charIdx];
+      if(char === '\n') currentSpan.appendChild(document.createElement('br'));
+      else currentSpan.appendChild(document.createTextNode(char));
+      charIdx++;
+      let speed = 15;
+      if(char === '\n') speed = 120;
+      else if(c === 't' || c === 'ok') speed = 5;
+      else speed = 15 + Math.random() * 20;
+      setTimeout(typeWriter, speed);
+    } else {
+      charIdx = 0;
+      lineIdx++;
+      setTimeout(typeWriter, 5);
+    }
   })();
 }
 renderBootlog();
 
-/* ---------- easter egg: cat kedi.txt ---------- */
+/* ---------- easter egg: bug ---------- */
 document.querySelector('.terminal').addEventListener('click', ()=>{
-  const cur = logEl.querySelector('.cursor');
-  if(catShown || !cur) return; // boot bitmeden veya ikinci kez tetiklenmesin
-  catShown = true;
-  cur.remove();
-  const cmd = 'cat kedi.txt';
-  const art = ' /\\_/\\\n( o.o )  ' + (lang==='en' ? 'meow!' : 'miyav!') + '\n > ^ <';
-  const tail = `<br><span class="ok ascii">${art}</span><span class="t">$ </span><span class="cursor"></span>`;
-  if(reduced){
-    logEl.insertAdjacentHTML('beforeend', `<span class="val">${cmd}</span>${tail}`);
-    return;
-  }
-  const token = bootToken;
-  const span = document.createElement('span');
-  span.className = 'val';
-  logEl.appendChild(span);
-  let j = 0;
-  (function typeChar(){
-    if(token !== bootToken) return;
-    if(j < cmd.length){ span.textContent += cmd[j++]; setTimeout(typeChar, 70); }
-    else logEl.insertAdjacentHTML('beforeend', tail);
-  })();
+  const bug = document.querySelector('.term-bug');
+  if(bug.style.opacity === '1') return; // Already active
+  
+  const targetSpan = document.getElementById('bug-target');
+  const titleSpan = document.querySelector('.term-title');
+  const termWrap = document.querySelector('.term-wrap');
+  if(!targetSpan || !titleSpan) return;
+  
+  const wRect = termWrap.getBoundingClientRect();
+  const titleRect = titleSpan.getBoundingClientRect();
+  const targetRect = targetSpan.getBoundingClientRect();
+  
+  // Start near UART0
+  const startX = titleRect.left - wRect.left + 20;
+  const startY = titleRect.bottom - wRect.top;
+  
+  bug.style.transition = 'none';
+  bug.style.left = startX + 'px';
+  bug.style.top = startY + 'px';
+  bug.style.transform = 'translate(0, -10px) rotate(180deg)'; // Facing down
+  
+  // Force reflow
+  bug.offsetWidth;
+  
+  // Appear and move down
+  bug.style.transition = 'transform 0.6s ease-in-out, opacity 0.3s';
+  bug.style.opacity = '1';
+  bug.style.transform = 'translate(0, 30px) rotate(180deg)';
+  
+  setTimeout(() => {
+    // Look left
+    bug.style.transition = 'transform 0.2s ease-in-out';
+    bug.style.transform = 'translate(0, 30px) rotate(270deg)';
+    
+    setTimeout(() => {
+      // Move to the 7
+      const destX = targetRect.left - wRect.left;
+      const destY = targetRect.top - wRect.top;
+      const dx = destX - startX + 5;
+      const dy = destY - startY - 5;
+      
+      bug.style.transition = 'transform 1s ease-in-out';
+      bug.style.transform = `translate(${dx}px, ${dy}px) rotate(270deg)`;
+      
+      setTimeout(() => {
+        // Start eating animation
+        bug.classList.add('eating');
+        
+        setTimeout(() => {
+          // Eat the 7 halfway through
+          targetSpan.style.transition = 'none';
+          targetSpan.style.opacity = '0';
+          
+          setTimeout(() => {
+            // Finish eating
+            bug.classList.remove('eating');
+            
+            // Turn right
+            bug.style.transition = 'transform 0.2s';
+            bug.style.transform = `translate(${dx}px, ${dy}px) rotate(90deg)`;
+            
+            setTimeout(() => {
+              // Run away
+              bug.style.transition = 'transform 0.4s ease-in';
+              bug.style.transform = `translate(${wRect.width}px, ${dy}px) rotate(90deg)`;
+              
+              setTimeout(() => {
+                bug.style.opacity = '0';
+                setTimeout(() => {
+                  targetSpan.style.transition = 'opacity 2s ease-in';
+                  targetSpan.style.opacity = '1'; // Respawn the 7 slowly
+                }, 1500);
+              }, 400);
+            }, 300);
+          }, 1200); // Chew for a bit more
+        }, 1200); // Chew before the 7 disappears
+      }, 1000); // Wait for travel to finish
+    }, 200);
+  }, 700);
 });
+
+
 
 /* ---------- blog motoru ---------- */
 const listEl = document.getElementById('blog-list');
