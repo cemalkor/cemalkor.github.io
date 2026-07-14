@@ -31,10 +31,23 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
 ::selection{background:var(--pcb);color:#fff}
 
+/* ---------- devre izi arka planı ---------- */
+.bg-circuit{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(0,0,0,.4) 30%,#000 80%);
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(0,0,0,.4) 30%,#000 80%)}
+.bg-circuit .traces{stroke:var(--pcb);stroke-width:1.5;fill:none;opacity:.07}
+.bg-circuit .traces .cu{stroke:var(--copper)}
+.bg-circuit .traces .pad{fill:var(--pcb);stroke:none}
+.bg-circuit .pulses{fill:none;stroke:var(--pcb);stroke-width:2;stroke-linecap:round;opacity:.45}
+.bg-circuit .pulses .cu{stroke:var(--copper)}
+.bg-circuit .pulses path{stroke-dasharray:40 960;animation:pulse-flow 12s linear infinite}
+@keyframes pulse-flow{to{stroke-dashoffset:-1000}}
+
 /* ---------- kare dalga bölüm ayracı ---------- */
 .sq-divider{height:14px;margin:0 auto;max-width:1080px;padding:0 24px}
 .sq-divider svg{width:100%;height:14px;display:block}
 .sq-divider path{stroke:var(--line);stroke-width:1.5;fill:none}
+.sq-divider .pulse{stroke:var(--pcb);stroke-width:2;stroke-linecap:round;stroke-dasharray:30 970;animation:pulse-flow 7s linear infinite;opacity:.6}
 
 /* ---------- nav ---------- */
 nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
@@ -163,15 +176,66 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   .about-grid{grid-template-columns:1fr}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
+  .bg-circuit{opacity:.55}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .cursor{animation:none}
   .btn:hover,.proj:hover{transform:none}
+  .bg-circuit .pulses{display:none}
+  .sq-divider .pulse{display:none}
 }
 </style>
 </head>
 <body>
+
+<svg class="bg-circuit" aria-hidden="true" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <g class="traces">
+    <!-- sol bölge -->
+    <path d="M-20,140 H180 L230,190 V380 L180,430 H60"/>
+    <path d="M-20,170 H168 L212,214 V372"/>
+    <path d="M-20,520 H120 L170,570 V760 L220,810 H420"/>
+    <path d="M90,-20 V120 L140,170 H300 L350,220 V300"/>
+    <path class="cu" d="M240,-20 V60 L290,110 H480"/>
+    <!-- sağ bölge -->
+    <path d="M1620,220 H1400 L1350,270 V460 L1300,510 H1180"/>
+    <path d="M1620,250 H1412 L1368,294 V452"/>
+    <path d="M1620,640 H1460 L1410,590 V420"/>
+    <path d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
+    <path d="M1350,920 V800 L1400,750 H1560"/>
+    <path class="cu" d="M1060,920 V840 L1110,790 H1240"/>
+    <!-- alt / üst kenar -->
+    <path d="M560,920 V830 L610,780 H900 L950,830 V920"/>
+    <path d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
+    <!-- via'lar (iz uçları) -->
+    <circle cx="60" cy="430" r="4.5"/><circle cx="212" cy="372" r="4.5"/><circle cx="420" cy="810" r="4.5"/>
+    <circle cx="350" cy="300" r="4.5"/><circle class="cu" cx="480" cy="110" r="4.5"/>
+    <circle cx="1180" cy="510" r="4.5"/><circle cx="1368" cy="452" r="4.5"/><circle cx="1410" cy="420" r="4.5"/>
+    <circle cx="1240" cy="280" r="4.5"/><circle cx="1560" cy="750" r="4.5"/><circle class="cu" cx="1240" cy="790" r="4.5"/>
+    <!-- via stitching (dolu pad'ler) -->
+    <circle class="pad" cx="500" cy="60" r="2.5"/><circle class="pad" cx="860" cy="830" r="2.5"/>
+    <circle class="pad" cx="100" cy="700" r="2.5"/><circle class="pad" cx="1540" cy="330" r="2.5"/>
+    <circle class="pad" cx="1500" cy="500" r="2.5"/>
+    <!-- IC ayak izi -->
+    <rect x="1330" y="60" width="64" height="64" rx="3"/>
+    <path d="M1346,60 V44 M1362,60 V44 M1378,60 V44 M1346,124 V140 M1362,124 V140 M1378,124 V140"/>
+    <!-- merkezden geçen izler -->
+    <path d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
+    <path d="M760,-20 V150 L810,200 H1040 L1090,250 V420"/>
+    <path d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
+    <path d="M480,920 V760 L530,710 H720 L770,660 V560"/>
+    <circle cx="1090" cy="420" r="4.5"/><circle cx="770" cy="560" r="4.5"/>
+    <circle class="pad" cx="600" cy="390" r="2.5"/><circle class="pad" cx="1000" cy="340" r="2.5"/>
+  </g>
+  <g class="pulses">
+    <path pathLength="1000" style="animation-duration:11s" d="M-20,140 H180 L230,190 V380 L180,430 H60"/>
+    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,220 H1400 L1350,270 V460 L1300,510 H1180"/>
+    <path pathLength="1000" style="animation-duration:9s;animation-delay:-3s" d="M560,920 V830 L610,780 H900 L950,830 V920"/>
+    <path class="cu" pathLength="1000" style="animation-duration:16s;animation-delay:-8s" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
+    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,520 H120 L170,570 V760 L220,810 H420"/>
+    <path pathLength="1000" style="animation-duration:13s;animation-delay:-6s" d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
+  </g>
+</svg>
 
 <nav>
   <div class="nav-in">
@@ -206,7 +270,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </header>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:6.5s;animation-delay:-1s" d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/></svg></div>
 
 <section id="hakkimda">
   <div class="sec-head"><h2 data-i18n="sec.about">Hakkımda</h2><span class="pin">// about.c</span></div>
@@ -229,7 +293,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:8s;animation-delay:-4s" d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
 
 <section id="deneyim">
   <div class="sec-head"><h2 data-i18n="sec.xp">Deneyim</h2><span class="pin">// experience.log</span></div>
@@ -265,7 +329,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7s;animation-delay:-2.5s" d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
 
 <section id="projeler">
   <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin">// projects/</span></div>
@@ -313,7 +377,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:9s;animation-delay:-6s" d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
 
 <section id="yetkinlikler">
   <div class="sec-head"><h2 data-i18n="sec.skills">Yetkinlikler</h2><span class="pin">// skills.h</span></div>
@@ -341,7 +405,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7.5s;animation-delay:-3s" d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
 
 <section id="egitimler">
   <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin">// workshops/</span></div>
@@ -362,7 +426,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:6s;animation-delay:-1.5s" d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
 
 <section id="hobi">
   <div class="sec-head"><h2 data-i18n="sec.hobby">Hobi</h2><span class="pin">// hobby.txt</span></div>
@@ -386,7 +450,7 @@ footer{background:var(--term-bg);color:#B8C9BF;margin-top:40px}
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H110 V2 H230 V12 H390 V2 H470 V12 H610 V2 H770 V12 H870 V2 H1032"/></svg></div>
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H110 V2 H230 V12 H390 V2 H470 V12 H610 V2 H770 V12 H870 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:8.5s;animation-delay:-5s" d="M0,12 H110 V2 H230 V12 H390 V2 H470 V12 H610 V2 H770 V12 H870 V2 H1032"/></svg></div>
 
 <section id="blog">
   <div class="sec-head"><h2>Blog</h2><span class="pin">// posts/*.md</span></div>
