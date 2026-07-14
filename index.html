@@ -330,8 +330,8 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
   <div class="about-grid">
     <div>
       <p data-i18n="about.p1">Akıllı sayaçlardan medikal cihazlara kadar, gerçek dünyada aralıksız çalışan sistemlere yazılımlarımla hayat veriyorum. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum ve temelim teknik liseye dayanıyor. Bu sayede kod yazmakla yetinmiyor; masa başında firmware geliştirirken de, osiloskop başında donanım hatalarını çözerken de aynı yetkinlikle hareket ediyorum.</p>
-      <p data-i18n="about.p2">Şu anda Inodya Teknoloji'de akıllı su ve gaz sayacı teknolojileri üzerine çalışıyorum. Tek pille yıllarca sahada kalması gereken bu cihazlar için düşük güç tüketimi merkezli tasarımlar yapıyor; BLE, Sigfox ve NB-IoT gibi haberleşme altyapılarıyla veri iletişimini sağlıyorum.</p>
-      <p data-i18n="about.p3">Geçmişte görev aldığım Aselsan UGES medikal cihaz projeleri, bana hataya yer olmayan kritik sistemler tasarlama disiplinini kazandırdı. Oradan gelen mühendislik kültürüyle — ister FreeRTOS ve ThreadX üzerinde, ister bugün geliştirdiğim sayaçlarda olduğu gibi bare-metal — yüksek kaliteli ve güvenilir gömülü sistem mimarileri kurmaya devam ediyorum.</p>
+      <p data-i18n="about.p2">Şu anda Inodya Teknoloji'de akıllı su ve gaz sayaçları geliştiriyorum. Tek pille yıllarca sahada kalan bu cihazlar, şebekedeki her damlanın hesabını tutuyor. Türkiye'nin en kritik sorunlarından biri su kaybı; geliştirdiğim cihazlarla bu sorunun azalmasına katkı sağlamayı hedefliyorum.</p>
+      <p data-i18n="about.p3">Aselsan UGES medikal cihaz projelerinde ise işin ucunda insan sağlığı vardı. Hataya yer olmayan sistemler geliştirmek bana güvenilirliğin bir özellik değil, bir söz olduğunu öğretti. Bugün geliştirdiğim her cihazda aynı özeni korumayı hedefliyorum — ister bir hastanede çalışsın, ister bir su şebekesinde.</p>
     </div>
     <div class="spec-card">
       <h3 data-i18n="spec.h3">ÖZET / DATASHEET</h3>
@@ -355,7 +355,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
       <div class="xp-date" data-i18n="xp.date1">2022 — devam ediyor</div>
       <h3>Inodya Teknoloji San. ve Tic. A.Ş.</h3>
       <div class="xp-role" data-i18n="xp.role1">Gömülü Yazılım Mühendisi</div>
-      <p data-i18n="xp.inodya">Akıllı su ve gaz sayaçlarının yazılımını uçtan uca geliştiriyorum: tek pille yıllarca çalışan, NFC ve Bluetooth destekli, Sigfox/NB-IoT ile uzaktan okunan cihazlar. Belediye Su ve Kanalizasyon İdareleriyle yürütülen projelerde yazılımın yanı sıra iş planı ve teknik sunum süreçlerinde de aktif rol alıyorum.</p>
+      <p data-i18n="xp.inodya">Bugüne kadar birçok akıllı su ve gaz sayacı projesinin yazılımını uçtan uca geliştirdim: tek pille yıllarca çalışan, NFC ve Bluetooth destekli, Sigfox/NB-IoT ile uzaktan okunan cihazlar. Belediye Su ve Kanalizasyon İdareleriyle yürütülen projelerde yazılımın yanı sıra iş planı ve teknik sunum süreçlerinde de aktif rol alıyorum.</p>
       <div class="xp-tags">
         <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">ThreadX</span><span class="tag">Low-Power</span><span class="tag" data-i18n="tag.at">AT Komutları</span><span class="tag">STM32</span>
       </div>
@@ -364,7 +364,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
       <div class="xp-date">2021 — 2022</div>
       <h3>BESoft Yazılım Teknolojileri</h3>
       <div class="xp-role" data-i18n="xp.role2">Gömülü Yazılım Mühendisi</div>
-      <p data-i18n="xp.besoft">Aselsan UGES kapsamında sağlık sektörüne yönelik özel bir projede medikal cihaz firmware'i geliştirdim: cihaz haberleşmesi, kontrol ve simülasyon yazılımları ile C# test arayüzleri. Tüm geliştirme ASELSAN standartlarında (YATT, YGÖ, YTER) dokümante edildi.</p>
+      <p data-i18n="xp.besoft">Aselsan UGES kapsamında sağlık sektörüne yönelik özel bir projede medikal cihazların haberleşmesi için firmware geliştirdim: kontrol ve simülasyon yazılımları ile C# test arayüzleri. Tüm geliştirme ASELSAN standartlarında (YATT, YGÖ, YTER) dokümante edildi.</p>
       <div class="xp-tags">
         <span class="tag">Embedded C</span><span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag" data-i18n="tag.crypto">Şifreleme</span><span class="tag">C#</span><span class="tag" data-i18n="tag.medical">Medikal</span>
       </div>
@@ -561,12 +561,12 @@ const I18N = {
   'hero.cta':'See my projects',
   'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
   'about.p1':"From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code: I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
-  'about.p2':"I currently work on smart water and gas metering technology at Inodya Teknoloji. For devices that must stay in the field for years on a single battery, I create designs centered on low power consumption and handle data communication over BLE, Sigfox and NB-IoT.",
-  'about.p3':"In the past, the Aselsan UGES medical device projects I worked on taught me the discipline of designing critical systems where there is no room for error. I carry that engineering culture forward, building high-quality, reliable embedded architectures — whether on FreeRTOS and ThreadX, or bare-metal like the meters I build today.",
+  'about.p2':"I currently develop smart water and gas meters at Inodya Teknoloji. Running in the field for years on a single battery, these devices keep track of every drop in the network. Water loss is one of Türkiye's most critical problems, and with the devices I build I aim to help reduce it.",
+  'about.p3':"In the Aselsan UGES medical device projects, human health was on the line. Building systems where there is no room for error taught me that reliability is not a feature but a promise. Today I aim to carry that same care into every device I build — whether it runs in a hospital or in a water network.",
   'spec.h3':'SUMMARY / DATASHEET','spec.loc':'Location','spec.role':'Role','spec.rolev':'Embedded SW Eng.','spec.exp':'Expertise','spec.langs':'Languages','spec.status':'Status','spec.statusv':'● Active — Inodya Teknoloji',
   'xp.date1':'2022 — present','xp.role1':'Embedded Software Engineer','xp.role2':'Embedded Software Engineer','xp.role3':'Technician','xp.role4':'High School Internship',
-  'xp.inodya':"I develop smart water and gas meter firmware end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
-  'xp.besoft':"In a healthcare project under Aselsan UGES, I developed medical device firmware: device communication, control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).",
+  'xp.inodya':"To date I have developed the firmware of many smart water and gas meter projects end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
+  'xp.besoft':"In a healthcare project under Aselsan UGES, I developed firmware for medical device communication: control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).",
   'tag.at':'AT Commands','tag.at2':'AT Commands','tag.crypto':'Encryption','tag.medical':'Medical','tag.paper':'Paper','tag.teach1':'Teaching','tag.teach2':'Teaching',
   'proj1.h':'Smart Metering Technologies',
   'proj1.p':'Smart water and gas meters installed in homes, running for years on a single battery. Data is read locally over BLE and remotely via Sigfox/NB-IoT; the firmware is built on a microamp-level power budget.',
