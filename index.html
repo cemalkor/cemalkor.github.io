@@ -198,7 +198,7 @@ footer:hover .arc-path-2{animation:arcFlash2 1s forwards}
 footer:hover .wire-glow{animation:wireFlash 1s forwards}
 @keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
 @media (max-width:480px){.foot-text{white-space:normal}.arc-over-text{display:none}}
-.term-wrap{position:relative}
+.term-wrap{position:relative;margin-top:-136px}
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
 .term-bug.eating{animation:bugEat 0.25s infinite}
@@ -206,6 +206,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
+  .term-wrap{margin-top:0}
   .about-grid{grid-template-columns:1fr}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
@@ -225,49 +226,64 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 
 <svg class="bg-circuit" aria-hidden="true" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
   <g class="traces">
-    <!-- merkez rotalar -->
-    <path d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
-    <path class="cu" d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
-    <!-- sol bölge -->
+    <!-- sol bölge: yeşil katman -->
     <path d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
-    <path class="cu" d="M240,-20 V60 L290,110 H480"/>
-    <path d="M-20,470 H120 L170,520 V560 L220,610 H400"/>
+    <path d="M-20,350 H160 L210,400 V440"/>
+    <path d="M-20,470 H100 L150,520 V560 L200,610 H240"/>
+    <path d="M-20,690 H90 L140,740 H230"/>
+    <path d="M60,920 V860 L110,810 H240"/>
+    <!-- sol bölge: bakır katman -->
+    <path class="cu" d="M240,-20 V60 L190,110 H70"/>
+    <path class="cu" d="M-20,190 H120 L170,240 H250"/>
+    <path class="cu" d="M-20,240 H60 L110,290 V420"/>
+    <path class="cu" d="M60,440 V760"/>
     <path class="cu" d="M-20,790 H150 L200,840 V920"/>
-    <!-- alt / üst kenar -->
-    <path d="M560,920 V830 L610,780 H900 L950,830 V920"/>
-    <path class="cu" d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
-    <!-- sağ bölge -->
-    <path d="M1620,160 H1400 L1350,210 V250 L1300,300 H1180"/>
-    <path class="cu" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
-    <path class="cu" d="M1620,470 H1420 L1370,520 V560 L1320,610 H1200"/>
-    <path d="M1350,920 V800 L1400,750 H1560"/>
+    <!-- sağ bölge: yeşil katman -->
+    <path d="M1580,-20 V30 L1530,80 H1440"/>
+    <path d="M1620,220 H1480 L1430,170 V130"/>
+    <path d="M1620,380 H1470 L1420,430 V490"/>
+    <path d="M1620,560 H1440 L1390,510 V470"/>
+    <path d="M1420,920 V820 L1470,770 H1560"/>
+    <!-- sağ bölge: bakır katman -->
+    <path class="cu" d="M1520,-20 V60 L1470,110 H1380"/>
+    <path class="cu" d="M1620,320 H1500 L1450,270 V220"/>
+    <path class="cu" d="M1560,350 V640"/>
+    <path class="cu" d="M1620,700 H1490 L1440,750 H1370"/>
+    <path class="cu" d="M1620,880 H1520 L1470,830 V800"/>
     <!-- via'lar (iz uçları) -->
-    <circle cx="60" cy="300" r="4.5"/><circle class="cu" cx="480" cy="110" r="4.5"/>
-    <circle cx="400" cy="610" r="4.5"/><circle cx="1180" cy="300" r="4.5"/>
-    <circle class="cu" cx="1240" cy="280" r="4.5"/><circle class="cu" cx="1200" cy="610" r="4.5"/>
-    <circle cx="1560" cy="750" r="4.5"/>
+    <circle cx="60" cy="300" r="4.5"/><circle cx="210" cy="440" r="4.5"/><circle cx="240" cy="610" r="4.5"/>
+    <circle cx="230" cy="740" r="4.5"/><circle cx="240" cy="810" r="4.5"/>
+    <circle class="cu" cx="70" cy="110" r="4.5"/><circle class="cu" cx="250" cy="240" r="4.5"/>
+    <circle class="cu" cx="110" cy="420" r="4.5"/><circle class="cu" cx="60" cy="440" r="4.5"/><circle class="cu" cx="60" cy="760" r="4.5"/>
+    <circle cx="1440" cy="80" r="4.5"/><circle cx="1430" cy="130" r="4.5"/><circle cx="1420" cy="490" r="4.5"/>
+    <circle cx="1390" cy="470" r="4.5"/><circle cx="1560" cy="770" r="4.5"/>
+    <circle class="cu" cx="1380" cy="110" r="4.5"/><circle class="cu" cx="1450" cy="220" r="4.5"/><circle class="cu" cx="1560" cy="350" r="4.5"/>
+    <circle class="cu" cx="1560" cy="640" r="4.5"/><circle class="cu" cx="1370" cy="750" r="4.5"/><circle class="cu" cx="1470" cy="800" r="4.5"/>
     <!-- via stitching (dolu pad'ler) -->
-    <circle class="pad" cx="500" cy="60" r="2.5"/><circle class="pad" cx="860" cy="830" r="2.5"/>
-    <circle class="pad" cx="100" cy="730" r="2.5"/><circle class="pad" cx="1540" cy="330" r="2.5"/>
-    <circle class="pad" cx="1500" cy="560" r="2.5"/>
-    <circle class="pad" cx="600" cy="390" r="2.5"/><circle class="pad" cx="1000" cy="340" r="2.5"/>
-    <!-- IC ayak izi -->
-    <rect x="1330" y="60" width="64" height="64" rx="3"/>
-    <path d="M1346,60 V44 M1362,60 V44 M1378,60 V44 M1346,124 V140 M1362,124 V140 M1378,124 V140"/>
+    <circle class="pad" cx="100" cy="730" r="2.5"/><circle class="pad" cx="120" cy="60" r="2.5"/>
+    <circle class="pad" cx="1580" cy="300" r="2.5"/><circle class="pad" cx="1500" cy="560" r="2.5"/>
   </g>
   <g class="pulses">
-    <path pathLength="1000" style="animation-duration:13s;animation-delay:-6s" d="M-20,340 H380 L430,390 H760 L810,340 H1150 L1200,390 H1620"/>
-    <path class="cu" pathLength="1000" style="animation-duration:16s;animation-delay:-8s" d="M1620,700 H1250 L1200,650 H950 L900,700 H560 L510,650 H240 L190,700 H-20"/>
     <path pathLength="1000" style="animation-duration:11s" d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
-    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M240,-20 V60 L290,110 H480"/>
-    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,470 H120 L170,520 V560 L220,610 H400"/>
+    <path pathLength="1000" style="animation-duration:13.5s;animation-delay:-4s" d="M-20,350 H160 L210,400 V440"/>
+    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,470 H100 L150,520 V560 L200,610 H240"/>
+    <path pathLength="1000" style="animation-duration:12s;animation-delay:-6.5s" d="M-20,690 H90 L140,740 H230"/>
+    <path pathLength="1000" style="animation-duration:9.5s;animation-delay:-2.5s" d="M60,920 V860 L110,810 H240"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M240,-20 V60 L190,110 H70"/>
+    <path class="cu" pathLength="1000" style="animation-duration:8.5s;animation-delay:-1.5s" d="M-20,190 H120 L170,240 H250"/>
+    <path class="cu" pathLength="1000" style="animation-duration:14s;animation-delay:-7.5s" d="M-20,240 H60 L110,290 V420"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10.5s;animation-delay:-3s" d="M60,440 V760"/>
     <path class="cu" pathLength="1000" style="animation-duration:10s;animation-delay:-4.5s" d="M-20,790 H150 L200,840 V920"/>
-    <path pathLength="1000" style="animation-duration:9s;animation-delay:-3s" d="M560,920 V830 L610,780 H900 L950,830 V920"/>
-    <path class="cu" pathLength="1000" style="animation-duration:7.5s;animation-delay:-1s" d="M700,-20 V40 L750,90 H940 L990,40 V-20"/>
-    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,160 H1400 L1350,210 V250 L1300,300 H1180"/>
-    <path class="cu" pathLength="1000" style="animation-duration:15s;animation-delay:-7s" d="M1520,-20 V100 L1470,150 H1290 L1240,200 V280"/>
-    <path class="cu" pathLength="1000" style="animation-duration:11.5s;animation-delay:-9s" d="M1620,470 H1420 L1370,520 V560 L1320,610 H1200"/>
-    <path pathLength="1000" style="animation-duration:8.5s;animation-delay:-3.5s" d="M1350,920 V800 L1400,750 H1560"/>
+    <path pathLength="1000" style="animation-duration:10s;animation-delay:-6s" d="M1580,-20 V30 L1530,80 H1440"/>
+    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,220 H1480 L1430,170 V130"/>
+    <path pathLength="1000" style="animation-duration:13s;animation-delay:-4s" d="M1620,380 H1470 L1420,430 V490"/>
+    <path pathLength="1000" style="animation-duration:11.5s;animation-delay:-8s" d="M1620,560 H1440 L1390,510 V470"/>
+    <path pathLength="1000" style="animation-duration:8.5s;animation-delay:-3.5s" d="M1420,920 V820 L1470,770 H1560"/>
+    <path class="cu" pathLength="1000" style="animation-duration:15s;animation-delay:-7s" d="M1520,-20 V60 L1470,110 H1380"/>
+    <path class="cu" pathLength="1000" style="animation-duration:12s;animation-delay:-5.5s" d="M1620,320 H1500 L1450,270 V220"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M1560,350 V640"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9s;animation-delay:-8s" d="M1620,700 H1490 L1440,750 H1370"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10.5s;animation-delay:-1s" d="M1620,880 H1520 L1470,830 V800"/>
   </g>
 </svg>
 
