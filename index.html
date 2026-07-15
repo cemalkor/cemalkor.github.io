@@ -65,7 +65,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-f
 /* ---------- hero ---------- */
 header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .eyebrow{font-family:var(--mono);font-size:.8rem;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em}
 /* geniş ekranda başlık boyutu: TR'deki sabit satırlar (<br>) kolona sığacak şekilde, iki dilde aynı */
 @media (min-width:841px){h1{font-size:clamp(2.2rem,4.3vw,3rem)}}
 h1 span{color:var(--pcb)}
@@ -212,7 +212,9 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
   h1 br{display:none}
+  h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .term-wrap{margin-top:0}
+  .term-body{font-size:.7rem;min-height:185px}
   .about-grid{grid-template-columns:1fr}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
