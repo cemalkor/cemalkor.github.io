@@ -111,13 +111,14 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 /* ---------- deneyim ---------- */
 .xp{border-left:2px solid var(--line);margin-left:6px;padding-left:28px;display:flex;flex-direction:column;gap:30px}
 .xp-item{position:relative}
-.xp-item::before{content:'';position:absolute;left:-35px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2.5px solid var(--pcb)}
+.xp-item::before{content:'';position:absolute;left:-38px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:3px solid var(--pcb)}
 .xp-item.current::before{background:var(--pcb);box-shadow:0 0 0 4px rgba(30,110,82,.15)}
 .xp-date{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
 .xp-item h3{font-family:var(--disp);font-size:1.15rem;margin:4px 0 2px}
 .xp-role{font-size:.9rem;color:var(--pcb);font-weight:500}
 .xp-item p{color:var(--ink-soft);font-size:.95rem;margin-top:8px;max-width:70ch}
 .xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.xp-item .xp-tags{max-width:66ch}
 .tag{font-family:var(--mono);font-size:.7rem;background:#EDF2EE;border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
 
 /* ---------- projeler ---------- */
@@ -202,7 +203,7 @@ footer:hover .arc-path-2{animation:arcFlash2 1s forwards}
 footer:hover .wire-glow{animation:wireFlash 1s forwards}
 @keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
 @media (max-width:480px){.foot-text{white-space:normal}.arc-over-text{display:none}}
-.term-wrap{position:relative;align-self:start}
+.term-wrap{position:relative;align-self:start;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
 .term-bug.eating{animation:bugEat 0.25s infinite}
@@ -211,6 +212,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
   h1 br{display:none}
+  .term-wrap{margin-top:0}
   .about-grid{grid-template-columns:1fr}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
@@ -401,7 +403,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
       <div class="xp-tags"><span class="tag" data-i18n="tag.field">Saha Ürünü</span><span class="tag" data-i18n="tag.product">Ticari Ürün</span></div>
     </div>
     <div class="proj">
-      <div class="ref">REF-002 · ASELSAN UGES</div>
+      <div class="ref">REF-002 · BESOFT</div>
       <h3 data-i18n="proj2.h">Medikal Cihaz Haberleşme Yazılımları</h3>
       <p data-i18n="proj2.p">Hataya yer olmayan bir alanda, medikal cihazların haberleşmesi için firmware: kontrol ve simülasyon yazılımları. FreeRTOS tabanlı, ASELSAN standartlarında geliştirildi ve dokümante edildi.</p>
       <div class="xp-tags"><span class="tag" data-i18n="tag.medical">Medikal</span></div>
@@ -459,8 +461,12 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
       <ul><li>SX126x</li><li>Telit NB-IoT</li><li>Quectel NB-IoT</li><li>Quectel BLE</li></ul>
     </div>
     <div class="skill-box">
+      <h3 data-i18n="sk.per">ÇEVRE BİRİMLERİ</h3>
+      <ul><li>AES · DES · RNG · CRC</li><li>ADC · RTC</li><li data-i18n="sk.touch">Dokunmatik buton</li></ul>
+    </div>
+    <div class="skill-box">
       <h3 data-i18n="sk.sys">SİSTEM</h3>
-      <ul><li>Bare-metal · FreeRTOS · ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li>AES · DES · RNG · CRC</li><li data-i18n="sk.periph">ADC · RTC · Dokunmatik buton</li><li data-i18n="sk.modular">Modüler firmware mimarisi</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
+      <ul><li>Bare-metal · FreeRTOS · ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li data-i18n="sk.modular">Modüler firmware mimarisi</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
     </div>
     <div class="skill-box">
       <h3 data-i18n="sk.tools">ARAÇLAR</h3>
@@ -594,8 +600,8 @@ const I18N = {
   'proj5.a':'Browse the repo →',
   'proj6.ref':'REF-006 · OPEN SOURCE','proj6.h':'Memory Management Libraries',
   'proj6.p':'Open-source C libraries I wrote to solve external flash and EEPROM management once and reuse it in every project: SPI-Flash-Manager and I2C-EEPROM-Manager.',
-  'sk.lang':'LANGUAGES','sk.comm':'COMMUNICATION','sk.sys':'SYSTEM','sk.tools':'TOOLS','sk.mod':'MODULES',
-  'sk.csharp':'C# (test &amp; UI)','sk.asm':'Assembly → C translation','sk.pic':'PIC 16F / 12F series','sk.lp':'Low-power firmware optimization','sk.periph':'ADC · RTC · Touch sensing','sk.modular':'Modular firmware architecture','sk.dbg':'Hardware debugging',
+  'sk.lang':'LANGUAGES','sk.comm':'COMMUNICATION','sk.sys':'SYSTEM','sk.tools':'TOOLS','sk.mod':'MODULES','sk.per':'PERIPHERALS',
+  'sk.csharp':'C# (test &amp; UI)','sk.asm':'Assembly → C translation','sk.pic':'PIC 16F / 12F series','sk.lp':'Low-power firmware optimization','sk.touch':'Touch sensing','sk.modular':'Modular firmware architecture','sk.dbg':'Hardware debugging',
   'edu1.ref':"CSCON'25 · GAZİ UNIVERSITY · ANKARA",'edu1.h':'Bluetooth Low Energy in Embedded Systems',
   'edu1.p':"A volunteer training I gave as part of IEEE CSCON'25: BLE fundamentals and how to use it in embedded systems. The sample code is publicly available on GitHub.",
   'edu1.a':'Training materials →',
