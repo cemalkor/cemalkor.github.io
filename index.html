@@ -85,6 +85,19 @@ nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:bl
 .lang-btn{font-family:var(--mono);font-size:.78rem;color:var(--ink-soft);background:none;border:1.5px solid var(--line);border-radius:4px;padding:2px 9px;cursor:pointer;letter-spacing:.04em}
 .lang-btn:hover{color:var(--pcb);border-color:var(--pcb)}
 
+/* ---------- ilk kurulum popup'ı ---------- */
+.setup-overlay{position:fixed;inset:0;z-index:100;background:rgba(14,27,21,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px}
+.setup-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px 26px;max-width:340px;width:100%;font-family:var(--mono);box-shadow:0 12px 32px rgba(14,27,21,.35)}
+.setup-title{font-size:.75rem;color:var(--copper);letter-spacing:.06em;margin-bottom:14px}
+.setup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.setup-k{font-size:.8rem;color:var(--ink-soft)}
+.setup-opts{display:flex;gap:8px}
+.setup-btn{font-family:var(--mono);font-size:.85rem;color:var(--ink-soft);background:none;border:1.5px solid var(--line);border-radius:4px;padding:4px 12px;cursor:pointer}
+.setup-btn:hover{color:var(--pcb);border-color:var(--pcb)}
+.setup-btn.secili{color:#fff;background:var(--pcb);border-color:var(--pcb)}
+.setup-ok{margin-top:18px;width:100%;font-family:var(--mono);font-size:.85rem;color:#fff;background:var(--pcb);border:none;border-radius:6px;padding:10px;cursor:pointer;box-shadow:0 2px 0 var(--pcb-dark)}
+.setup-ok:hover{filter:brightness(1.08)}
+
 /* ---------- hero ---------- */
 header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .eyebrow{font-family:var(--mono);font-size:.8rem;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
@@ -602,6 +615,27 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
   </div>
 </footer>
 
+<div id="karsilama" class="setup-overlay" hidden>
+  <div class="setup-card" role="dialog" aria-modal="true" aria-labelledby="setup-baslik">
+    <div class="setup-title" id="setup-baslik">// ilk kurulum · initial setup</div>
+    <div class="setup-row">
+      <span class="setup-k">tema / theme</span>
+      <div class="setup-opts">
+        <button class="setup-btn" data-tema="light" aria-label="Açık tema / Light theme">☀</button>
+        <button class="setup-btn" data-tema="dark" aria-label="Koyu tema / Dark theme">☾</button>
+      </div>
+    </div>
+    <div class="setup-row">
+      <span class="setup-k">dil / language</span>
+      <div class="setup-opts">
+        <button class="setup-btn" data-dil="tr">TR</button>
+        <button class="setup-btn" data-dil="en">EN</button>
+      </div>
+    </div>
+    <button class="setup-ok" id="setup-ok">devam / continue →</button>
+  </div>
+</div>
+
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
 
@@ -921,6 +955,37 @@ function renderRoute(){
 }
 window.addEventListener('hashchange', renderRoute);
 loadPosts();
+
+/* ---------- ilk ziyaret: tema + dil kurulum popup'ı ---------- */
+const setupEl = document.getElementById('karsilama');
+if(!localStorage.getItem('tema') && !localStorage.getItem('lang')){
+  setupEl.hidden = false;
+  const isaretle = () => {
+    const koyu = document.documentElement.dataset.theme === 'dark';
+    setupEl.querySelectorAll('[data-tema]').forEach(b => b.classList.toggle('secili', b.dataset.tema === (koyu ? 'dark' : 'light')));
+    setupEl.querySelectorAll('[data-dil]').forEach(b => b.classList.toggle('secili', b.dataset.dil === lang));
+  };
+  setupEl.querySelectorAll('[data-tema]').forEach(b => b.addEventListener('click', () => {
+    if(b.dataset.tema === 'dark') document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+    localStorage.setItem('tema', b.dataset.tema);
+    temaGoster(); isaretle();
+  }));
+  setupEl.querySelectorAll('[data-dil]').forEach(b => b.addEventListener('click', () => {
+    lang = b.dataset.dil;
+    localStorage.setItem('lang', lang);
+    applyLang(); renderBootlog(); renderRoute(); isaretle();
+  }));
+  const setupKapat = () => {
+    /* seçim yapılmadıysa mevcut durumu kaydet ki popup bir daha çıkmasın */
+    if(!localStorage.getItem('tema')) localStorage.setItem('tema', document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+    if(!localStorage.getItem('lang')) localStorage.setItem('lang', lang);
+    setupEl.hidden = true;
+  };
+  document.getElementById('setup-ok').addEventListener('click', setupKapat);
+  setupEl.addEventListener('click', e => { if(e.target === setupEl) setupKapat(); });
+  isaretle();
+}
 </script>
 </body>
 </html>
