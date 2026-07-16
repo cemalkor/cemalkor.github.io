@@ -790,9 +790,10 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 });
 applyLang();
 
-/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 5 tane) ---------- */
-const KESIF_TOPLAM = 5;
-const kesifSet = new Set((localStorage.getItem('kesif') || '').split(',').filter(Boolean));
+/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 6 tane) ---------- */
+const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim'];
+const KESIF_TOPLAM = KESIF_EGGLER.length;
+const kesifSet = new Set((localStorage.getItem('kesif') || '').split(',').filter(x => KESIF_EGGLER.includes(x)));
 const rozetEl = document.getElementById('kesif-rozet');
 let rozetZaman;
 function rozetGoster(){
@@ -1085,14 +1086,18 @@ function bocekSaldir(){
 
 
 
-/* ---------- easter egg: mobilde footer'a dokununca kıvılcım ---------- */
+/* ---------- easter egg: footer kıvılcımı — mobilde dokun, masaüstünde CSS :hover ---------- */
 const footEl = document.querySelector('footer');
 footEl.addEventListener('touchstart', () => {
   if(footEl.classList.contains('sparking')) return;
   footEl.classList.add('sparking');
-  kesifBildir('gizli');
+  kesifBildir('kivilcim');
   setTimeout(() => footEl.classList.remove('sparking'), 1200);
 }, {passive:true});
+/* masaüstünde kıvılcım :hover ile çıkar; egg'i sayabilmek için hover-yetenekli cihazda dinle */
+if(window.matchMedia('(hover:hover)').matches){
+  footEl.addEventListener('mouseenter', () => kesifBildir('kivilcim'));
+}
 
 /* ---------- easter egg: konsol mesajı ---------- */
 console.log(`%c
@@ -1144,7 +1149,7 @@ window.addEventListener('keydown', e => {
   konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
   if(konamiIdx === konami.length){
     konamiIdx = 0;
-    if(kesifBildir('gizli')) return; /* son egg buysa flash yerine kutla */
+    if(kesifBildir('konami')) return; /* son egg buysa flash yerine kutla */
     if(reduced) return;
     const devre = document.querySelector('.bg-circuit');
     devre.classList.remove('post');
