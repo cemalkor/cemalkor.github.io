@@ -1004,17 +1004,16 @@ function uzayliTara(){
   });
   t += 520;
   setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1420 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
-  t += 520;
-  setTimeout(() => satirYaz(`<span class="t">[ decode ]</span> <span class="val">.-.. -.-- -.- ...</span>`), t);
-  t += 560;
-  setTimeout(() => {
-    satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'Hello earthling, Commander Logar has punished me!' : 'Merhaba dünyalı, Komutan Logar beni cezalandırdı!'}"</span>`);
-    ufoUcus();
-    setTimeout(yesilParlama, 1100); /* UFO ortaya varıp durunca yeşil parlama */
-  }, t);
-  /* UFO ekran ortasında ~3sn bekleyip çıkana kadar giriş kilitli kalsın */
-  t += 5300;
-  setTimeout(() => { islemde = false; kesifBildir('uzayli'); }, t);
+  /* sinyal kilitlenince UFO havalanıp ekran ortasına süzülür */
+  const tUfo = t + 300;
+  setTimeout(ufoUcus, tUfo);
+  /* UFO ortaya varıp durunca (~1.1sn sonra): yeşil parlama, ardından decode ve uzaylı mesajı hover sırasında yazılır */
+  const tOrta = tUfo + 1120;
+  setTimeout(yesilParlama, tOrta);
+  setTimeout(() => satirYaz(`<span class="t">[ decode ]</span> <span class="val">.-.. -.-- -.- ...</span>`), tOrta + 220);
+  setTimeout(() => satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'Hello earthling, Commander Logar has punished me!' : 'Merhaba dünyalı, Komutan Logar beni cezalandırdı!'}"</span>`), tOrta + 950);
+  /* UFO çıkana kadar giriş kilitli kalsın; sonra egg */
+  setTimeout(() => { islemde = false; kesifBildir('uzayli'); }, tUfo + 5300);
 }
 function ufoUcus(){
   if(reduced) return;
