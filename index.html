@@ -149,8 +149,20 @@ h1 span{color:var(--pcb)}
 .terminal.disco{animation:diskoRenk .4s linear infinite}
 @keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
 .ufo-alan{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
-.ufo{position:absolute;top:20vh;left:-90px;font-size:2.6rem;animation:ufoGec 1.9s ease-in-out forwards}
-@keyframes ufoGec{0%{transform:translateX(0) translateY(0) rotate(-6deg);opacity:0}12%{opacity:1}50%{transform:translateX(52vw) translateY(-22px) rotate(6deg)}88%{opacity:1}100%{transform:translateX(112vw) translateY(6px) rotate(-4deg);opacity:0}}
+.ufo{position:absolute;top:8vh;left:-90px;font-size:2.9rem;animation:ufoGec 4.6s ease-in-out forwards}
+@keyframes ufoGec{
+  0%{transform:translate(0,0) rotate(-8deg);opacity:0}
+  10%{opacity:1}
+  24%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
+  34%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
+  50%{transform:translate(calc(50vw + 45px),37vh) rotate(0deg)}
+  66%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
+  78%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
+  90%{opacity:1}
+  100%{transform:translate(112vw,42vh) rotate(6deg);opacity:0}
+}
+.yesil-flas{position:fixed;inset:0;z-index:188;pointer-events:none;background:radial-gradient(circle at 50% 42vh,rgba(111,220,168,.55),rgba(111,220,168,.14) 42%,rgba(111,220,168,0) 68%);opacity:0;animation:yesilFlas .95s ease-out forwards}
+@keyframes yesilFlas{0%{opacity:0}22%{opacity:1}100%{opacity:0}}
 
 /* ---------- section genel ---------- */
 section{max-width:1080px;margin:0 auto;padding:64px 24px}
@@ -988,19 +1000,21 @@ function uzayliTara(){
   const bantlar = [['868.0 MHz', 'sigfox'], ['2.400 GHz', 'ble'], ['800 MHz', 'nb-iot']];
   let t = 0;
   bantlar.forEach(b => {
-    t += 620;
+    t += 430;
     setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'scanning' : 'taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
   });
-  t += 850;
+  t += 520;
   setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1420 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
-  t += 900;
+  t += 520;
   setTimeout(() => satirYaz(`<span class="t">[ decode ]</span> <span class="val">.-.. -.-- -.- ...</span>`), t);
-  t += 1200;
+  t += 560;
   setTimeout(() => {
     satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'Hello earthling, Commander Logar has punished me!' : 'Merhaba dünyalı, Komutan Logar beni cezalandırdı!'}"</span>`);
+    yesilParlama();
     ufoUcus();
   }, t);
-  t += 1700;
+  /* UFO ekran ortasında bir süre bekleyip çıkana kadar giriş kilitli kalsın */
+  t += 4400;
   setTimeout(() => { islemde = false; kesifBildir('uzayli'); }, t);
 }
 function ufoUcus(){
@@ -1010,7 +1024,14 @@ function ufoUcus(){
   alan.innerHTML = '<div class="ufo">🛸</div>';
   document.body.appendChild(alan);
   /* uçuş bitince kaldır; animationend arka planda tetiklenmeyebildiği için süre bazlı fallback */
-  setTimeout(() => alan.remove(), 2100);
+  setTimeout(() => alan.remove(), 4800);
+}
+function yesilParlama(){
+  if(reduced) return;
+  const flas = document.createElement('div');
+  flas.className = 'yesil-flas';
+  document.body.appendChild(flas);
+  setTimeout(() => flas.remove(), 1000);
 }
 
 document.getElementById('term-form').addEventListener('submit', e => {
