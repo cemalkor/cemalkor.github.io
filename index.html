@@ -882,12 +882,17 @@ document.querySelector('.terminal').addEventListener('click', ()=>{
             bug.style.transform = `translate(${dx}px, ${dy}px) rotate(90deg)`;
             
             setTimeout(() => {
-              // Run away
+              // Run away: terminalin sağ kenarında dur, viewport dışına taşıp yatay kaydırma yaratma
               bug.style.transition = 'transform 0.4s ease-in';
-              bug.style.transform = `translate(${wRect.width}px, ${dy}px) rotate(90deg)`;
-              
+              bug.style.transform = `translate(${wRect.width - startX - bugW}px, ${dy}px) rotate(90deg)`;
+
               setTimeout(() => {
                 bug.style.opacity = '0';
+                // görünmez böceği başlangıç konumuna sıfırla
+                bug.style.transition = 'none';
+                bug.style.transform = 'rotate(180deg)';
+                bug.style.left = '0';
+                bug.style.top = '0';
                 setTimeout(() => {
                   targetSpan.style.transition = 'opacity 2s ease-in';
                   targetSpan.style.opacity = '1'; // Respawn the 7 slowly
