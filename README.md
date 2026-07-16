@@ -11,7 +11,7 @@ Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown
 - **Mobil uyumlu** — üst menü aşağı kaydırınca gizlenir, yukarı kaydırınca geri gelir
 - **Markdown blog** — HTML'e dokunmadan yazı eklenir (aşağıda)
 - **İnteraktif mini terminal** — hero'daki terminale komut yazılabiliyor; `help` ile başla
-- **Easter egg'ler** 🪲 — sayfada gizli 6 easter egg var (F12 konsol mesajı hariç); buldukça sağ altta birkaç saniyeliğine `X/6` sayacı belirir, altısını da bulunca kutlama ekranı açılır (üzerinde "benimle başarını paylaş" tuşuyla). `help`'te görünmeyen terminal komutlarını, konami kodunu (mobilde de bir dokunma jesti var) ve footer'ı kurcala — sayaç her yenilemede sıfırlanır, gerisi sana kalmış
+- **Easter egg'ler** 🪲 — sayfada gizli 7 easter egg var (F12 konsol mesajı hariç); buldukça sağ altta birkaç saniyeliğine `X/7` sayacı belirir, hepsini bulunca kutlama ekranı açılır (üzerinde "benimle başarını paylaş" tuşuyla). `help`'te görünmeyen terminal komutlarını, konami kodunu (mobilde de bir dokunma jesti var) ve footer'ı kurcala — sayaç her yenilemede sıfırlanır, gerisi sana kalmış
 
 ## Klasör yapısı
 

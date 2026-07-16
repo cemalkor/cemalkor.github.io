@@ -148,6 +148,9 @@ h1 span{color:var(--pcb)}
 @keyframes blink{50%{opacity:0}}
 .terminal.disco{animation:diskoRenk .4s linear infinite}
 @keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
+.ufo-alan{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
+.ufo{position:absolute;top:20vh;left:-90px;font-size:2.6rem;animation:ufoGec 1.9s ease-in-out forwards}
+@keyframes ufoGec{0%{transform:translateX(0) translateY(0) rotate(-6deg);opacity:0}12%{opacity:1}50%{transform:translateX(52vw) translateY(-22px) rotate(6deg)}88%{opacity:1}100%{transform:translateX(112vw) translateY(6px) rotate(-4deg);opacity:0}}
 
 /* ---------- section genel ---------- */
 section{max-width:1080px;margin:0 auto;padding:64px 24px}
@@ -790,8 +793,8 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 });
 applyLang();
 
-/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 6 tane) ---------- */
-const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim'];
+/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 7 tane) ---------- */
+const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim', 'uzayli'];
 const KESIF_TOPLAM = KESIF_EGGLER.length;
 /* ilerleme kalıcı değil: her sayfa yenilemesinde sıfırlanır (eski localStorage kaydını da temizle) */
 localStorage.removeItem('kesif');
@@ -867,7 +870,7 @@ function normallestir(s){
 }
 const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about', ben:'about',
   yetenekler:'skills', beceriler:'skills', projeler:'projects', iletisim:'contact',
-  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug'};
+  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug', tara:'scan'};
 
 function komutCalistir(ham){
   const girdi = ham.trim();
@@ -947,6 +950,9 @@ function komutCalistir(ham){
       bocekSaldir();
       break;
     }
+    case 'scan':
+      uzayliTara();
+      break;
     default:
       satirYaz(`<span class="val">bash: ${kacir(hamIlk)}: ${en ? 'command not found' : 'komut bulunamadı'}</span> <span class="t">${en ? "(try 'help')" : "('help' yazmayı dene)"}</span>`);
   }
@@ -973,6 +979,38 @@ function rmPanik(norm){
     satirYaz(`<span class="val">${en ? 'restored from backup ✓' : 'yedekten geri yüklendi ✓'}</span>`);
     islemde = false;
   }, 350 * (dizinler.length + 1) + 2200);
+}
+
+/* easter egg: RF taraması → 1420 MHz'de (hidrojen hattı, SETI'nin dinlediği frekans) uzaylı sinyali */
+function uzayliTara(){
+  const en = lang === 'en';
+  islemde = true;
+  const bantlar = [['868.0 MHz', 'sigfox'], ['2.400 GHz', 'ble'], ['800 MHz', 'nb-iot']];
+  let t = 0;
+  bantlar.forEach(b => {
+    t += 430;
+    setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'scanning' : 'taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
+  });
+  t += 520;
+  setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1420 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
+  t += 520;
+  setTimeout(() => satirYaz(`<span class="t">[ decode ]</span> <span class="val">.-.. -.-- -.- ...</span>`), t);
+  t += 560;
+  setTimeout(() => {
+    satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'hello earthling — nice firmware' : 'merhaba dünyalı — güzel firmware yazıyorsun'}"</span>`);
+    ufoUcus();
+  }, t);
+  t += 1700;
+  setTimeout(() => { islemde = false; kesifBildir('uzayli'); }, t);
+}
+function ufoUcus(){
+  if(reduced) return;
+  const alan = document.createElement('div');
+  alan.className = 'ufo-alan';
+  alan.innerHTML = '<div class="ufo">🛸</div>';
+  document.body.appendChild(alan);
+  /* uçuş bitince kaldır; animationend arka planda tetiklenmeyebildiği için süre bazlı fallback */
+  setTimeout(() => alan.remove(), 2100);
 }
 
 document.getElementById('term-form').addEventListener('submit', e => {
