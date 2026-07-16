@@ -212,6 +212,8 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
   h1 br{display:none}
+  nav{transition:transform .3s ease}
+  nav.nav-hidden{transform:translateY(-100%)}
   h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .term-wrap{margin-top:0}
   .term-body{font-size:.7rem;min-height:185px}
@@ -315,7 +317,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 <header id="top">
   <div>
     <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
-    <h1 data-i18n="hero.h1">IoT ekosistemindeki<br>cihazlar için uçtan uca<br><span>güvenilir yazılım</span><br>çözümleri üretiyorum.</h1>
+    <h1 data-i18n="hero.h1">IoT ekosistemindeki<br> cihazlar için uçtan uca<br> <span>güvenilir yazılım</span><br> çözümleri üretiyorum.</h1>
     <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
@@ -568,6 +570,17 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
+
+/* ---------- mobil nav: aşağı kayarken gizle, yukarı kayarken göster ---------- */
+const navEl = document.querySelector('nav');
+const navMobil = window.matchMedia('(max-width:840px)');
+let sonScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
+  else navEl.classList.remove('nav-hidden');
+  sonScrollY = y;
+}, {passive:true});
 
 /* ---------- dil desteği (TR/EN) ---------- */
 const I18N = {
