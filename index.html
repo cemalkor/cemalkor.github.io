@@ -87,6 +87,7 @@ nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:bl
 
 /* ---------- ilk kurulum popup'ı ---------- */
 .setup-overlay{position:fixed;inset:0;z-index:100;background:rgba(14,27,21,.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:24px}
+.setup-overlay[hidden]{display:none}
 .setup-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px 26px;max-width:340px;width:100%;font-family:var(--mono);box-shadow:0 12px 32px rgba(14,27,21,.35)}
 .setup-title{font-size:.75rem;color:var(--copper);letter-spacing:.06em;margin-bottom:14px}
 .setup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
@@ -617,22 +618,22 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 
 <div id="karsilama" class="setup-overlay" hidden>
   <div class="setup-card" role="dialog" aria-modal="true" aria-labelledby="setup-baslik">
-    <div class="setup-title" id="setup-baslik">// ilk kurulum · initial setup</div>
+    <div class="setup-title" id="setup-baslik">// İlk Kurulum · Initial Setup</div>
     <div class="setup-row">
-      <span class="setup-k">tema / theme</span>
+      <span class="setup-k">Tema / Theme</span>
       <div class="setup-opts">
         <button class="setup-btn" data-tema="light" aria-label="Açık tema / Light theme">☀</button>
         <button class="setup-btn" data-tema="dark" aria-label="Koyu tema / Dark theme">☾</button>
       </div>
     </div>
     <div class="setup-row">
-      <span class="setup-k">dil / language</span>
+      <span class="setup-k">Dil / Language</span>
       <div class="setup-opts">
         <button class="setup-btn" data-dil="tr">TR</button>
         <button class="setup-btn" data-dil="en">EN</button>
       </div>
     </div>
-    <button class="setup-ok" id="setup-ok">devam / continue →</button>
+    <button class="setup-ok" id="setup-ok">Devam / Continue →</button>
   </div>
 </div>
 
