@@ -81,6 +81,20 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 #uyku{position:fixed;inset:0;z-index:200;background:rgba(5,10,8,.9);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.85rem;color:var(--term-green);cursor:pointer;user-select:none;text-align:center;padding:24px}
 #uyku[hidden]{display:none}
 
+/* easter egg: keşif rozeti + hepsini bulunca kutlama */
+.kesif-rozet{position:fixed;right:18px;bottom:18px;z-index:210;background:var(--term-bg);color:var(--term-green);font-family:var(--mono);font-size:.78rem;padding:9px 15px;border-radius:8px;border:1px solid var(--term-dim);box-shadow:0 8px 24px rgba(5,10,8,.35);opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;pointer-events:none;max-width:min(78vw,320px)}
+.kesif-rozet.gorunur{opacity:1;transform:translateY(0)}
+.kesif-rozet[hidden]{display:none}
+.kesif-rozet b{color:#E8C48A}
+.kutlama-overlay{position:fixed;inset:0;z-index:220;background:rgba(5,10,8,.9);display:flex;align-items:center;justify-content:center;padding:24px}
+.kutlama-overlay[hidden]{display:none}
+.kutlama-kart{background:var(--term-bg);border:1px solid var(--term-dim);border-radius:14px;box-shadow:0 20px 60px rgba(5,10,8,.5);padding:34px 30px;max-width:420px;width:100%;text-align:center;font-family:var(--mono);animation:kutlaGir .35s ease both}
+.kutlama-emoji{font-size:2.6rem;line-height:1}
+.kutlama-kart h3{font-family:var(--disp);color:var(--term-green);font-size:1.3rem;margin:14px 0 10px}
+.kutlama-kart p{color:#E8C48A;font-size:.85rem;line-height:1.7;margin:0 0 22px}
+.kutlama-btnler{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@keyframes kutlaGir{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+
 /* ---------- kare dalga bölüm ayracı ---------- */
 .sq-divider{height:14px;margin:0 auto;max-width:1080px;padding:0 24px}
 .sq-divider svg{width:100%;height:14px;display:block}
@@ -280,6 +294,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   .sq-divider .pulse{display:none}
   .term-bug{transition:none}
   .terminal.disco{animation:none}
+  .kutlama-kart{animation:none}
 }
 </style>
 <meta name="theme-color" content="#F7F8F6">
@@ -642,6 +657,20 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 
 <div id="uyku" hidden></div>
 
+<div id="kesif-rozet" class="kesif-rozet" hidden aria-live="polite"></div>
+
+<div id="kutlama" class="kutlama-overlay" hidden>
+  <div class="kutlama-kart">
+    <div class="kutlama-emoji" aria-hidden="true">🎉</div>
+    <h3 id="kutlama-baslik"></h3>
+    <p id="kutlama-metin"></p>
+    <div class="kutlama-btnler">
+      <button type="button" id="kutla-paylas" class="btn btn-primary"></button>
+      <button type="button" id="kutla-kapat" class="btn btn-ghost"></button>
+    </div>
+  </div>
+</div>
+
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
 
@@ -761,6 +790,53 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 });
 applyLang();
 
+/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 5 tane) ---------- */
+const KESIF_TOPLAM = 5;
+const kesifSet = new Set((localStorage.getItem('kesif') || '').split(',').filter(Boolean));
+const rozetEl = document.getElementById('kesif-rozet');
+let rozetZaman;
+function rozetGoster(){
+  rozetEl.innerHTML = lang==='en'
+    ? `🥚 <b>${kesifSet.size}/${KESIF_TOPLAM}</b> easter eggs found`
+    : `🥚 <b>${kesifSet.size}/${KESIF_TOPLAM}</b> easter egg bulundu`;
+  rozetEl.hidden = false;
+  void rozetEl.offsetWidth;
+  rozetEl.classList.add('gorunur');
+  clearTimeout(rozetZaman);
+  rozetZaman = setTimeout(() => {
+    rozetEl.classList.remove('gorunur');
+    setTimeout(() => { if(!rozetEl.classList.contains('gorunur')) rozetEl.hidden = true; }, 350);
+  }, 3200);
+}
+/* yeni bir egg bulununca kaydeder + rozet gösterir; 5/5 olduysa kutlamayı açar ve true döner */
+function kesifBildir(id){
+  const yeni = !kesifSet.has(id);
+  if(yeni){ kesifSet.add(id); localStorage.setItem('kesif', [...kesifSet].join(',')); }
+  if(yeni && kesifSet.size >= KESIF_TOPLAM){ kutla(); return true; }
+  rozetGoster();
+  return false;
+}
+function kutla(){
+  const en = lang==='en';
+  document.getElementById('kutlama-baslik').textContent = en ? '🎉 you found them all!' : '🎉 hepsini buldun!';
+  document.getElementById('kutlama-metin').textContent = en
+    ? `${KESIF_TOPLAM}/${KESIF_TOPLAM} easter eggs discovered — even the hidden one. you know this site better than i do.`
+    : `${KESIF_TOPLAM}/${KESIF_TOPLAM} easter egg keşfedildi — gizli olanı bile. bu siteyi benden iyi tanıyorsun.`;
+  document.getElementById('kutla-paylas').textContent = en ? 'share your win with me →' : 'benimle başarını paylaş →';
+  document.getElementById('kutla-kapat').textContent = en ? 'close' : 'kapat';
+  document.getElementById('kutlama').hidden = false;
+}
+document.getElementById('kutla-kapat').addEventListener('click', () => document.getElementById('kutlama').hidden = true);
+document.getElementById('kutlama').addEventListener('click', e => { if(e.target.id === 'kutlama') e.currentTarget.hidden = true; });
+document.getElementById('kutla-paylas').addEventListener('click', () => {
+  const en = lang==='en';
+  const konu = en ? 'I found all the easter eggs on your site!' : "Sitendeki tüm easter egg'leri buldum!";
+  const govde = en
+    ? `Hi Cemal,\n\nI found all ${KESIF_TOPLAM} easter eggs on cemalkor.com.tr — just wanted to share.\n`
+    : `Merhaba Cemal,\n\ncemalkor.com.tr sitendeki ${KESIF_TOPLAM} easter egg'i de buldum, paylaşmak istedim.\n`;
+  window.location.href = `mailto:cemalkor94@gmail.com?subject=${encodeURIComponent(konu)}&body=${encodeURIComponent(govde)}`;
+});
+
 /* ---------- interaktif mini terminal ---------- */
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const termBody = document.getElementById('konsol');
@@ -845,6 +921,7 @@ function komutCalistir(ham){
       setTimeout(() => uyut(en ? '[ SLEEP ] session closed — tap anywhere to wake' : '[ SLEEP ] oturum kapatıldı — uyandırmak için dokun'), 600);
       break;
     case 'disco': {
+      if(kesifBildir('disco')) break;
       if(reduced){ satirYaz(`<span class="t">${en ? '[ cancelled ] reduced-motion is on — the disco ball stays still' : '[ iptal ] reduced-motion aktif — disko topu dönmüyor'}</span>`); break; }
       const termEl = document.querySelector('.terminal');
       if(termEl.classList.contains('disco')) break;
@@ -863,6 +940,7 @@ function komutCalistir(ham){
       const eski = document.getElementById('bug-target');
       if(eski) eski.removeAttribute('id');
       satirYaz(`<span class="t">[ WARN ]</span> <span class="val">${en ? 'memory leak detected: ' : 'bellek sızıntısı tespit edildi: '}<span id="bug-target">7</span>${en ? ' bytes' : ' bayt'}</span>`);
+      if(kesifBildir('bocek')) break;
       bocekSaldir();
       break;
     }
@@ -877,6 +955,7 @@ function rmPanik(norm){
     satirYaz(`<span class="val">rm: ${en ? 'permission denied — file system is read-only' : 'izin reddedildi — dosya sistemi salt okunur'}</span>`);
     return;
   }
+  if(kesifBildir('rm')) return;
   islemde = true;
   const dizinler = ['/bin', '/boot', '/etc', '/home/cemal', '/lib'];
   dizinler.forEach((d, i) => {
@@ -1011,6 +1090,7 @@ const footEl = document.querySelector('footer');
 footEl.addEventListener('touchstart', () => {
   if(footEl.classList.contains('sparking')) return;
   footEl.classList.add('sparking');
+  kesifBildir('gizli');
   setTimeout(() => footEl.classList.remove('sparking'), 1200);
 }, {passive:true});
 
@@ -1043,6 +1123,7 @@ function pilAzalt(){
 let pilZaman = setInterval(pilAzalt, 20000);
 function uyut(mesaj){
   clearInterval(pilZaman);
+  if(kesifBildir('uyku')) return; /* son egg buysa uyutmak yerine kutla */
   uykuEl.textContent = mesaj || (lang === 'en' ? '[ SLEEP ] battery depleted — tap anywhere to wake' : '[ SLEEP ] pil bitti — uyandırmak için herhangi bir yere dokun');
   uykuEl.hidden = false;
   const uyandir = () => {
@@ -1063,6 +1144,7 @@ window.addEventListener('keydown', e => {
   konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
   if(konamiIdx === konami.length){
     konamiIdx = 0;
+    if(kesifBildir('gizli')) return; /* son egg buysa flash yerine kutla */
     if(reduced) return;
     const devre = document.querySelector('.bg-circuit');
     devre.classList.remove('post');
