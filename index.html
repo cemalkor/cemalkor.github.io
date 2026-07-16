@@ -222,7 +222,8 @@ footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--l
 .foot-text{position:relative;margin:0 8px;white-space:nowrap}
 .arc-over-text{position:absolute;top:50%;left:0;width:100%;height:24px;transform:translateY(-50%);pointer-events:none;overflow:visible}
 .arc-path{opacity:0}
-footer:hover .arc-path{animation:arcFlash 1s forwards}
+@media (hover:hover){footer:hover .arc-path{animation:arcFlash 1s forwards}}
+footer.sparking .arc-path{animation:arcFlash 1s forwards}
 @keyframes arcFlash{
   0%{opacity:0}
   5%,15%,25%,45%,65%,85%{opacity:1;filter:drop-shadow(0 0 3px #0ff) drop-shadow(0 0 6px #0ff)}
@@ -230,7 +231,8 @@ footer:hover .arc-path{animation:arcFlash 1s forwards}
   100%{opacity:0}
 }
 .arc-path-2{opacity:0}
-footer:hover .arc-path-2{animation:arcFlash2 1s forwards}
+@media (hover:hover){footer:hover .arc-path-2{animation:arcFlash2 1s forwards}}
+footer.sparking .arc-path-2{animation:arcFlash2 1s forwards}
 @keyframes arcFlash2{
   0%{opacity:0}
   8%,18%,38%,58%,78%,92%{opacity:1;filter:drop-shadow(0 0 2px #fff)}
@@ -238,9 +240,10 @@ footer:hover .arc-path-2{animation:arcFlash2 1s forwards}
   100%{opacity:0}
 }
 .wire-glow{opacity:0}
-footer:hover .wire-glow{animation:wireFlash 1s forwards}
+@media (hover:hover){footer:hover .wire-glow{animation:wireFlash 1s forwards}}
+footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 @keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
-@media (max-width:480px){.foot-text{white-space:normal}.arc-over-text{display:none}}
+@media (max-width:480px){.foot-text{white-space:normal}}
 .term-wrap{position:relative;align-self:start;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
@@ -829,6 +832,7 @@ document.querySelector('.terminal').addEventListener('click', ()=>{
   const wRect = termWrap.getBoundingClientRect();
   const titleRect = titleSpan.getBoundingClientRect();
   const targetRect = targetSpan.getBoundingClientRect();
+  const bugW = bug.offsetWidth, bugH = bug.offsetHeight;
   
   // Start near UART0
   const startX = titleRect.left - wRect.left + 20;
@@ -853,11 +857,9 @@ document.querySelector('.terminal').addEventListener('click', ()=>{
     bug.style.transform = 'translate(0, 30px) rotate(270deg)';
     
     setTimeout(() => {
-      // Move to the 7
-      const destX = targetRect.left - wRect.left;
-      const destY = targetRect.top - wRect.top;
-      const dx = destX - startX + 5;
-      const dy = destY - startY - 5;
+      // Move to the 7: böceğin merkezi 7'nin merkezine gelsin (mobilde de doğru hizalanır)
+      const dx = (targetRect.left + targetRect.width/2) - wRect.left - startX - bugW/2;
+      const dy = (targetRect.top + targetRect.height/2) - wRect.top - startY - bugH/2;
       
       bug.style.transition = 'transform 1s ease-in-out';
       bug.style.transform = `translate(${dx}px, ${dy}px) rotate(270deg)`;
@@ -900,6 +902,14 @@ document.querySelector('.terminal').addEventListener('click', ()=>{
 });
 
 
+
+/* ---------- easter egg: mobilde footer'a dokununca kıvılcım ---------- */
+const footEl = document.querySelector('footer');
+footEl.addEventListener('touchstart', () => {
+  if(footEl.classList.contains('sparking')) return;
+  footEl.classList.add('sparking');
+  setTimeout(() => footEl.classList.remove('sparking'), 1200);
+}, {passive:true});
 
 /* ---------- blog motoru ---------- */
 const listEl = document.getElementById('blog-list');
