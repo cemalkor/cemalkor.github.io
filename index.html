@@ -149,16 +149,15 @@ h1 span{color:var(--pcb)}
 .terminal.disco{animation:diskoRenk .4s linear infinite}
 @keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
 .ufo-alan{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
-.ufo{position:absolute;top:8vh;left:-90px;font-size:2.9rem;animation:ufoGec 4.6s ease-in-out forwards}
+.ufo{position:absolute;top:8vh;left:-90px;font-size:2.9rem;animation:ufoGec 5.1s ease-in-out forwards}
 @keyframes ufoGec{
   0%{transform:translate(0,0) rotate(-8deg);opacity:0}
-  10%{opacity:1}
-  24%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
-  34%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
-  50%{transform:translate(calc(50vw + 45px),37vh) rotate(0deg)}
-  66%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
-  78%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
-  90%{opacity:1}
+  8%{opacity:1}
+  22%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
+  40%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
+  60%{transform:translate(calc(50vw + 45px),37vh) rotate(0deg)}
+  80%{transform:translate(calc(50vw + 45px),33vh) rotate(0deg)}
+  92%{opacity:1}
   100%{transform:translate(112vw,42vh) rotate(6deg);opacity:0}
 }
 .yesil-flas{position:fixed;inset:0;z-index:188;pointer-events:none;background:radial-gradient(circle at 50% 42vh,rgba(111,220,168,.55),rgba(111,220,168,.14) 42%,rgba(111,220,168,0) 68%);opacity:0;animation:yesilFlas .95s ease-out forwards}
@@ -1010,11 +1009,11 @@ function uzayliTara(){
   t += 560;
   setTimeout(() => {
     satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'Hello earthling, Commander Logar has punished me!' : 'Merhaba dünyalı, Komutan Logar beni cezalandırdı!'}"</span>`);
-    yesilParlama();
     ufoUcus();
+    setTimeout(yesilParlama, 1100); /* UFO ortaya varıp durunca yeşil parlama */
   }, t);
-  /* UFO ekran ortasında bir süre bekleyip çıkana kadar giriş kilitli kalsın */
-  t += 4400;
+  /* UFO ekran ortasında ~3sn bekleyip çıkana kadar giriş kilitli kalsın */
+  t += 5300;
   setTimeout(() => { islemde = false; kesifBildir('uzayli'); }, t);
 }
 function ufoUcus(){
@@ -1024,7 +1023,7 @@ function ufoUcus(){
   alan.innerHTML = '<div class="ufo">🛸</div>';
   document.body.appendChild(alan);
   /* uçuş bitince kaldır; animationend arka planda tetiklenmeyebildiği için süre bazlı fallback */
-  setTimeout(() => alan.remove(), 4800);
+  setTimeout(() => alan.remove(), 5300);
 }
 function yesilParlama(){
   if(reduced) return;
