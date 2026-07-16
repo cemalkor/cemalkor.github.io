@@ -12,3 +12,5 @@ Here is what I plan to share on this blog:
 > The datasheet tells you what the device is supposed to do. The field shows you what it actually does.
 
 See you in the next posts!
+
+*P.S. There are a few easter eggs hidden on this site. A hint for those who read this far: ↑ ↑ ↓ ↓ ← → ← → B A — try it on a desktop and watch the circuit traces. 🎮*

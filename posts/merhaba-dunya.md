@@ -12,3 +12,5 @@ Bu blogda şunları paylaşmayı planlıyorum:
 > Datasheet size cihazın ne yapması gerektiğini söyler. Saha, ne yaptığını gösterir.
 
 Yeni yazılarda görüşmek üzere!
+
+*P.S. Bu sitede birkaç easter egg saklı. Buraya kadar okuyana bir ipucu: ↑ ↑ ↓ ↓ ← → ← → B A — masaüstünde dene, devre yollarını izle. 🎮*

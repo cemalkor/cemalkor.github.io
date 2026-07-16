@@ -758,15 +758,16 @@ let bootToken = 0;
 let catShown = false;
 function bootLines(){
   const en = lang==='en';
+  /* easter egg: ~%5 ihtimalle watchdog satırı; çıkarsa böcek 7 yerine "good boy." yazısını yer */
+  const wdt = Math.random() < 0.05;
   return [
-    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.0'], ['val','7','bug-target'], ['val','\n'],
+    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.0'], ['val','7', wdt ? null : 'bug-target'], ['val','\n'],
     ['t','[ 0.012] '], ['ok','cpu:  '], ['val',(en ? 'embedded software engineer' : 'gömülü yazılım mühendisi')+'\n'],
     ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... '+(en ? 'OK' : 'TAMAM')+'\n'],
     ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
     ['t','[ 0.066] '], ['ok','pwr:  '], ['val',(en ? 'low-power mode enabled (uA)' : 'düşük güç modu etkin (uA)')+'\n'],
     ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
-    /* easter egg: ~%5 ihtimalle watchdog satırı */
-    ...(Math.random() < 0.05 ? [['t','[ 0.093] '], ['ok','wdt:  '], ['val','watchdog fed. good boy.\n']] : []),
+    ...(wdt ? [['t','[ 0.093] '], ['ok','wdt:  '], ['val','watchdog fed. '], ['val','good boy.','bug-target'], ['val','\n']] : []),
     ['t','[ 0.102] '], ['ok','init: '], ['val',(en ? 'portfolio ready.' : 'portfolyo hazır.')+'\n'],
     ['t','$ ']
   ];
@@ -929,7 +930,8 @@ const pilYuzde = document.getElementById('pil-yuzde');
 let pil = 100;
 function pilCiz(){
   pilDolum.setAttribute('width', (19 * pil / 100).toFixed(1));
-  pilDolum.setAttribute('fill', pil <= 25 ? 'var(--copper)' : 'var(--pcb)');
+  /* %50 altı sarı, %25 altı kırmızı */
+  pilDolum.setAttribute('fill', pil < 25 ? '#C8442C' : pil < 50 ? '#D9A028' : 'var(--pcb)');
   pilYuzde.textContent = pil + '%';
 }
 function pilAzalt(){
