@@ -10,7 +10,8 @@ Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown
 - **Koyu / açık tema** — sistem tercihine uyar, nav'daki ☾/☀ düğmesiyle değiştirilir
 - **Mobil uyumlu** — üst menü aşağı kaydırınca gizlenir, yukarı kaydırınca geri gelir
 - **Markdown blog** — HTML'e dokunmadan yazı eklenir (aşağıda)
-- **Easter egg'ler** 🪲 — terminale tıkla ve footer'ın üzerine gel (mobilde dokun), gerisini kendin keşfet
+- **İnteraktif mini terminal** — hero'daki terminale komut yazılabiliyor; `help` ile başla
+- **Easter egg'ler** 🪲 — bazı komutlar `help` listesinde yok; footer'ın üzerine gel (mobilde dokun), gerisini kendin keşfet
 
 ## Klasör yapısı
 

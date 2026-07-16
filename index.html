@@ -116,17 +116,24 @@ h1 span{color:var(--pcb)}
 .btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
 
 /* terminal */
-.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono);cursor:pointer}
+.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono);cursor:text}
 .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
 .term-bar i{width:10px;height:10px;border-radius:50%;background:var(--term-dim)}
 .term-bar i:first-child{background:var(--copper)}
 .term-title{margin-left:auto;font-size:.7rem;color:var(--term-dim)}
-.term-body{padding:16px 18px 20px;font-size:.78rem;line-height:1.8;min-height:230px}
+.term-body{padding:16px 18px 20px;font-size:.78rem;line-height:1.8;min-height:230px;max-height:230px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--term-dim) transparent}
 .term-body .t{color:var(--term-dim)}
 .term-body .ok{color:var(--term-green)}
 .term-body .val{color:#E8C48A}
+.term-body a{color:var(--term-green)}
+#term-form{display:flex;align-items:baseline}
+#term-in{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;color:#E8C48A;caret-color:var(--term-green);padding:0}
+#term-form:focus-within .cursor{display:none}
+@media (pointer:coarse){#term-in{font-size:16px}}
 .cursor{display:inline-block;width:8px;height:14px;background:var(--term-green);vertical-align:-2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
+.terminal.disco{animation:diskoRenk .4s linear infinite}
+@keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
 
 /* ---------- section genel ---------- */
 section{max-width:1080px;margin:0 auto;padding:64px 24px}
@@ -251,7 +258,6 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
 .term-bug.eating{animation:bugEat 0.25s infinite}
-.term-body .ascii{white-space:pre;display:block}
 
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
@@ -260,7 +266,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   nav.nav-hidden{transform:translateY(-100%)}
   h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .term-wrap{margin-top:0}
-  .term-body{font-size:.7rem;min-height:185px}
+  .term-body{font-size:.7rem;min-height:185px;max-height:185px}
   .about-grid{grid-template-columns:1fr}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
@@ -273,6 +279,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   .bg-circuit .pulses{display:none}
   .sq-divider .pulse{display:none}
   .term-bug{transition:none}
+  .terminal.disco{animation:none}
 }
 </style>
 <meta name="theme-color" content="#F7F8F6">
@@ -379,9 +386,12 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
     </div>
   </div>
   <div class="term-wrap">
-    <div class="terminal" aria-hidden="true">
+    <div class="terminal">
       <div class="term-bar"><i></i><i></i><i></i><span class="term-title">UART0 · 115200 8N1</span></div>
-      <div class="term-body" id="bootlog"></div>
+      <div class="term-body" id="konsol">
+        <div id="term-out" role="log" aria-live="polite"></div>
+        <form id="term-form"><span class="ok">cemal@kor:~$&nbsp;</span><span class="cursor"></span><input id="term-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal komut girişi"></form>
+      </div>
     </div>
     <div class="term-bug">🪲</div>
   </div>
@@ -746,78 +756,169 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
   lang = lang==='en' ? 'tr' : 'en';
   localStorage.setItem('lang', lang);
   applyLang();
-  renderBootlog();
+  terminalSifirla();
   renderRoute();
 });
 applyLang();
 
-/* ---------- boot log animasyonu ---------- */
-const logEl = document.getElementById('bootlog');
+/* ---------- interaktif mini terminal ---------- */
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-let bootToken = 0;
-let catShown = false;
-function bootLines(){
-  const en = lang==='en';
-  /* easter egg: ~%5 ihtimalle watchdog satırı; çıkarsa böcek 7 yerine "good boy." yazısını yer */
-  const wdt = Math.random() < 0.05;
-  return [
-    ['t','[ 0.000] '], ['ok','boot: '], ['val','cemal_kor v2026.0'], ['val','7', wdt ? null : 'bug-target'], ['val','\n'],
-    ['t','[ 0.012] '], ['ok','cpu:  '], ['val',(en ? 'embedded software engineer' : 'gömülü yazılım mühendisi')+'\n'],
-    ['t','[ 0.031] '], ['ok','uart0: '], ['val','115200 8N1 ... '+(en ? 'OK' : 'TAMAM')+'\n'],
-    ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
-    ['t','[ 0.066] '], ['ok','pwr:  '], ['val',(en ? 'low-power mode enabled (uA)' : 'düşük güç modu etkin (uA)')+'\n'],
-    ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
-    ...(wdt ? [['t','[ 0.093] '], ['ok','wdt:  '], ['val','watchdog fed. '], ['val','good boy.','bug-target'], ['val','\n']] : []),
-    ['t','[ 0.102] '], ['ok','init: '], ['val',(en ? 'portfolio ready.' : 'portfolyo hazır.')+'\n'],
-    ['t','$ ']
-  ];
+const termBody = document.getElementById('konsol');
+const termOut = document.getElementById('term-out');
+const termIn = document.getElementById('term-in');
+let islemde = false; /* rm -rf / gibi uzun çıktılar sürerken giriş kilitli */
+const gecmis = [];
+let gecmisIdx = 0;
+
+function kacir(s){ return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function satirYaz(html){
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  termOut.appendChild(div);
+  termBody.scrollTop = termBody.scrollHeight;
 }
-function renderBootlog(){
-  const lines = bootLines();
-  const token = ++bootToken;
-  catShown = false;
-  logEl.innerHTML = '';
-  if(reduced){
-    logEl.innerHTML = lines.map(([c,t,id])=>`<span class="${c}"${id?' id="'+id+'"':''}>${t.replace('\n','<br>')}</span>`).join('') + '<span class="cursor"></span>';
+function ozellik(k, v){ return `<span class="ok" style="white-space:pre">${k}</span><span class="val">${v}</span>`; }
+function terminalSifirla(){
+  termOut.innerHTML = '';
+  satirYaz(`<span class="t"># ${lang==='en' ? "try typing 'help'" : "'help' yazmayı dene"}</span>`);
+}
+/* türkçe karakterleri düzle: 'böcek', 'yardım', 'çıkış' da çalışsın */
+function normallestir(s){
+  return s.toLocaleLowerCase('tr').replace(/[çğıöşü]/g, c => ({'ç':'c','ğ':'g','ı':'i','ö':'o','ş':'s','ü':'u'}[c]));
+}
+const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about', ben:'about',
+  yetenekler:'skills', beceriler:'skills', projeler:'projects', iletisim:'contact',
+  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug'};
+
+function komutCalistir(ham){
+  const girdi = ham.trim();
+  if(!girdi){ satirYaz('<span class="ok">$</span>'); return; }
+  satirYaz(`<span class="ok">$</span> <span class="val">${kacir(girdi)}</span>`);
+  gecmis.push(girdi); gecmisIdx = gecmis.length;
+  const en = lang === 'en';
+  const norm = normallestir(girdi);
+  const hamIlk = girdi.split(/\s+/)[0];
+  let kmt = norm.split(/\s+/)[0];
+  kmt = takma[kmt] || kmt;
+  switch(kmt){
+    case 'help':
+      satirYaz(`<span class="t">${en ? 'available commands:' : 'komutlar:'}</span>`);
+      [['whoami',  en ? 'who am i'         : 'ben kimim'],
+       ['about',   en ? 'about me'         : 'hakkımda'],
+       ['skills',  en ? 'technical skills' : 'teknik yetenekler'],
+       ['projects',en ? 'projects'         : 'projeler'],
+       ['contact', en ? 'contact info'     : 'iletişim'],
+       ['clear',   en ? 'clear the screen' : 'ekranı temizle']
+      ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
+      satirYaz(`<span class="t"># ${en ? 'some commands are not on this list...' : 'bazı komutlar bu listede yok...'}</span>`);
+      break;
+    case 'whoami':
+      satirYaz(`<span class="ok">cemal_kor</span><span class="val"> — ${en ? 'embedded software engineer' : 'gömülü yazılım mühendisi'} · ankara, TR</span>`);
+      break;
+    case 'about':
+      satirYaz(ozellik('edu:   ', en ? 'gazi university — electrical & electronics eng.' : 'gazi üniversitesi — elektrik-elektronik müh.'));
+      satirYaz(ozellik('work:  ', en ? 'inodya teknoloji — smart water &amp; gas meters' : 'inodya teknoloji — akıllı su &amp; gaz sayaçları'));
+      satirYaz(ozellik('prev:  ', en ? 'aselsan uges medical device projects (besoft)' : 'aselsan uges medikal cihaz projeleri (besoft)'));
+      satirYaz(ozellik('focus: ', en ? 'low-power IoT running for years on one battery' : 'tek pille yıllarca çalışan düşük güçlü IoT'));
+      break;
+    case 'skills':
+      satirYaz(ozellik('lang:  ', 'C/C++ · C# · Python'));
+      satirYaz(ozellik('radio: ', 'sigfox · ble 5.4 · nb-iot · nfc'));
+      satirYaz(ozellik('os:    ', 'bare-metal · freertos · threadx'));
+      satirYaz(ozellik('mcu:   ', 'stm32 · esp · pic'));
+      break;
+    case 'projects':
+      satirYaz(`<span class="t">[1]</span> <span class="val">${en ? 'smart water &amp; gas meters — sigfox/nb-iot, years on one battery (inodya)' : 'akıllı su &amp; gaz sayaçları — sigfox/nb-iot, tek pille yıllarca (inodya)'}</span>`);
+      satirYaz(`<span class="t">[2]</span> <span class="val">${en ? 'IEEE CSCON-25 BLE training material' : 'IEEE CSCON-25 BLE eğitim materyali'} → <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener">github</a></span>`);
+      satirYaz(`<span class="t">[3]</span> <span class="val">${en ? 'all of it' : 'tümü'} → <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor</a></span>`);
+      break;
+    case 'contact':
+      satirYaz(ozellik('mail:     ', '<a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>'));
+      satirYaz(ozellik('github:   ', '<a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor</a>'));
+      satirYaz(ozellik('linkedin: ', '<a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="noopener">linkedin.com/in/cemalkor</a>'));
+      break;
+    case 'clear':
+      termOut.innerHTML = '';
+      break;
+    case 'exit':
+      satirYaz(`<span class="t">${en ? 'logging out...' : 'oturum kapatılıyor...'}</span>`);
+      setTimeout(() => uyut(en ? '[ SLEEP ] session closed — tap anywhere to wake' : '[ SLEEP ] oturum kapatıldı — uyandırmak için dokun'), 600);
+      break;
+    case 'disco': {
+      if(reduced){ satirYaz(`<span class="t">${en ? '[ cancelled ] reduced-motion is on — the disco ball stays still' : '[ iptal ] reduced-motion aktif — disko topu dönmüyor'}</span>`); break; }
+      const termEl = document.querySelector('.terminal');
+      if(termEl.classList.contains('disco')) break;
+      satirYaz(`<span class="val">🪩 ${en ? 'pavyon mode: ON' : 'pavyon modu: AÇIK'}</span>`);
+      termEl.classList.add('disco');
+      setTimeout(() => {
+        termEl.classList.remove('disco');
+        satirYaz(`<span class="t">${en ? 'lights off. everybody go home.' : 'ışıklar kapandı, herkes evine.'}</span>`);
+      }, 4000);
+      break;
+    }
+    case 'rm':
+      rmPanik(norm);
+      break;
+    case 'bug': {
+      const eski = document.getElementById('bug-target');
+      if(eski) eski.removeAttribute('id');
+      satirYaz(`<span class="t">[ WARN ]</span> <span class="val">${en ? 'memory leak detected: ' : 'bellek sızıntısı tespit edildi: '}<span id="bug-target">7</span>${en ? ' bytes' : ' bayt'}</span>`);
+      bocekSaldir();
+      break;
+    }
+    default:
+      satirYaz(`<span class="val">bash: ${kacir(hamIlk)}: ${en ? 'command not found' : 'komut bulunamadı'}</span> <span class="t">${en ? "(try 'help')" : "('help' yazmayı dene)"}</span>`);
+  }
+}
+
+function rmPanik(norm){
+  const en = lang === 'en';
+  if(!(norm.includes('-rf') || norm.includes('-fr') || (norm.includes(' -r') && norm.includes(' -f')))){
+    satirYaz(`<span class="val">rm: ${en ? 'permission denied — file system is read-only' : 'izin reddedildi — dosya sistemi salt okunur'}</span>`);
     return;
   }
-  let lineIdx = 0;
-  let charIdx = 0;
-  let currentSpan = null;
-  (function typeWriter(){
-    if(token !== bootToken) return;
-    if(lineIdx >= lines.length){ 
-      logEl.insertAdjacentHTML('beforeend','<span class="cursor"></span>'); 
-      return; 
-    }
-    const [c, t, id] = lines[lineIdx];
-    if(charIdx === 0){
-      currentSpan = document.createElement('span');
-      currentSpan.className = c;
-      if(id) currentSpan.id = id;
-      logEl.appendChild(currentSpan);
-    }
-    if(charIdx < t.length){
-      const char = t[charIdx];
-      if(char === '\n') currentSpan.appendChild(document.createElement('br'));
-      else currentSpan.appendChild(document.createTextNode(char));
-      charIdx++;
-      let speed = 15;
-      if(char === '\n') speed = 120;
-      else if(c === 't' || c === 'ok') speed = 5;
-      else speed = 15 + Math.random() * 20;
-      setTimeout(typeWriter, speed);
-    } else {
-      charIdx = 0;
-      lineIdx++;
-      setTimeout(typeWriter, 5);
-    }
-  })();
+  islemde = true;
+  const dizinler = ['/bin', '/boot', '/etc', '/home/cemal', '/lib'];
+  dizinler.forEach((d, i) => {
+    setTimeout(() => satirYaz(`<span class="t">${en ? 'removing:' : 'siliniyor:'}</span> <span class="val">${d} ...</span>`), 350 * (i + 1));
+  });
+  setTimeout(() => {
+    termOut.innerHTML = '';
+    satirYaz('<span class="t">[ 0.000 ] system halted. goodbye.</span>');
+  }, 350 * (dizinler.length + 1));
+  setTimeout(() => {
+    terminalSifirla();
+    satirYaz(`<span class="val">${en ? 'restored from backup ✓' : 'yedekten geri yüklendi ✓'}</span>`);
+    islemde = false;
+  }, 350 * (dizinler.length + 1) + 2200);
 }
-renderBootlog();
+
+document.getElementById('term-form').addEventListener('submit', e => {
+  e.preventDefault();
+  if(islemde) return;
+  const v = termIn.value;
+  termIn.value = '';
+  komutCalistir(v);
+});
+termIn.addEventListener('keydown', e => {
+  if(e.key === 'ArrowUp'){
+    if(gecmisIdx > 0){ gecmisIdx--; termIn.value = gecmis[gecmisIdx]; }
+    e.preventDefault();
+  } else if(e.key === 'ArrowDown'){
+    if(gecmisIdx < gecmis.length - 1){ gecmisIdx++; termIn.value = gecmis[gecmisIdx]; }
+    else { gecmisIdx = gecmis.length; termIn.value = ''; }
+    e.preventDefault();
+  }
+});
+document.querySelector('.terminal').addEventListener('click', () => {
+  const sel = window.getSelection();
+  if(sel && !sel.isCollapsed) return; /* metin seçiliyorsa odağı çalma */
+  termIn.focus();
+});
+terminalSifirla();
 
 /* ---------- easter egg: bug ---------- */
-document.querySelector('.terminal').addEventListener('click', ()=>{
+function bocekSaldir(){
   const bug = document.querySelector('.term-bug');
   if(bug.style.opacity === '1') return; // Already active
   
@@ -901,7 +1002,7 @@ document.querySelector('.terminal').addEventListener('click', ()=>{
       }, 1000); // Wait for travel to finish
     }, 200);
   }, 700);
-});
+}
 
 
 
@@ -940,9 +1041,9 @@ function pilAzalt(){
   else pilCiz();
 }
 let pilZaman = setInterval(pilAzalt, 20000);
-function uyut(){
+function uyut(mesaj){
   clearInterval(pilZaman);
-  uykuEl.textContent = lang === 'en' ? '[ SLEEP ] battery depleted — tap anywhere to wake' : '[ SLEEP ] pil bitti — uyandırmak için herhangi bir yere dokun';
+  uykuEl.textContent = mesaj || (lang === 'en' ? '[ SLEEP ] battery depleted — tap anywhere to wake' : '[ SLEEP ] pil bitti — uyandırmak için herhangi bir yere dokun');
   uykuEl.hidden = false;
   const uyandir = () => {
     uykuEl.hidden = true;
