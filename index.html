@@ -66,6 +66,21 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .bg-circuit .pulses path{stroke-dasharray:40 960;animation:pulse-flow 12s linear infinite}
 @keyframes pulse-flow{to{stroke-dashoffset:-1000}}
 
+/* easter egg: konami POST testi — izler sırayla tam parlaklikta yanip söner */
+.bg-circuit.post .traces{opacity:1}
+.bg-circuit.post .traces path,.bg-circuit.post .traces circle{animation:postFlash 1.6s ease both}
+.bg-circuit.post .traces path:nth-child(3n){animation-delay:.25s}
+.bg-circuit.post .traces path:nth-child(3n+1){animation-delay:.5s}
+.bg-circuit.post .traces circle:nth-child(2n){animation-delay:.4s}
+@keyframes postFlash{0%,100%{opacity:.07}30%{opacity:1}70%{opacity:.8}}
+
+/* easter egg: pil göstergesi ve bitince uyku modu */
+.pil-v{display:inline-flex;align-items:center;gap:7px}
+.pil-svg{width:30px;height:12px;color:var(--ink-soft);flex-shrink:0}
+#pil-dolum{transition:width .5s ease}
+#uyku{position:fixed;inset:0;z-index:200;background:rgba(5,10,8,.9);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.85rem;color:var(--term-green);cursor:pointer;user-select:none;text-align:center;padding:24px}
+#uyku[hidden]{display:none}
+
 /* ---------- kare dalga bölüm ayracı ---------- */
 .sq-divider{height:14px;margin:0 auto;max-width:1080px;padding:0 24px}
 .sq-divider svg{width:100%;height:14px;display:block}
@@ -201,6 +216,8 @@ footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--l
 .foot-links a{color:var(--pcb);text-decoration:none}
 .foot-links a:hover{color:var(--copper)}
 .foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+/* satırlar sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın (en uzun satır ~72ch × 0.6em) */
+.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/45),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
 
 /* ---------- easter eggs ---------- */
 .easter-egg-wrap{position:relative;display:inline-flex;align-items:center;max-width:100%}
@@ -390,6 +407,13 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
       <div class="spec-row"><span class="k" data-i18n="spec.os">Sistem</span><span class="v">Bare-metal · FreeRTOS · ThreadX</span></div>
       <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
       <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — Inodya Teknoloji</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.bat">Pil</span><span class="v pil-v">
+        <svg class="pil-svg" viewBox="0 0 30 12" aria-hidden="true">
+          <rect x="1" y="1" width="24" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="27" y="4" width="2.5" height="4" rx="1" fill="currentColor"/>
+          <rect id="pil-dolum" x="3.5" y="3.5" width="19" height="5" rx="1" fill="var(--pcb)"/>
+        </svg><span id="pil-yuzde">100%</span>
+      </span></div>
     </div>
   </div>
 </section>
@@ -581,6 +605,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub</a>
       <a href="https://www.instagram.com/cemalkor" target="_blank" rel="noopener">Instagram</a>
     </div>
+    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle, özellikle konami şifresini!<br>// Gizlemezsen herkes şunları buldum diye yazar sonra!!!</p>
     <div class="foot-bottom">
       <span class="easter-egg-wrap">
         <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
@@ -604,6 +629,8 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
     </div>
   </div>
 </footer>
+
+<div id="uyku" hidden></div>
 
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
@@ -647,7 +674,7 @@ const I18N = {
   'about.p1':"From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code — I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
   'about.p2':"In the BESoft Teknoloji and Aselsan UGES medical device projects — a defining chapter of my engineering journey — human health was directly on the line. Developing these critical systems where there is no room for error taught me that reliability is more than a technical property; it is an unbreakable promise. The high sense of responsibility and the zero-defect discipline I built there, I carry with me to this day.",
   'about.p3':"I am currently at Inodya Teknoloji, developing smart water and gas meters and delivering technical solutions to our country's water loss problem. Alongside these projects, I carry forward Inodya's human-centered software philosophy — aiming to add value to human lives and our shared future with every line of code I write.",
-  'spec.h3':'SUMMARY / DATASHEET','spec.name':'Name','spec.loc':'Location','spec.role':'Role','spec.rolev':'Embedded SW Eng.','spec.exp':'Expertise','spec.langs':'Languages','spec.os':'System','spec.status':'Status','spec.statusv':'● Active — Inodya Teknoloji',
+  'spec.h3':'SUMMARY / DATASHEET','spec.name':'Name','spec.loc':'Location','spec.role':'Role','spec.rolev':'Embedded SW Eng.','spec.exp':'Expertise','spec.langs':'Languages','spec.os':'System','spec.status':'Status','spec.statusv':'● Active — Inodya Teknoloji','spec.bat':'Battery',
   'xp.date1':'2022 — Present','xp.role1':'Embedded Software Engineer','xp.role2':'Embedded Software Engineer','xp.role3':'Technician','xp.role4':'High School Internship',
   'xp.inodya':"To date I have developed the firmware of many smart water and gas meter projects end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.",
   'xp.besoft':"In a healthcare project under Aselsan UGES, I developed firmware for medical device communication: control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).",
@@ -682,7 +709,8 @@ const I18N = {
   'hobby2.ref':'SMART HOME · HOME LAB','hobby2.h':'Smart Home with Home Assistant',
   'hobby2.p':'My home runs on Home Assistant: everything from lighting to sensors talks over Zigbee. Where off-the-shelf devices fall short, I design and build my own Zigbee devices.',
   'blog.back':'← All posts',
-  'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out."
+  'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out.",
+  'foot.egg':"// TODO: hide the easter eggs on this site, especially the konami code!<br>// If you don't, everyone will write me saying they found them!!!"
 };
 const MSG = {
   tr:{
@@ -737,6 +765,8 @@ function bootLines(){
     ['t','[ 0.048] '], ['ok','radio: '], ['val','sigfox + ble 5.4 + nb-iot\n'],
     ['t','[ 0.066] '], ['ok','pwr:  '], ['val',(en ? 'low-power mode enabled (uA)' : 'düşük güç modu etkin (uA)')+'\n'],
     ['t','[ 0.084] '], ['ok','loc:  '], ['val','ankara, TR\n'],
+    /* easter egg: ~%5 ihtimalle watchdog satırı */
+    ...(Math.random() < 0.05 ? [['t','[ 0.093] '], ['ok','wdt:  '], ['val','watchdog fed. good boy.\n']] : []),
     ['t','[ 0.102] '], ['ok','init: '], ['val',(en ? 'portfolio ready.' : 'portfolyo hazır.')+'\n'],
     ['t','$ ']
   ];
@@ -881,6 +911,64 @@ footEl.addEventListener('touchstart', () => {
   footEl.classList.add('sparking');
   setTimeout(() => footEl.classList.remove('sparking'), 1200);
 }, {passive:true});
+
+/* ---------- easter egg: konsol mesajı ---------- */
+console.log(`%c
+       ┌───────────────┐
+ TX ───┤ ●             ├─── VCC
+ RX ───┤   CEMAL_KOR   ├─── GND
+ SWD ──┤   REV 2026    ├─── NC
+       └───────────────┘
+`, 'color:#1E6E52;font-family:monospace');
+console.log('%cBuraya kadar geldiysen konuşmalıyız → cemalkor94@gmail.com', 'color:#B87333;font-family:monospace;font-size:12px');
+
+/* ---------- easter egg: pil tükenmesi ve uyku modu ---------- */
+const uykuEl = document.getElementById('uyku');
+const pilDolum = document.getElementById('pil-dolum');
+const pilYuzde = document.getElementById('pil-yuzde');
+let pil = 100;
+function pilCiz(){
+  pilDolum.setAttribute('width', (19 * pil / 100).toFixed(1));
+  pilDolum.setAttribute('fill', pil <= 25 ? 'var(--copper)' : 'var(--pcb)');
+  pilYuzde.textContent = pil + '%';
+}
+function pilAzalt(){
+  pil -= 5;
+  if(pil <= 0){ pil = 0; pilCiz(); uyut(); }
+  else pilCiz();
+}
+let pilZaman = setInterval(pilAzalt, 20000);
+function uyut(){
+  clearInterval(pilZaman);
+  uykuEl.textContent = lang === 'en' ? '[ SLEEP ] battery depleted — tap anywhere to wake' : '[ SLEEP ] pil bitti — uyandırmak için herhangi bir yere dokun';
+  uykuEl.hidden = false;
+  const uyandir = () => {
+    uykuEl.hidden = true;
+    window.removeEventListener('keydown', uyandir);
+    pil = 100; pilCiz();
+    pilZaman = setInterval(pilAzalt, 20000);
+  };
+  uykuEl.addEventListener('pointerdown', uyandir, {once:true});
+  window.addEventListener('keydown', uyandir);
+}
+
+/* ---------- easter egg: konami kodu (yalnızca klavye — mobilde bilerek yok) ---------- */
+const konami = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
+let konamiIdx = 0;
+window.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
+  if(konamiIdx === konami.length){
+    konamiIdx = 0;
+    if(reduced) return;
+    const devre = document.querySelector('.bg-circuit');
+    devre.classList.remove('post');
+    void devre.getBoundingClientRect();
+    devre.classList.add('post');
+    setTimeout(() => devre.classList.remove('post'), 2700);
+    console.log('%c[ POST ] tüm izler nominal — power-on self test OK', 'color:#6FDCA8;font-family:monospace');
+  }
+});
 
 /* ---------- blog motoru ---------- */
 const listEl = document.getElementById('blog-list');
