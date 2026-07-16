@@ -6,9 +6,8 @@ Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown
 
 ## Özellikler
 
-- **İki dil (TR/EN)** — tüm içerik ve blog yazıları çevrilebilir; tercih `localStorage`'da saklanır
-- **Koyu / açık tema** — ilk ziyarette sistem tercihine uyar, nav'daki ☾/☀ düğmesiyle değiştirilir
-- **İlk kurulum popup'ı** — ilk ziyarette tema ve dil sorar, tercihler kaydedilince bir daha çıkmaz
+- **İki dil (TR/EN)** — cihaz dili Türkçe ise TR, değilse EN açılır; nav'daki düğmeyle değiştirilir, tercih `localStorage`'da saklanır
+- **Koyu / açık tema** — sistem tercihine uyar, nav'daki ☾/☀ düğmesiyle değiştirilir
 - **Mobil uyumlu** — üst menü aşağı kaydırınca gizlenir, yukarı kaydırınca geri gelir
 - **Markdown blog** — HTML'e dokunmadan yazı eklenir (aşağıda)
 - **Easter egg'ler** 🪲 — terminale tıkla ve footer'ın üzerine gel (mobilde dokun), gerisini kendin keşfet
