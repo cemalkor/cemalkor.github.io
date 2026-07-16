@@ -793,7 +793,9 @@ applyLang();
 /* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 6 tane) ---------- */
 const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim'];
 const KESIF_TOPLAM = KESIF_EGGLER.length;
-const kesifSet = new Set((localStorage.getItem('kesif') || '').split(',').filter(x => KESIF_EGGLER.includes(x)));
+/* ilerleme kalıcı değil: her sayfa yenilemesinde sıfırlanır (eski localStorage kaydını da temizle) */
+localStorage.removeItem('kesif');
+const kesifSet = new Set();
 const rozetEl = document.getElementById('kesif-rozet');
 let rozetZaman;
 function rozetGoster(){
@@ -809,10 +811,10 @@ function rozetGoster(){
     setTimeout(() => { if(!rozetEl.classList.contains('gorunur')) rozetEl.hidden = true; }, 350);
   }, 3200);
 }
-/* yeni bir egg bulununca kaydeder + rozet gösterir; 5/5 olduysa kutlamayı açar ve true döner */
+/* yeni bir egg bulununca sayar + rozet gösterir; hepsi olduysa kutlamayı açar ve true döner */
 function kesifBildir(id){
   const yeni = !kesifSet.has(id);
-  if(yeni){ kesifSet.add(id); localStorage.setItem('kesif', [...kesifSet].join(',')); }
+  if(yeni){ kesifSet.add(id); }
   if(yeni && kesifSet.size >= KESIF_TOPLAM){ kutla(); return true; }
   rozetGoster();
   return false;
@@ -1141,24 +1143,41 @@ function uyut(mesaj){
   window.addEventListener('keydown', uyandir);
 }
 
-/* ---------- easter egg: konami kodu (yalnızca klavye — mobilde bilerek yok) ---------- */
+/* ---------- easter egg: konami kodu (klavye + mobilde dokunma jesti) ---------- */
+function konamiTamam(){
+  if(kesifBildir('konami')) return; /* son egg buysa flash yerine kutla */
+  if(reduced) return;
+  const devre = document.querySelector('.bg-circuit');
+  devre.classList.remove('post');
+  void devre.getBoundingClientRect();
+  devre.classList.add('post');
+  setTimeout(() => devre.classList.remove('post'), 2700);
+  console.log('%c[ POST ] tüm izler nominal — power-on self test OK', 'color:#6FDCA8;font-family:monospace');
+}
 const konami = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
 let konamiIdx = 0;
 window.addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   konamiIdx = k === konami[konamiIdx] ? konamiIdx + 1 : (k === konami[0] ? 1 : 0);
-  if(konamiIdx === konami.length){
-    konamiIdx = 0;
-    if(kesifBildir('konami')) return; /* son egg buysa flash yerine kutla */
-    if(reduced) return;
-    const devre = document.querySelector('.bg-circuit');
-    devre.classList.remove('post');
-    void devre.getBoundingClientRect();
-    devre.classList.add('post');
-    setTimeout(() => devre.classList.remove('post'), 2700);
-    console.log('%c[ POST ] tüm izler nominal — power-on self test OK', 'color:#6FDCA8;font-family:monospace');
-  }
+  if(konamiIdx === konami.length){ konamiIdx = 0; konamiTamam(); }
 });
+/* mobil konami: yukarı yukarı aşağı aşağı sol sağ sol sağ, sonra iki dokunuş (B, A) */
+const konamiJest = ['up','up','down','down','left','right','left','right','tap','tap'];
+let kjIdx = 0, kjX = 0, kjY = 0;
+document.addEventListener('touchstart', e => {
+  const t = e.changedTouches[0]; kjX = t.clientX; kjY = t.clientY;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  const t = e.changedTouches[0];
+  const dx = t.clientX - kjX, dy = t.clientY - kjY;
+  const adx = Math.abs(dx), ady = Math.abs(dy);
+  let jest;
+  if(adx < 12 && ady < 12) jest = 'tap';
+  else if(Math.max(adx, ady) < 30) return; /* belirsiz hareket — sırayı bozma */
+  else jest = adx > ady ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
+  kjIdx = jest === konamiJest[kjIdx] ? kjIdx + 1 : (jest === konamiJest[0] ? 1 : 0);
+  if(kjIdx === konamiJest.length){ kjIdx = 0; konamiTamam(); }
+}, {passive:true});
 
 /* ---------- blog motoru ---------- */
 const listEl = document.getElementById('blog-list');
