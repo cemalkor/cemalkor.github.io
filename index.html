@@ -988,16 +988,16 @@ function uzayliTara(){
   const bantlar = [['868.0 MHz', 'sigfox'], ['2.400 GHz', 'ble'], ['800 MHz', 'nb-iot']];
   let t = 0;
   bantlar.forEach(b => {
-    t += 430;
+    t += 620;
     setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'scanning' : 'taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
   });
-  t += 520;
+  t += 850;
   setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1420 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
-  t += 520;
+  t += 900;
   setTimeout(() => satirYaz(`<span class="t">[ decode ]</span> <span class="val">.-.. -.-- -.- ...</span>`), t);
-  t += 560;
+  t += 1200;
   setTimeout(() => {
-    satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'hello earthling — nice firmware' : 'merhaba dünyalı — güzel firmware yazıyorsun'}"</span>`);
+    satirYaz(`<span class="ok">👽</span> <span class="val">"${en ? 'Hello earthling, Commander Logar has punished me!' : 'Merhaba dünyalı, Komutan Logar beni cezalandırdı!'}"</span>`);
     ufoUcus();
   }, t);
   t += 1700;
