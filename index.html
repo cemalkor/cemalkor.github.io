@@ -992,7 +992,7 @@ function rmPanik(norm){
   }, 350 * (dizinler.length + 1) + 2200);
 }
 
-/* easter egg: RF taraması → 1420 MHz'de (hidrojen hattı, SETI'nin dinlediği frekans) uzaylı sinyali */
+/* easter egg: RF taraması → 1923 MHz'de bilinmeyen taşıyıcıda uzaylı sinyali */
 function uzayliTara(){
   const en = lang === 'en';
   islemde = true;
@@ -1003,7 +1003,7 @@ function uzayliTara(){
     setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'scanning' : 'taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
   });
   t += 520;
-  setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1420 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
+  setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1923 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
   /* sinyal kilitlenince UFO havalanıp ekran ortasına süzülür */
   const tUfo = t + 300;
   setTimeout(ufoUcus, tUfo);
