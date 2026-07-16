@@ -22,10 +22,33 @@
   --term-bg:#0E1B15;
   --term-green:#6FDCA8;
   --term-dim:#3E6B57;
+  --mist:#EDF2EE;          /* tag, kod, footer zemini */
+  --prose:#26352E;         /* blog yazı metni */
+  --nav-bg:rgba(247,248,246,.92);
+  --wire:#17251F;          /* footer kablo izolasyonu */
   --mono:'IBM Plex Mono',monospace;
   --sans:'IBM Plex Sans',sans-serif;
   --disp:'Space Grotesk',sans-serif;
+  color-scheme:light;
 }
+[data-theme="dark"]{
+  --paper:#0F1712;
+  --ink:#E4ECE7;
+  --ink-soft:#9DB0A6;
+  --pcb:#4CB98A;
+  --pcb-dark:#2E7B5B;
+  --copper:#D69350;
+  --line:#263229;
+  --card:#151F19;
+  --term-bg:#0B120E;
+  --term-dim:#557E6A;
+  --mist:#141D17;
+  --prose:#C9D6CE;
+  --nav-bg:rgba(15,23,18,.92);
+  --wire:#C9D6CE;
+  color-scheme:dark;
+}
+[data-theme="dark"] .bg-circuit .traces{opacity:.11}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
@@ -51,7 +74,7 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .sq-divider .pulse.cu{stroke:var(--copper)}
 
 /* ---------- nav ---------- */
-nav{position:sticky;top:0;z-index:50;background:rgba(247,248,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
@@ -119,7 +142,7 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .xp-item p{color:var(--ink-soft);font-size:.95rem;margin-top:8px;max-width:70ch}
 .xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
 .xp-item .xp-tags{max-width:66ch}
-.tag{font-family:var(--mono);font-size:.7rem;background:#EDF2EE;border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
+.tag{font-family:var(--mono);font-size:.7rem;background:var(--mist);border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
 
 /* ---------- projeler ---------- */
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
@@ -154,10 +177,10 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 #post-content{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:36px 40px;max-width:760px}
 #post-content h1,#post-content h2,#post-content h3{font-family:var(--disp);margin:1.2em 0 .5em;line-height:1.25}
 #post-content h1{font-size:1.8rem;margin-top:0}
-#post-content p{margin-bottom:1em;color:#26352E}
+#post-content p{margin-bottom:1em;color:var(--prose)}
 #post-content ul,#post-content ol{margin:0 0 1em 1.4em}
 #post-content li{margin-bottom:.35em}
-#post-content code{font-family:var(--mono);font-size:.85em;background:#EDF2EE;padding:2px 6px;border-radius:4px}
+#post-content code{font-family:var(--mono);font-size:.85em;background:var(--mist);padding:2px 6px;border-radius:4px}
 #post-content pre{background:var(--term-bg);color:var(--term-green);padding:18px;border-radius:8px;overflow-x:auto;margin-bottom:1em}
 #post-content pre code{background:none;color:inherit;padding:0}
 #post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
@@ -165,10 +188,11 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 #post-content a{color:var(--pcb)}
 .back-btn{font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
 .back-btn:hover{color:var(--copper)}
-.blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:#EDF2EE;border:1px dashed var(--line);border-radius:8px;padding:16px}
+.blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:var(--mist);border:1px dashed var(--line);border-radius:8px;padding:16px}
 
 /* ---------- footer ---------- */
-footer{background:#EDF2EE;color:var(--ink-soft);border-top:1px solid var(--line);margin-top:40px;position:relative}
+footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--line);margin-top:40px;position:relative}
+.wire-svg line[stroke="#17251F"]{stroke:var(--wire)}
 .foot-in{max-width:1080px;margin:0 auto;padding:36px 24px 26px}
 .foot-in .sec-head{margin-bottom:14px}
 .foot-in h2{font-family:var(--disp);color:var(--ink);font-size:1.35rem}
@@ -231,6 +255,15 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
   .term-bug{transition:none}
 }
 </style>
+<meta name="theme-color" content="#F7F8F6">
+<script>
+/* koyu mod: kayıtlı tercih yoksa sistem tercihi; body çizilmeden uygulanır (flash önlemi) */
+(function(){
+  const t = localStorage.getItem('tema');
+  if(t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
+    document.documentElement.dataset.theme = 'dark';
+})();
+</script>
 </head>
 <body>
 
@@ -310,6 +343,7 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
       <a href="#blog">Blog</a>
       <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
       <button id="lang-btn" class="lang-btn" aria-label="Türkçe / English">EN</button>
+      <button id="tema-btn" class="lang-btn" aria-label="Koyu / açık tema">☾</button>
     </div>
   </div>
 </nav>
@@ -570,6 +604,23 @@ footer:hover .wire-glow{animation:wireFlash 1s forwards}
 
 <script>
 document.getElementById('yil').textContent = new Date().getFullYear();
+
+/* ---------- koyu mod düğmesi ---------- */
+const temaBtn = document.getElementById('tema-btn');
+const temaMeta = document.querySelector('meta[name="theme-color"]');
+function temaGoster(){
+  const koyu = document.documentElement.dataset.theme === 'dark';
+  temaBtn.textContent = koyu ? '☀' : '☾';
+  temaMeta.content = koyu ? '#0F1712' : '#F7F8F6';
+}
+temaBtn.addEventListener('click', () => {
+  const koyu = document.documentElement.dataset.theme === 'dark';
+  if(koyu) delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = 'dark';
+  localStorage.setItem('tema', koyu ? 'light' : 'dark');
+  temaGoster();
+});
+temaGoster();
 
 /* ---------- mobil nav: aşağı kayarken gizle, yukarı kayarken göster ---------- */
 const navEl = document.querySelector('nav');
