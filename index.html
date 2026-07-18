@@ -320,6 +320,17 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
     document.documentElement.dataset.theme = 'dark';
 })();
 </script>
+<script>
+/* GoatCounter ziyaretçi sayacı: hash rotaları (#blog, #yazi/...) ayrı sayfa olarak sayılsın */
+window.goatcounter = {
+  path: function(p){ return location.pathname + location.search + location.hash }
+};
+window.addEventListener('hashchange', function(){
+  if(window.goatcounter.count)
+    window.goatcounter.count({path: location.pathname + location.search + location.hash});
+});
+</script>
+<script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 
