@@ -41,18 +41,35 @@ cemalkor.github.io/
 ├── CNAME               → özel alan adı (cemalkor.com.tr)
 ├── robots.txt          → tarayıcılara izin + sitemap adresi
 ├── sitemap.xml         → indekslenecek adresler (yazı eklerken güncellenir!)
-├── favicon.svg         → sekme ikonu
+├── favicon.svg         → sekme ikonu (modern tarayıcılar bunu seçer)
+├── favicon.ico         → yedek ikon (16/32/48), Google ve eski istemciler için
+├── favicon-96x96.png   → yedek ikon (96x96)
 ├── apple-touch-icon.png→ iOS ana ekran ikonu (180x180)
 ├── og.png              → sosyal medya paylaşım kartı (1200x630)
 ├── googled09dd...html  → Google Search Console doğrulama dosyası (SİLME!)
+├── tools/              → görsel üreten script'ler (siteye dahil değil)
+│   ├── og-kart-uret.ps1
+│   └── favicon-uret.ps1
 └── posts/
     ├── posts.json      → yazı listesi (başlık, tarih, dosya adı)
     ├── merhaba-dunya.md
     └── merhaba-dunya.en.md
 ```
 
-İkonların kaynak motifi `favicon.svg`'de (terminal prompt'u: yeşil `>` + bakır `_`); `og.png` de aynı
-paletle çizilmiş 1200×630 bir karttan ibaret. Değiştirmek istersen ikisini de elden geçirmen yeterli.
+## Görselleri yeniden üretme
+
+`og.png`, `apple-touch-icon.png`, `favicon.ico` ve `favicon-96x96.png` elle çizilmedi — `tools/`
+altındaki PowerShell script'leri üretiyor. Renkler, yazılar ve devre izi motifi script'lerin içinde;
+değiştirip tekrar çalıştırman yeterli. Windows'ta, ek kurulum gerektirmez (System.Drawing kullanıyor):
+
+```powershell
+.\tools\og-kart-uret.ps1 .
+.\tools\favicon-uret.ps1 .
+```
+
+Script'ler deterministik: içeriği değiştirmezsen aynı dosyaları birebir üretir, `git status` boş kalır.
+`favicon.svg` elle yazılmış — ikon motifini değiştirirsen hem onu hem `favicon-uret.ps1`'i güncelle,
+ikisi aynı çizimi paylaşıyor.
 
 ## Yeni blog yazısı nasıl eklenir? (HTML'e dokunmadan!)
 
