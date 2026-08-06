@@ -47,6 +47,7 @@ cemalkor.github.io/
 ├── apple-touch-icon.png→ iOS ana ekran ikonu (180x180)
 ├── og.png              → sosyal medya paylaşım kartı (1200x630)
 ├── googled09dd...html  → Google Search Console doğrulama dosyası (SİLME!)
+├── yandex_892a...html  → Yandex Webmaster doğrulama dosyası (SİLME!)
 ├── tools/              → görsel üreten script'ler (siteye dahil değil)
 │   ├── og-kart-uret.ps1
 │   └── favicon-uret.ps1
