@@ -65,6 +65,10 @@
   --nav-bg:rgba(247,248,246,.92);
   --wire:#17251F;          /* footer kablo izolasyonu */
   --btn-ink:#FFFFFF;       /* dolu buton/seçim yazısı — koyu zeminde beyaz, 6.2:1 */
+  /* terminal metni: terminal her iki temada da koyu zeminli, o yüzden tek değer yeter.
+     --term-dim kenarlık/nokta gibi dekoratif işler için sönük kalıyor; metin WCAG AA
+     için ayrıldı (açık temada 2.9:1 idi, şimdi 5.26:1) */
+  --term-dim-text:#66967F;
   --mono:'IBM Plex Mono',monospace;
   --sans:'IBM Plex Sans',sans-serif;
   --disp:'Space Grotesk',sans-serif;
@@ -180,9 +184,9 @@ h1 span{color:var(--pcb)}
 .term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
 .term-bar i{width:10px;height:10px;border-radius:50%;background:var(--term-dim)}
 .term-bar i:first-child{background:var(--copper)}
-.term-title{margin-left:auto;font-size:.7rem;color:var(--term-dim)}
+.term-title{margin-left:auto;font-size:.7rem;color:var(--term-dim-text)}
 .term-body{padding:16px 18px 20px;font-size:.78rem;line-height:1.8;min-height:230px;max-height:230px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--term-dim) transparent}
-.term-body .t{color:var(--term-dim)}
+.term-body .t{color:var(--term-dim-text)}
 .term-body .ok{color:var(--term-green)}
 .term-body .val{color:#E8C48A}
 .term-body a{color:var(--term-green)}
