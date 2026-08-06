@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Sayfa bulunamadı · Cemal Kör</title>
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="Aradığınız sayfa bulunamadı.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F6;
+  --ink:#17251F;
+  --ink-soft:#4A5A52;
+  --pcb:#1E6E52;
+  --pcb-dark:#124534;
+  --copper:#B87333;
+  --line:#D8DED9;
+  --term-bg:#0E1B15;
+  --term-green:#6FDCA8;
+  --term-dim:#3E6B57;
+  --mono:'IBM Plex Mono',monospace;
+  --disp:'Space Grotesk',sans-serif;
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --paper:#0F1712;
+  --ink:#E4ECE7;
+  --ink-soft:#9DB0A6;
+  --pcb:#4CB98A;
+  --pcb-dark:#2E7B5B;
+  --copper:#D69350;
+  --line:#263229;
+  --term-bg:#0B120E;
+  --term-dim:#557E6A;
+  color-scheme:dark;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+/* body'ye position verilmiyor: yigin baglami yaratip z-index:-1 olan izleri zeminin arkasina itiyor */
+body{
+  font-family:var(--mono);background:var(--paper);color:var(--ink);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;line-height:1.6;overflow-x:hidden;
+}
+/* arka plandaki devre izleri — ana sayfadaki motifin sade, animasyonsuz hali.
+   Ana sayfada izler soluk (.08) ama ustune parlayan "pulse" katmani var; burada tek katman
+   oldugu icin opaklik daha yuksek tutuldu. */
+.bg-circuit{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.bg-circuit path,.bg-circuit circle{fill:none;stroke:var(--pcb);stroke-width:2.5;opacity:.30}
+.bg-circuit .cu{stroke:var(--copper);opacity:.26}
+[data-theme="dark"] .bg-circuit path,[data-theme="dark"] .bg-circuit circle{opacity:.24}
+[data-theme="dark"] .bg-circuit .cu{opacity:.22}
+.wrap{max-width:560px;width:100%;text-align:center}
+.code{font-family:var(--disp);font-size:clamp(3.4rem,14vw,5.5rem);font-weight:700;color:var(--pcb);line-height:1;letter-spacing:-.03em}
+h1{font-family:var(--disp);font-size:clamp(1.15rem,4vw,1.5rem);font-weight:600;margin:14px 0 6px}
+.sub{color:var(--ink-soft);font-size:.85rem}
+.sub-en{color:var(--ink-soft);font-size:.78rem;opacity:.75;margin-top:4px}
+.terminal{
+  background:var(--term-bg);border-radius:10px;text-align:left;
+  padding:16px 18px;margin:28px 0 26px;font-size:.8rem;color:var(--term-green);
+  box-shadow:0 12px 32px rgba(14,27,21,.28);overflow-x:auto;
+}
+.terminal .dim{color:var(--term-dim)}
+.terminal .cur{display:inline-block;width:7px;height:14px;background:var(--term-green);vertical-align:-2px;animation:yanip 1.1s step-end infinite}
+@keyframes yanip{0%,50%{opacity:1}51%,100%{opacity:0}}
+/* ana sayfadaki .btn / .btn-primary ile birebir ayni */
+.btn{
+  display:inline-block;font-family:var(--mono);font-size:.85rem;text-decoration:none;
+  padding:11px 20px;border-radius:6px;background:var(--pcb);color:#fff;
+  box-shadow:0 2px 0 var(--pcb-dark);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 2px 0 var(--pcb-dark),0 8px 20px rgba(30,110,82,.28)}
+</style>
+<script>
+/* koyu mod: ana sayfadaki tercihi burada da uygula (body çizilmeden — flash önlemi) */
+(function(){
+  const t = localStorage.getItem('tema');
+  if(t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
+    document.documentElement.dataset.theme = 'dark';
+})();
+</script>
+</head>
+<body>
+
+<!-- viewBox 1000x900: kare'ye yakin oran, "slice" dar/uzun ekranlarda kenar izlerini disari itmesin -->
+<svg class="bg-circuit" aria-hidden="true" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid slice">
+  <path d="M-20,140 H120 L170,190 V250 L120,300 H40"/>
+  <path d="M-20,470 H80 L130,520 V560 L180,610 H220"/>
+  <path class="cu" d="M-20,190 H70 L120,240 H210"/>
+  <path class="cu" d="M40,440 V760"/>
+  <path d="M1020,220 H900 L850,170 V120"/>
+  <path d="M1020,560 H880 L830,510 V470"/>
+  <path class="cu" d="M960,340 V650"/>
+  <path class="cu" d="M1020,700 H900 L850,750 H790"/>
+  <circle cx="40" cy="300" r="5"/><circle cx="220" cy="610" r="5"/>
+  <circle class="cu" cx="210" cy="240" r="5"/><circle class="cu" cx="40" cy="760" r="5"/>
+  <circle cx="850" cy="120" r="5"/><circle cx="830" cy="470" r="5"/>
+  <circle class="cu" cx="960" cy="340" r="5"/><circle class="cu" cx="790" cy="750" r="5"/>
+</svg>
+
+<div class="wrap">
+  <div class="code">404</div>
+  <h1>Bu adreste bir şey yok.</h1>
+  <p class="sub">Link kırılmış ya da sayfa taşınmış olabilir.</p>
+  <p class="sub-en">Nothing at this address — the link may be broken or the page moved.</p>
+
+  <div class="terminal">
+    <div><span class="dim">cemal@kor:~$</span> cat /var/www<span class="dim">$REQUEST_URI</span></div>
+    <div class="dim">cat: No such file or directory</div>
+    <div><span class="dim">cemal@kor:~$</span> cd /<span class="cur"></span></div>
+  </div>
+
+  <a class="btn" href="/">← Ana sayfaya dön</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Yeni blog yazisi eklerken bu dosyaya da yazinin TR ve EN adreslerini eklemeyi unutma.
+  Hazir blok icin README.md'ye bak.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ana sayfa -->
+  <url>
+    <loc>https://cemalkor.com.tr/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/"/>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://cemalkor.com.tr/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/"/>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- blog yazilari -->
+  <url>
+    <loc>https://cemalkor.com.tr/?yazi=merhaba-dunya</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <lastmod>2026-07-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <lastmod>2026-07-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

@@ -5,10 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cemal Kör — Gömülü Yazılım Mühendisi</title>
 <meta name="description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<meta name="author" content="Cemal Kör">
+
+<!-- kanonik adres ve dil alternatifleri: TR kök adreste, EN ?lang=en üzerinde (updateMeta() route'a göre günceller) -->
+<link rel="canonical" href="https://cemalkor.com.tr/">
+<link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/">
+<link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/">
+
+<!-- sosyal paylaşım kartı (Open Graph + Twitter) -->
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Cemal Kör">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="profile:first_name" content="Cemal">
+<meta property="profile:last_name" content="Kör">
+<meta property="og:title" content="Cemal Kör — Gömülü Yazılım Mühendisi">
+<meta property="og:description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<meta property="og:url" content="https://cemalkor.com.tr/">
+<meta property="og:image" content="https://cemalkor.com.tr/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cemal Kör — Gömülü Yazılım Mühendisi · cemalkor.com.tr">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cemal Kör — Gömülü Yazılım Mühendisi">
+<meta name="twitter:description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<meta name="twitter:image" content="https://cemalkor.com.tr/og.png">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F7F8F6;
@@ -164,6 +193,7 @@ h1 span{color:var(--pcb)}
 @keyframes yesilFlas{0%{opacity:0}22%{opacity:1}100%{opacity:0}}
 
 /* ---------- section genel ---------- */
+main{display:block}
 section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
 .sec-head h2{font-family:var(--disp);font-size:1.7rem;font-weight:600;letter-spacing:-.01em}
@@ -218,7 +248,7 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 
 /* ---------- blog ---------- */
 #blog-list{display:grid;gap:16px}
-.post-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;cursor:pointer;transition:border-color .15s}
+.post-card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;cursor:pointer;transition:border-color .15s}
 .post-card:hover{border-color:var(--pcb)}
 .post-card .meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:6px}
 .post-card h3{font-family:var(--disp);font-size:1.15rem;margin-bottom:6px}
@@ -236,7 +266,7 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 #post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
 #post-content img{max-width:100%;border-radius:8px}
 #post-content a{color:var(--pcb)}
-.back-btn{font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
+.back-btn{display:inline-block;text-decoration:none;font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
 .back-btn:hover{color:var(--copper)}
 .blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:var(--mist);border:1px dashed var(--line);border-radius:8px;padding:16px}
 
@@ -311,7 +341,8 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   .kutlama-kart{animation:none}
 }
 </style>
-<meta name="theme-color" content="#F7F8F6">
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1712" media="(prefers-color-scheme: dark)">
 <script>
 /* koyu mod: kayıtlı tercih yoksa sistem tercihi; body çizilmeden uygulanır (flash önlemi) */
 (function(){
@@ -321,16 +352,100 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 })();
 </script>
 <script>
-/* GoatCounter ziyaretçi sayacı: hash rotaları (#blog, #yazi/...) ayrı sayfa olarak sayılsın */
+/* eski #yazi/slug linkleri yeni ?yazi=slug adresine taşınır (arama motorları hash'i ayrı sayfa saymıyor) */
+(function(){
+  const m = location.hash.match(/^#yazi\/(.+)$/);
+  if(m){
+    const q = new URLSearchParams(location.search);
+    q.set('yazi', decodeURIComponent(m[1]));
+    location.replace(location.pathname + '?' + q.toString() + '#blog');
+  }
+})();
+</script>
+<script>
+/* GoatCounter ziyaretçi sayacı: ?yazi= ve ?lang= rotaları ayrı sayfa olarak sayılsın
+   (sayfa içi geçişleri sayan sayfaSay() aşağıdaki ana script'te) */
 window.goatcounter = {
   path: function(p){ return location.pathname + location.search + location.hash }
 };
-window.addEventListener('hashchange', function(){
-  if(window.goatcounter.count)
-    window.goatcounter.count({path: location.pathname + location.search + location.hash});
-});
 </script>
 <script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+
+<!-- yapısal veri: arama motorlarına kim olduğumu makine okunur şekilde anlatır (sadece sayfada zaten yazan bilgiler) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://cemalkor.com.tr/#cemalkor",
+      "name": "Cemal Kör",
+      "givenName": "Cemal",
+      "familyName": "Kör",
+      "jobTitle": "Gömülü Yazılım Mühendisi",
+      "description": "Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi.",
+      "url": "https://cemalkor.com.tr/",
+      "image": "https://cemalkor.com.tr/og.png",
+      "email": "mailto:cemalkor94@gmail.com",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Inodya Teknoloji San. ve Tic. A.Ş."
+      },
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "Gazi Üniversitesi",
+        "department": "Elektrik-Elektronik Mühendisliği"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ankara",
+        "addressCountry": "TR"
+      },
+      "knowsAbout": [
+        "Gömülü Sistemler",
+        "Embedded C",
+        "C++",
+        "Akıllı Sayaç",
+        "IoT",
+        "Sigfox",
+        "NB-IoT",
+        "Bluetooth Low Energy",
+        "NFC",
+        "Zigbee",
+        "STM32",
+        "FreeRTOS",
+        "ThreadX",
+        "Bare-metal Firmware",
+        "Low-Power Tasarım"
+      ],
+      "sameAs": [
+        "https://github.com/cemalkor",
+        "https://www.linkedin.com/in/cemalkor/",
+        "https://www.instagram.com/cemalkor",
+        "https://www.instagram.com/technopetto/",
+        "https://tr.pinterest.com/cemalkor94/robots/kendi-%C3%A7al%C4%B1%C5%9Fmalar%C4%B1m/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://cemalkor.com.tr/#website",
+      "url": "https://cemalkor.com.tr/",
+      "name": "Cemal Kör",
+      "inLanguage": ["tr-TR", "en"],
+      "publisher": { "@id": "https://cemalkor.com.tr/#cemalkor" }
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": "https://cemalkor.com.tr/#profilepage",
+      "url": "https://cemalkor.com.tr/",
+      "name": "Cemal Kör — Gömülü Yazılım Mühendisi",
+      "isPartOf": { "@id": "https://cemalkor.com.tr/#website" },
+      "mainEntity": { "@id": "https://cemalkor.com.tr/#cemalkor" },
+      "about": { "@id": "https://cemalkor.com.tr/#cemalkor" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -414,6 +529,8 @@ window.addEventListener('hashchange', function(){
     </div>
   </div>
 </nav>
+
+<main>
 
 <header id="top">
   <div>
@@ -639,10 +756,12 @@ window.addEventListener('hashchange', function(){
   <div class="sec-head"><h2>Blog</h2><span class="pin" aria-hidden="true" data-pin="posts.a"></span></div>
   <div id="blog-list"></div>
   <div id="post-view">
-    <button class="back-btn" onclick="location.hash='#blog'" data-i18n="blog.back">← Tüm yazılar</button>
+    <a class="back-btn" id="geri-btn" href="/" data-i18n="blog.back">← Tüm yazılar</a>
     <article id="post-content"></article>
   </div>
 </section>
+
+</main>
 
 <footer id="iletisim">
 
@@ -651,9 +770,9 @@ window.addEventListener('hashchange', function(){
     <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
     <div class="foot-links">
       <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
-      <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://www.instagram.com/cemalkor" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
+      <a href="https://github.com/cemalkor" target="_blank" rel="me noopener">GitHub</a>
+      <a href="https://www.instagram.com/cemalkor" target="_blank" rel="me noopener">Instagram</a>
     </div>
     <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle, özellikle konami şifresini!<br>// Gizlemezsen herkes şunları buldum diye yazar sonra!!!</p>
     <div class="foot-bottom">
@@ -792,8 +911,30 @@ const MSG = {
     postErr:'Could not load this post.'
   }
 };
-/* kayıtlı tercih yoksa cihaz dili: Türkçe ise TR, değilse EN */
-let lang = localStorage.getItem('lang') || ((navigator.language || 'tr').toLowerCase().startsWith('tr') ? 'tr' : 'en');
+/* ---------- adres şeması: TR kök adreste, EN ?lang=en üzerinde, yazılar ?yazi=slug ----------
+   Her dil ve yazı kendi adresine sahip olsun diye dil URL'den okunuyor. Tarayıcı diline göre
+   otomatik seçim bilinçli olarak yok: Googlebot'un dili en-US olduğu için kök adres aksi halde
+   İngilizce indekslenir ve Türkçe sürüm aramaya hiç çıkmazdı. */
+const SITE = 'https://cemalkor.com.tr';
+function urlParams(){ return new URLSearchParams(location.search); }
+function aktifSlug(){ return urlParams().get('yazi') || ''; }
+function cozDil(){
+  const p = urlParams().get('lang');
+  if(p === 'en' || p === 'tr') return p;
+  return localStorage.getItem('lang') === 'en' ? 'en' : 'tr';   /* Googlebot'ta localStorage yok → kök adres hep TR */
+}
+function rotaUrl(slug, dil){
+  const q = new URLSearchParams();
+  if(slug) q.set('yazi', slug);
+  if(dil === 'en') q.set('lang', 'en');
+  const s = q.toString();
+  return s ? '/?' + s : '/';
+}
+let lang = cozDil();
+/* kayıtlı tercih EN ise adres de onu yansıtsın (paylaşılan link doğru dili açsın) */
+if(!urlParams().has('lang') && lang === 'en')
+  history.replaceState(null, '', rotaUrl(aktifSlug(), 'en') + location.hash);
+
 const trCache = {};
 function applyLang(){
   document.querySelectorAll('[data-i18n]').forEach(el=>{
@@ -802,16 +943,16 @@ function applyLang(){
     el.innerHTML = (lang==='en' && I18N[k]!==undefined) ? I18N[k] : trCache[k];
   });
   document.documentElement.lang = lang;
-  document.title = MSG[lang].docTitle;
-  document.querySelector('meta[name="description"]').setAttribute('content', MSG[lang].desc);
   document.getElementById('lang-btn').textContent = lang==='en' ? 'TR' : 'EN';
 }
 document.getElementById('lang-btn').addEventListener('click', ()=>{
   lang = lang==='en' ? 'tr' : 'en';
   localStorage.setItem('lang', lang);
+  history.pushState(null, '', rotaUrl(aktifSlug(), lang) + location.hash);
   applyLang();
   terminalSifirla();
   renderRoute();
+  sayfaSay();
 });
 applyLang();
 
@@ -1253,6 +1394,113 @@ const viewEl = document.getElementById('post-view');
 const contentEl = document.getElementById('post-content');
 let posts = [];
 
+/* marked yalnızca bir yazı açılınca indirilir — ana sayfayı açan ziyaretçi bu ~40 KB'ı hiç çekmez */
+let markedSozu = null;
+function loadMarked(){
+  if(window.marked) return Promise.resolve();
+  if(!markedSozu) markedSozu = new Promise((tamam, hata)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js';
+    s.onload = tamam;
+    s.onerror = ()=>{ markedSozu = null; hata(new Error('marked yüklenemedi')); };
+    document.head.appendChild(s);
+  });
+  return markedSozu;
+}
+
+/* ---------- SEO: başlık, açıklama, canonical, hreflang ve paylaşım kartı adrese göre güncellenir ---------- */
+function metaBilgi(){
+  const slug = aktifSlug();
+  const p = slug ? posts.find(x => x.slug === slug) : null;
+  if(!p) return {slug:'', post:null, title:MSG[lang].docTitle, desc:MSG[lang].desc};
+  const baslik = (lang==='en' && p.title_en) ? p.title_en : p.title;
+  const ozet   = (lang==='en' && p.summary_en) ? p.summary_en : (p.summary || '');
+  return {slug, post:p, title:`${baslik} — Cemal Kör`, desc:ozet || MSG[lang].desc};
+}
+
+function metaYaz(sec, deger){
+  const el = document.head.querySelector(sec);
+  if(el) el.setAttribute('content', deger);
+}
+
+function yaziLd(p, url){
+  let el = document.getElementById('ld-yazi');
+  if(!p){ if(el) el.remove(); return; }
+  if(!el){
+    el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.id = 'ld-yazi';
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify({
+    '@context':'https://schema.org',
+    '@type':'BlogPosting',
+    headline: (lang==='en' && p.title_en) ? p.title_en : p.title,
+    description: (lang==='en' && p.summary_en) ? p.summary_en : (p.summary || ''),
+    datePublished: p.date,
+    dateModified: p.date,
+    inLanguage: lang==='en' ? 'en' : 'tr-TR',
+    keywords: (p.tags || []).join(', '),
+    url: url,
+    mainEntityOfPage: {'@type':'WebPage','@id':url},
+    author: {'@id': SITE + '/#cemalkor'},
+    publisher: {'@id': SITE + '/#cemalkor'},
+    image: SITE + '/og.png'
+  });
+}
+
+function updateMeta(){
+  const m = metaBilgi();
+  const url = SITE + rotaUrl(m.slug, lang);
+  document.title = m.title;
+  metaYaz('meta[name="description"]', m.desc);
+  document.head.querySelector('link[rel="canonical"]').setAttribute('href', url);
+  document.head.querySelector('link[hreflang="tr"]').setAttribute('href', SITE + rotaUrl(m.slug, 'tr'));
+  document.head.querySelector('link[hreflang="en"]').setAttribute('href', SITE + rotaUrl(m.slug, 'en'));
+  document.head.querySelector('link[hreflang="x-default"]').setAttribute('href', SITE + rotaUrl(m.slug, 'tr'));
+  metaYaz('meta[property="og:type"]', m.post ? 'article' : 'profile');
+  metaYaz('meta[property="og:title"]', m.title);
+  metaYaz('meta[property="og:description"]', m.desc);
+  metaYaz('meta[property="og:url"]', url);
+  metaYaz('meta[property="og:locale"]', lang==='en' ? 'en_US' : 'tr_TR');
+  metaYaz('meta[property="og:locale:alternate"]', lang==='en' ? 'tr_TR' : 'en_US');
+  metaYaz('meta[name="twitter:title"]', m.title);
+  metaYaz('meta[name="twitter:description"]', m.desc);
+  yaziLd(m.post, url);
+}
+
+/* ---------- sayfa içi gezinme: adres değişir, sayfa yeniden yüklenmez ---------- */
+let sonSayilanYol = location.pathname + location.search + location.hash;
+function sayfaSay(){
+  const yol = location.pathname + location.search + location.hash;
+  if(yol === sonSayilanYol) return;
+  sonSayilanYol = yol;
+  if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: yol});
+}
+
+function git(url){
+  history.pushState(null, '', url);
+  renderRoute();
+  sayfaSay();
+}
+
+/* kartlar ve geri linki gerçek <a> — crawler takip eder, kullanıcıda SPA gibi çalışır */
+document.addEventListener('click', e=>{
+  if(e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = e.target.closest('a.post-card, a.back-btn');
+  if(!a) return;
+  e.preventDefault();
+  git(a.getAttribute('href'));
+});
+
+window.addEventListener('popstate', ()=>{
+  const yeniDil = cozDil();
+  if(yeniDil !== lang){ lang = yeniDil; applyLang(); terminalSifirla(); }
+  renderRoute();
+  sayfaSay();
+});
+window.addEventListener('hashchange', sayfaSay);
+
 async function loadPosts(){
   try{
     const r = await fetch('posts/posts.json', {cache:'no-store'});
@@ -1272,23 +1520,25 @@ function renderList(){
     return;
   }
   listEl.innerHTML = posts.map(p => `
-    <div class="post-card" onclick="location.hash='#yazi/${p.slug}'">
+    <a class="post-card" href="${rotaUrl(p.slug, lang)}">
       <div class="meta">${p.date} · ${(p.tags||[]).join(' · ')}</div>
       <h3>${(lang==='en' && p.title_en) ? p.title_en : p.title}</h3>
       <p>${(lang==='en' && p.summary_en) ? p.summary_en : (p.summary||'')}</p>
-    </div>`).join('');
+    </a>`).join('');
 }
 
 async function renderPost(slug){
   const p = posts.find(x => x.slug === slug);
-  if(!p){ location.hash = '#blog'; return; }
+  /* olmayan yazı: adresi listeye çevir, 404 gibi boş sayfa bırakma */
+  if(!p){ history.replaceState(null, '', rotaUrl('', lang)); renderList(); updateMeta(); return; }
+  document.getElementById('geri-btn').setAttribute('href', rotaUrl('', lang));
+  listEl.style.display = 'none';
+  viewEl.style.display = 'block';
   try{
     const file = (lang==='en' && p.file_en) ? p.file_en : p.file;
-    const r = await fetch(`posts/${file}`, {cache:'no-store'});
-    const md = await r.text();
-    contentEl.innerHTML = marked.parse(md);
-    listEl.style.display = 'none';
-    viewEl.style.display = 'block';
+    const [r] = await Promise.all([fetch(`posts/${file}`, {cache:'no-store'}), loadMarked()]);
+    if(!r.ok) throw new Error();
+    contentEl.innerHTML = marked.parse(await r.text());
     document.getElementById('blog').scrollIntoView();
   }catch(e){
     contentEl.innerHTML = `<p>${MSG[lang].postErr}</p>`;
@@ -1296,11 +1546,13 @@ async function renderPost(slug){
 }
 
 function renderRoute(){
-  const h = location.hash;
-  if(h.startsWith('#yazi/')) renderPost(decodeURIComponent(h.slice(6)));
+  const slug = aktifSlug();
+  /* yazılar henüz yüklenmediyse listede kal; loadPosts bitince renderRoute tekrar çağrılıyor */
+  if(slug && posts.length) renderPost(slug);
   else renderList();
+  updateMeta();
 }
-window.addEventListener('hashchange', renderRoute);
+updateMeta();
 loadPosts();
 </script>
 </body>
