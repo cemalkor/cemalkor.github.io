@@ -165,7 +165,9 @@ h1 span{color:var(--pcb)}
 .btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:11px 20px;border-radius:6px;transition:transform .15s ease, box-shadow .15s ease}
 .btn:hover{transform:translateY(-2px)}
 .btn-primary{background:var(--pcb);color:var(--btn-ink);box-shadow:0 2px 0 var(--pcb-dark)}
-.btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
+/* background:none sart: <a> degil <button> olarak kullanildiginda (kutlama ekrani)
+   tarayicinin varsayilan buttonface zemini geliyor, gri kutu gibi gorunuyordu */
+.btn-ghost{background:none;border:1.5px solid var(--line);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
 
 /* terminal */
