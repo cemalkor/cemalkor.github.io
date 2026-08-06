@@ -25,6 +25,7 @@
   --term-bg:#0E1B15;
   --term-green:#6FDCA8;
   --term-dim:#3E6B57;
+  --btn-ink:#FFFFFF;
   --mono:'IBM Plex Mono',monospace;
   --disp:'Space Grotesk',sans-serif;
   color-scheme:light;
@@ -39,6 +40,7 @@
   --line:#263229;
   --term-bg:#0B120E;
   --term-dim:#557E6A;
+  --btn-ink:#0B120E;   /* acik yesil zeminde beyaz yazi 2.4:1 kaliyordu; siyah 7.8:1 */
   color-scheme:dark;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -72,7 +74,7 @@ h1{font-family:var(--disp);font-size:clamp(1.15rem,4vw,1.5rem);font-weight:600;m
 /* ana sayfadaki .btn / .btn-primary ile birebir ayni */
 .btn{
   display:inline-block;font-family:var(--mono);font-size:.85rem;text-decoration:none;
-  padding:11px 20px;border-radius:6px;background:var(--pcb);color:#fff;
+  padding:11px 20px;border-radius:6px;background:var(--pcb);color:var(--btn-ink);
   box-shadow:0 2px 0 var(--pcb-dark);
   transition:transform .15s ease,box-shadow .15s ease;
 }

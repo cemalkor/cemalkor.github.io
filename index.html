@@ -59,6 +59,7 @@
   --prose:#26352E;         /* blog yazı metni */
   --nav-bg:rgba(247,248,246,.92);
   --wire:#17251F;          /* footer kablo izolasyonu */
+  --btn-ink:#FFFFFF;       /* dolu buton/seçim yazısı — koyu zeminde beyaz, 6.2:1 */
   --mono:'IBM Plex Mono',monospace;
   --sans:'IBM Plex Sans',sans-serif;
   --disp:'Space Grotesk',sans-serif;
@@ -79,13 +80,16 @@
   --prose:#C9D6CE;
   --nav-bg:rgba(15,23,18,.92);
   --wire:#C9D6CE;
+  /* koyu temada --pcb açık yeşile dönüyor; beyaz yazı 2.4:1 kalıyordu (WCAG AA 4.5:1 ister).
+     Terminal siyahına çevrildi: 7.8:1 */
+  --btn-ink:#0B120E;
   color-scheme:dark;
 }
 [data-theme="dark"] .bg-circuit .traces{opacity:.11}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
-::selection{background:var(--pcb);color:#fff}
+::selection{background:var(--pcb);color:var(--btn-ink)}
 
 /* ---------- devre izi arka planı ---------- */
 .bg-circuit{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;
@@ -150,7 +154,9 @@ nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:bl
 /* ---------- hero ---------- */
 header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .eyebrow{font-family:var(--mono);font-size:.8rem;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em}
+/* satir sonlari elle degil tarayiciya birakiliyor (İngilizcesi de oyleydi); balance oksuz
+   kelime birakmadan satirlari esitliyor, desteklemeyen tarayicida normal sarma olur */
+h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
 /* geniş ekranda başlık boyutu: TR'deki sabit satırlar (<br>) kolona sığacak şekilde, iki dilde aynı */
 @media (min-width:841px){h1{font-size:clamp(2.2rem,4.3vw,3rem)}}
 h1 span{color:var(--pcb)}
@@ -158,7 +164,7 @@ h1 span{color:var(--pcb)}
 .hero-cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
 .btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:11px 20px;border-radius:6px;transition:transform .15s ease, box-shadow .15s ease}
 .btn:hover{transform:translateY(-2px)}
-.btn-primary{background:var(--pcb);color:#fff;box-shadow:0 2px 0 var(--pcb-dark)}
+.btn-primary{background:var(--pcb);color:var(--btn-ink);box-shadow:0 2px 0 var(--pcb-dark)}
 .btn-ghost{border:1.5px solid var(--line);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
 
@@ -539,7 +545,7 @@ window.goatcounter = {
 <header id="top">
   <div>
     <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
-    <h1 data-i18n="hero.h1">IoT ekosistemindeki<br> cihazlar için uçtan uca<br> <span>güvenilir yazılım</span><br> çözümleri üretiyorum.</h1>
+    <h1 data-i18n="hero.h1">IoT ekosistemindeki cihazlar için uçtan uca <span>güvenilir gömülü yazılım</span> çözümleri üretiyorum.</h1>
     <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
@@ -854,7 +860,7 @@ window.addEventListener('scroll', () => {
 const I18N = {
   'nav.about':'About','nav.xp':'Experience','nav.proj':'Projects','nav.skills':'Skills','nav.edu':'Workshops','nav.hobby':'Hobby','nav.contact':'Contact',
   'hero.eyebrow':'Embedded Software Engineer · Ankara',
-  'hero.h1':'I build end-to-end, <span>reliable software</span> solutions for devices in the IoT ecosystem.',
+  'hero.h1':'I build end-to-end, <span>reliable embedded software</span> solutions for devices in the IoT ecosystem.',
   'hero.sub':'Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.',
   'hero.cta':'See my projects',
   'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
