@@ -44,6 +44,7 @@ cemalkor.github.io/
 ├── favicon.svg         → sekme ikonu
 ├── apple-touch-icon.png→ iOS ana ekran ikonu (180x180)
 ├── og.png              → sosyal medya paylaşım kartı (1200x630)
+├── googled09dd...html  → Google Search Console doğrulama dosyası (SİLME!)
 └── posts/
     ├── posts.json      → yazı listesi (başlık, tarih, dosya adı)
     ├── merhaba-dunya.md
