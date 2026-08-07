@@ -197,6 +197,20 @@ h1 span{color:var(--pcb)}
 @keyframes blink{50%{opacity:0}}
 .terminal.disco{animation:diskoRenk .4s linear infinite}
 @keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
+/* easter egg: matrix — terminalin üstüne serilen canvas */
+.matrix-cv{position:absolute;z-index:12;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .45s ease}
+.matrix-cv.acik{opacity:1}
+/* easter egg: ışınlanma — terminal çıktısı parlayıp dağılır */
+#term-out.isinla{animation:isinlan 1.5s ease-in forwards}
+@keyframes isinlan{
+  0%{opacity:1}
+  30%{filter:brightness(2.2)}
+  60%{opacity:.5;filter:brightness(3) blur(1.4px);transform:translateY(-5px)}
+  100%{opacity:0;filter:brightness(4) blur(5px);transform:translateY(-16px)}
+}
+/* easter egg: don't panic — kitabın kapağındaki dostça harfler */
+.panik{display:inline-block;color:#E8C48A;font-weight:600;letter-spacing:.22em;animation:panikYanip 1.5s steps(1) 3}
+@keyframes panikYanip{50%{color:var(--term-green)}}
 .ufo-alan{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
 .ufo{position:absolute;top:8vh;left:-90px;font-size:2.9rem;animation:ufoGec 5.1s ease-in-out forwards}
 @keyframes ufoGec{
@@ -1180,8 +1194,9 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 });
 applyLang();
 
-/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 7 tane) ---------- */
-const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim', 'uzayli'];
+/* ---------- easter egg: keşif sayacı ve hepsini bulunca kutlama (f12 konsol egg'i hariç 10 tane) ---------- */
+const KESIF_EGGLER = ['disco', 'rm', 'bocek', 'uyku', 'konami', 'kivilcim', 'uzayli',
+  'matrix', 'isinla', 'cevap'];
 const KESIF_TOPLAM = KESIF_EGGLER.length;
 /* ilerleme kalıcı değil: her sayfa yenilemesinde sıfırlanır (eski localStorage kaydını da temizle) */
 localStorage.removeItem('kesif');
@@ -1257,7 +1272,10 @@ function normallestir(s){
 }
 const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about', ben:'about',
   yetenekler:'skills', beceriler:'skills', projeler:'projects', iletisim:'contact',
-  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug', tara:'scan'};
+  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug', tara:'scan',
+  kismet:'fortune', fal:'fortune', isinla:'beam', warp:'beam', enterprise:'beam', 'ncc-1701':'beam',
+  scotty:'beam', mrspock:'spock', cevap:'42', answer:'42', deepthought:'42', derindusunce:'42',
+  panik:'panic', 'dont-panic':'panic', dont:'panic', "don't":'panic', havlu:'towel'};
 
 function komutCalistir(ham){
   const girdi = ham.trim();
@@ -1278,6 +1296,13 @@ function komutCalistir(ham){
        ['projects',en ? 'projects'         : 'projeler'],
        ['contact', en ? 'contact info'     : 'iletişim'],
        ['clear',   en ? 'clear the screen' : 'ekranı temizle']
+      ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
+      /* egg sayılmayan keyif komutları: listede dursunlar, egg'ler gizli kalsın */
+      satirYaz(`<span class="t">${en ? 'just for fun:' : 'keyfine:'}</span>`);
+      [['fortune', en ? 'a piece of embedded wisdom'   : 'gömülü yazılım atasözü'],
+       ['spock',   en ? 'live long and prosper'        : 'canlı kal ve başarılı ol'],
+       ['panic',   en ? 'large, friendly letters'      : 'iri ve dostane harfler'],
+       ['towel',   en ? "never travel without one"     : 'onsuz yola çıkılmaz']
       ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
       satirYaz(`<span class="t"># ${en ? 'some commands are not on this list...' : 'bazı komutlar bu listede yok...'}</span>`);
       break;
@@ -1339,6 +1364,33 @@ function komutCalistir(ham){
     }
     case 'scan':
       uzayliTara();
+      break;
+    case 'fortune': {
+      const kismetler = FORTUNE[en ? 'en' : 'tr'];
+      satirYaz(`<span class="val">"${kismetler[Math.floor(Math.random() * kismetler.length)]}"</span>`);
+      satirYaz('<span class="t">        — /dev/embedded</span>');
+      break;
+    }
+    case 'matrix':
+      matrixYagmuru();
+      break;
+    case 'beam':
+      isinlan();
+      break;
+    case 'spock':
+      satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? '"live long and prosper."' : '"canlı kal ve başarılı ol."'}</span>`);
+      satirYaz(`<span class="t">${en ? 'logical. also: 47 is the most fascinating number.' : 'mantıklı. ayrıca: 47 en büyüleyici sayıdır.'}</span>`);
+      break;
+    case '42':
+      derinDusunce();
+      break;
+    case 'panic':
+      satirYaz(`<span class="panik">${en ? "DON'T PANIC" : 'PANİK YOK'}</span>`);
+      satirYaz(`<span class="t">${en ? '— in large, friendly letters on the cover.' : '— kapakta, iri ve dostane harflerle yazıyor.'}</span>`);
+      break;
+    case 'towel':
+      satirYaz(`<span class="ok">🧻</span> <span class="val">${en ? 'a towel is the most massively useful thing an interstellar hitchhiker can carry.' : 'bir havlu, yıldızlararası otostopçunun taşıyabileceği en kullanışlı şeydir.'}</span>`);
+      satirYaz(`<span class="t">${en ? "status: he knows where his towel is." : 'durum: havlusunun nerede olduğunu biliyor.'}</span>`);
       break;
     default:
       satirYaz(`<span class="val">bash: ${kacir(hamIlk)}: ${en ? 'command not found' : 'komut bulunamadı'}</span> <span class="t">${en ? "(try 'help')" : "('help' yazmayı dene)"}</span>`);
@@ -1407,6 +1459,137 @@ function yesilParlama(){
   document.body.appendChild(flas);
   setTimeout(() => flas.remove(), 1000);
 }
+
+/* ---------- fortune: rastgele gömülü yazılım atasözü (egg sayılmaz, sadece keyif) ---------- */
+const FORTUNE = {
+  tr:['önce GND\'yi kontrol et.',
+      'volatile koymayı unutma; derleyici senden akıllı olduğunu sanıyor.',
+      'çalışmıyorsa lehimle, çalışıyorsa dokunma.',
+      'her şey bir pull-up direnciyle çözülür. çözülmezse iki tane koy.',
+      'watchdog\'u besleyemeyen, onun tarafından yenir.',
+      'delay(100) bir çözüm değildir. ama bazen çözümdür.',
+      'sahada çalışan kod, masada çalışan koddan iyidir.',
+      'osiloskop yalan söylemez; sen yanlış yere prob tutuyorsun.',
+      'stack overflow gerçek bir hata, gerçek bir site değil.',
+      'pil ömrünü uzatmanın en kolay yolu: cihazı daha çok uyutmak.'],
+  en:['check the ground first.',
+      'don\'t forget the volatile; the compiler thinks it is smarter than you.',
+      'if it doesn\'t work, solder it. if it works, don\'t touch it.',
+      'everything can be fixed with a pull-up. if not, add a second one.',
+      'feed the watchdog, or be eaten by it.',
+      'delay(100) is not a solution. except when it is.',
+      'code that runs in the field beats code that runs on the bench.',
+      'the scope never lies; your probe is in the wrong place.',
+      'stack overflow is a real bug, not just a website.',
+      'the easiest way to extend battery life: let the device sleep more.']
+};
+
+/* ---------- easter egg: matrix — terminalin üstünde karakter yağmuru ---------- */
+function matrixYagmuru(){
+  const en = lang === 'en';
+  if(reduced){
+    satirYaz(`<span class="t">${en ? '[ cancelled ] reduced-motion is on — the rain stays in the cloud' : '[ iptal ] reduced-motion aktif — yağmur bulutta kaldı'}</span>`);
+    kesifBildir('matrix');
+    return;
+  }
+  const term = document.querySelector('.terminal');
+  const wrap = document.querySelector('.term-wrap');
+  if(wrap.querySelector('.matrix-cv')) return;
+  satirYaz(`<span class="val">${en ? 'wake up, neo... the meter is watching you.' : 'uyan neo... sayaç seni izliyor.'}</span>`);
+
+  const w = term.offsetWidth, h = term.offsetHeight;
+  const cv = document.createElement('canvas');
+  cv.className = 'matrix-cv';
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = w * dpr; cv.height = h * dpr;
+  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  cv.style.left = term.offsetLeft + 'px'; cv.style.top = term.offsetTop + 'px';
+  wrap.appendChild(cv);
+  const ctx = cv.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  const zemin = getComputedStyle(term).backgroundColor.replace(/^rgb\((.+)\)$/, 'rgba($1,.14)');
+  const yesil = getComputedStyle(document.documentElement).getPropertyValue('--term-green').trim() || '#6FDCA8';
+  const boy = 13;
+  const kolonlar = Math.floor(w / (boy * 0.62));
+  const damla = Array.from({length: kolonlar}, () => Math.random() * -20);
+  const alfabe = '0123456789ABCDEF01アイウエカキクケサシスセタチツテ$#*+=<>';
+
+  islemde = true;
+  ctx.fillStyle = getComputedStyle(term).backgroundColor;
+  ctx.fillRect(0, 0, w, h);
+  const tik = setInterval(() => {
+    /* zemini hafif boyayarak izleri söndür */
+    ctx.fillStyle = zemin;
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = `${boy}px "IBM Plex Mono", monospace`;
+    for(let i = 0; i < kolonlar; i++){
+      const k = alfabe[Math.floor(Math.random() * alfabe.length)];
+      const x = i * boy * 0.62, y = damla[i] * boy;
+      /* damlanın başı beyaza yakın, gövdesi terminal yeşili */
+      ctx.fillStyle = Math.random() > 0.92 ? '#D9FFE9' : yesil;
+      ctx.fillText(k, x, y);
+      damla[i] = (y > h && Math.random() > 0.975) ? 0 : damla[i] + 1;
+    }
+  }, 55);
+  requestAnimationFrame(() => cv.classList.add('acik'));
+  setTimeout(() => {
+    clearInterval(tik);
+    cv.classList.remove('acik');
+    setTimeout(() => cv.remove(), 500);
+    satirYaz(`<span class="t">${en ? 'connection closed. there is no spoon, only firmware.' : 'bağlantı kapandı. kaşık yok, sadece firmware var.'}</span>`);
+    islemde = false;
+    kesifBildir('matrix');
+  }, 4200);
+}
+
+/* ---------- easter egg: ışınlanma (star trek) ---------- */
+function isinlan(){
+  const en = lang === 'en';
+  islemde = true;
+  const adimlar = en
+    ? [['target lock', 'NCC-1701'], ['pattern buffer', 'ok'], ['annular confinement beam', 'ok']]
+    : [['hedef kilidi', 'NCC-1701'], ['desen tamponu', 'ok'], ['halka sınırlama ışını', 'ok']];
+  let t = 0;
+  adimlar.forEach(([k, v]) => {
+    t += 340;
+    setTimeout(() => satirYaz(`<span class="t">[ TRANSPORTER ]</span> <span class="ok">${k}</span> <span class="val">...... ${v}</span>`), t);
+  });
+  t += 420;
+  setTimeout(() => satirYaz(`<span class="val">${en ? '"energize."' : '"enerji!"'}</span>`), t);
+  t += 500;
+  setTimeout(() => { if(!reduced) termOut.classList.add('isinla'); }, t);
+  setTimeout(() => {
+    termOut.classList.remove('isinla');
+    termOut.innerHTML = '';
+    satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? 'transport complete — you are on the pad.' : 'ışınlanma tamam — platformdasın.'}</span>`);
+    satirYaz(`<span class="t">${en ? "scotty: 'she cannae take much more of this, captain!'" : "scotty: 'daha fazla dayanamaz kaptan!'"}</span>`);
+    islemde = false;
+    kesifBildir('isinla');
+  }, t + (reduced ? 200 : 1500));
+}
+
+/* ---------- easter egg: 42 — derin düşünce (otostopçunun galaksi rehberi) ---------- */
+function derinDusunce(){
+  const en = lang === 'en';
+  islemde = true;
+  const sayilar = ['7.500.000', '4.100.000', '900.000', '12'];
+  const yil = en ? 'years remaining' : 'yıl kaldı';
+  satirYaz(`<span class="t">[ DEEP THOUGHT ]</span> <span class="ok">${en ? 'question accepted: life, the universe and everything' : 'soru kabul edildi: hayat, evren ve her şey'}</span>`);
+  let t = 400;
+  sayilar.forEach((s, i) => {
+    setTimeout(() => satirYaz(`<span class="t">[ DEEP THOUGHT ]</span> <span class="val">${en ? s.replace(/\./g, ',') : s} ${yil} ...</span>`), t);
+    t += 600 - i * 110; /* geri sayım hızlanır */
+  });
+  setTimeout(() => {
+    satirYaz(`<span class="ok" style="font-size:1.3em">= 42</span>`);
+    satirYaz(`<span class="t">${en ? "that's the answer. nobody remembers the question." : 'cevap bu. soruyu hatırlayan yok.'}</span>`);
+    islemde = false;
+    kesifBildir('cevap');
+  }, t + 500);
+}
+
+
 
 document.getElementById('term-form').addEventListener('submit', e => {
   e.preventDefault();

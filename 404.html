@@ -25,6 +25,7 @@
   --term-bg:#0E1B15;
   --term-green:#6FDCA8;
   --term-dim:#3E6B57;
+  --term-dim-text:#66967F;   /* koyu zeminde okunur gri-yeşil (--term-dim metin için düşük kontrastlı) */
   --btn-ink:#FFFFFF;
   --mono:'IBM Plex Mono',monospace;
   --disp:'Space Grotesk',sans-serif;
@@ -71,6 +72,37 @@ h1{font-family:var(--disp);font-size:clamp(1.15rem,4vw,1.5rem);font-weight:600;m
 .terminal .dim{color:var(--term-dim)}
 .terminal .cur{display:inline-block;width:7px;height:14px;background:var(--term-green);vertical-align:-2px;animation:yanip 1.1s step-end infinite}
 @keyframes yanip{0%,50%{opacity:1}51%,100%{opacity:0}}
+/* ---------- mini oyun: sinyali kilitle ---------- */
+.oyun{
+  background:var(--term-bg);border-radius:10px;padding:14px 16px 16px;margin:0 0 26px;
+  text-align:left;font-size:.72rem;color:var(--term-dim-text);
+  box-shadow:0 12px 32px rgba(14,27,21,.28);
+}
+.oyun-ust{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:11px;letter-spacing:.06em}
+.oyun-ad{color:var(--term-green)}
+.oyun-skor b{color:#E8C48A;font-weight:600}
+.bar{
+  position:relative;height:28px;border:1px solid var(--term-dim);border-radius:5px;overflow:hidden;
+  cursor:pointer;touch-action:manipulation;
+  background:repeating-linear-gradient(90deg,transparent 0 15px,rgba(111,220,168,.09) 15px 16px);
+}
+.hedef{position:absolute;top:0;bottom:0;background:rgba(111,220,168,.26);border-left:1px solid var(--term-green);border-right:1px solid var(--term-green)}
+.ibre{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--copper);box-shadow:0 0 8px var(--copper)}
+.bar.vurdu{box-shadow:inset 0 0 0 2px rgba(111,220,168,.55)}
+.bar.kacti{animation:barKac .32s ease}
+@keyframes barKac{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.oyun-alt{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.btn-oyun{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:7px 14px;border-radius:5px;
+  border:1px solid var(--term-green);background:none;color:var(--term-green);cursor:pointer;
+}
+.btn-oyun:hover{background:rgba(111,220,168,.12)}
+.oyun-not{flex:1;min-width:160px}
+.oyun-not b{color:#E8C48A;font-weight:600}
+/* sayfanin geri kalanindaki gibi: turkce satirin altinda soluk ingilizcesi */
+.oyun-not .en{display:block;opacity:.7;font-size:.92em}
+@media (prefers-reduced-motion:reduce){.bar.kacti{animation:none}}
+
 /* ana sayfadaki .btn / .btn-primary ile birebir ayni */
 .btn{
   display:inline-block;font-family:var(--mono);font-size:.85rem;text-decoration:none;
@@ -119,8 +151,113 @@ h1{font-family:var(--disp);font-size:clamp(1.15rem,4vw,1.5rem);font-weight:600;m
     <div><span class="dim">cemal@kor:~$</span> cd /<span class="cur"></span></div>
   </div>
 
+  <!-- kaybolan sayfayı bulamadık ama sinyali bulabilirsin: mini oyun -->
+  <div class="oyun">
+    <div class="oyun-ust">
+      <span class="oyun-ad">SİNYALİ KİLİTLE <span style="color:var(--term-dim-text)">/ lock the signal</span></span>
+      <span class="oyun-skor">SKOR <b id="skor">0</b> · REKOR <b id="rekor">0</b></span>
+    </div>
+    <div class="bar" id="bar" aria-hidden="true">
+      <div class="hedef" id="hedef"></div>
+      <div class="ibre" id="ibre"></div>
+    </div>
+    <div class="oyun-alt">
+      <button class="btn-oyun" id="oyun-btn">BAŞLAT / START</button>
+      <span class="oyun-not" id="oyun-not" role="status">Tarayıcı bandı süpürürken sinyali yakala.<span class="en" lang="en">Catch the signal as the scanner sweeps the band.</span></span>
+    </div>
+  </div>
+
   <a class="btn" href="/">← Ana sayfaya dön</a>
 </div>
+
+<script>
+/* ---------- mini oyun: kayan ibre hedef bandın içindeyken kilitle ----------
+   her kilitte bant daralır ve tarama hızlanır; ıskalayınca oyun biter. */
+(function(){
+  const bar = document.getElementById('bar');
+  const hedefEl = document.getElementById('hedef');
+  const ibreEl = document.getElementById('ibre');
+  const btn = document.getElementById('oyun-btn');
+  const notEl = document.getElementById('oyun-not');
+  const skorEl = document.getElementById('skor');
+  const rekorEl = document.getElementById('rekor');
+
+  const HIZ0 = 0.62, GENIS0 = 0.30, EN_DAR = 0.06;
+  let calisiyor = false, ibre = 0, yon = 1, hiz = HIZ0, genis = GENIS0, merkez = .5, skor = 0, sonKare = 0, cerceve;
+  let rekor = +(localStorage.getItem('rekor404') || 0);
+  rekorEl.textContent = rekor;
+
+  /* her durum metni iki dilli: türkçe satır + altında soluk ingilizcesi */
+  function notYaz(tr, en){ notEl.innerHTML = `${tr}<span class="en" lang="en">${en}</span>`; }
+
+  function hedefKoy(){
+    merkez = genis / 2 + Math.random() * (1 - genis);
+    hedefEl.style.left  = ((merkez - genis / 2) * 100).toFixed(2) + '%';
+    hedefEl.style.width = (genis * 100).toFixed(2) + '%';
+  }
+  function ibreCiz(){ ibreEl.style.left = (ibre * 100).toFixed(2) + '%'; }
+  function dongu(t){
+    if(!calisiyor) return;
+    const dt = Math.min((t - sonKare) / 1000, .05); /* sekme arka plandayken sıçramasın */
+    sonKare = t;
+    ibre += yon * hiz * dt;
+    if(ibre >= 1){ ibre = 1; yon = -1; }
+    if(ibre <= 0){ ibre = 0; yon = 1; }
+    ibreCiz();
+    cerceve = requestAnimationFrame(dongu);
+  }
+  function basla(){
+    skor = 0; hiz = HIZ0; genis = GENIS0; ibre = 0; yon = 1;
+    skorEl.textContent = '0';
+    bar.classList.remove('kacti');
+    hedefKoy(); ibreCiz();
+    calisiyor = true;
+    btn.textContent = 'KİLİTLE / LOCK';
+    notYaz('Boşluk tuşu ya da banda dokunarak kilitle.', 'Hit space or tap the bar to lock.');
+    sonKare = performance.now();
+    cerceve = requestAnimationFrame(dongu);
+  }
+  function bitir(){
+    calisiyor = false;
+    cancelAnimationFrame(cerceve);
+    bar.classList.remove('vurdu');
+    bar.classList.add('kacti');
+    if(skor > rekor){ rekor = skor; localStorage.setItem('rekor404', rekor); rekorEl.textContent = rekor; }
+    notYaz(
+      `Sinyal kayboldu. <b>${skor}</b> kilit — ${skor >= 8 ? 'bu bandı sen mi tasarladın?' : skor >= 4 ? 'fena değil.' : 'daha sıkı tut.'}`,
+      `Signal lost. <b>${skor}</b> ${skor === 1 ? 'lock' : 'locks'} — ${skor >= 8 ? 'did you design this band?' : skor >= 4 ? 'not bad.' : 'hold it tighter.'}`
+    );
+    btn.textContent = 'TEKRAR / RETRY';
+  }
+  function kilitle(){
+    if(!calisiyor){ basla(); return; }
+    if(Math.abs(ibre - merkez) <= genis / 2){
+      skor++;
+      skorEl.textContent = skor;
+      genis = Math.max(EN_DAR, genis * 0.86);
+      hiz += 0.1;
+      hedefKoy();
+      bar.classList.add('vurdu');
+      setTimeout(() => bar.classList.remove('vurdu'), 160);
+      notYaz(`Kilitlendi. Bant daraldı: <b>${(genis * 100).toFixed(0)}%</b>`,
+             `Locked. Band narrowed to <b>${(genis * 100).toFixed(0)}%</b>`);
+    } else {
+      bitir();
+    }
+  }
+
+  btn.addEventListener('click', kilitle);
+  bar.addEventListener('pointerdown', e => { e.preventDefault(); kilitle(); });
+  document.addEventListener('keydown', e => {
+    if(e.key !== ' ' && e.key !== 'Enter') return;
+    if(e.target === btn) return; /* buton odaktayken tarayıcı zaten click üretiyor */
+    e.preventDefault();
+    kilitle();
+  });
+  /* sekme arka plana geçerse tarama donmasın diye zamanlayıcıyı tazele */
+  document.addEventListener('visibilitychange', () => { sonKare = performance.now(); });
+})();
+</script>
 
 </body>
 </html>
