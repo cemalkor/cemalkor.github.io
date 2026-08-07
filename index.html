@@ -13,6 +13,10 @@
 <link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en">
 <link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/">
 
+<!-- RSS: okuyucular ve tarayıcı eklentileri beslemeyi buradan buluyor (tools/feed-uret.ps1 üretiyor) -->
+<link rel="alternate" type="application/rss+xml" title="Cemal Kör — Blog (TR)" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Cemal Kör — Blog (EN)" href="/feed.en.xml">
+
 <!-- sosyal paylaşım kartı (Open Graph + Twitter) -->
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Cemal Kör">
@@ -264,6 +268,11 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 
 /* ---------- blog ---------- */
 #blog-list{display:grid;gap:16px}
+/* etiket filtresi: adresi degistirmiyor — ?etiket=X rotalari Google'a ince/yinelenen sayfa gorunurdu */
+.etiket-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.etiket-chip{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:5px 13px;cursor:pointer;transition:border-color .15s,color .15s}
+.etiket-chip:hover{border-color:var(--copper);color:var(--copper)}
+.etiket-chip[aria-pressed="true"]{background:var(--pcb);border-color:var(--pcb);color:var(--btn-ink)}
 .post-card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;cursor:pointer;transition:border-color .15s}
 .post-card:hover{border-color:var(--pcb)}
 .post-card .meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:6px}
@@ -273,12 +282,31 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 #post-content{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:36px 40px;max-width:760px}
 #post-content h1,#post-content h2,#post-content h3{font-family:var(--disp);margin:1.2em 0 .5em;line-height:1.25}
 #post-content h1{font-size:1.8rem;margin-top:0}
+/* yazı başındaki tarih · etiket · okuma süresi satırı */
+.post-meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:18px}
 #post-content p{margin-bottom:1em;color:var(--prose)}
 #post-content ul,#post-content ol{margin:0 0 1em 1.4em}
 #post-content li{margin-bottom:.35em}
 #post-content code{font-family:var(--mono);font-size:.85em;background:var(--mist);padding:2px 6px;border-radius:4px}
 #post-content pre{background:var(--term-bg);color:var(--term-green);padding:18px;border-radius:8px;overflow-x:auto;margin-bottom:1em}
 #post-content pre code{background:none;color:inherit;padding:0}
+/* kod kopyala: pre'ye degil sarmalayiciya konumlaniyor, yoksa yatay kaydirmada buton kayardi */
+.kod-sar{position:relative}
+.kod-kopyala{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:.68rem;color:var(--term-dim-text);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:4px 9px;cursor:pointer;opacity:0;transition:opacity .15s,color .15s,border-color .15s}
+.kod-sar:hover .kod-kopyala,.kod-kopyala:focus-visible{opacity:1}
+.kod-kopyala:hover{color:var(--term-green);border-color:var(--term-green)}
+.kod-kopyala.ok{opacity:1;color:var(--term-green);border-color:var(--term-green)}
+/* dokunmatikte hover yok — buton hep gorunsun */
+@media (hover:none){.kod-kopyala{opacity:1}}
+
+/* yazi alti onceki/sonraki gecisi */
+.post-nav{display:flex;gap:14px;justify-content:space-between;max-width:760px;margin-top:22px}
+.post-nav a{flex:1;max-width:48%;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:border-color .15s}
+.post-nav a:hover{border-color:var(--pcb)}
+.post-nav .yon{display:block;font-family:var(--mono);font-size:.7rem;color:var(--copper);margin-bottom:4px}
+.post-nav .ad{font-size:.88rem;line-height:1.35}
+.post-nav .sonraki{margin-left:auto;text-align:right}
+@media (max-width:600px){.post-nav{flex-direction:column}.post-nav a{max-width:none}.post-nav .sonraki{text-align:left}}
 #post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
 #post-content img{max-width:100%;border-radius:8px}
 #post-content a{color:var(--pcb)}
@@ -346,6 +374,118 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   #post-content{padding:24px 20px}
   .bg-circuit{opacity:.55}
 }
+/* ---------- yazdırma: sayfanın kendisi özgeçmiş olarak diziliyor ----------
+   Ayrı bir CV dosyası tutulmuyor; "CV indir" düğmesi window.print() çağırıyor.
+   Böylece CV siteyle birlikte güncelleniyor, ikisi ayrışmıyor.
+
+   Hedef, özgeçmiş ayrıştırıcılarının (ATS) düzgün okuyabildiği bir çıktı. Bunun için:
+   - TEK KOLON. Çok kolonlu düzende ayrıştırıcı metni satır satır soldan sağa okuyup
+     iki kolonu birbirine karıştırıyor; CV'nin en sık bozulma sebebi bu.
+   - Rozet/etiket kutucukları düz virgüllü listeye dönüyor (kutular ayrı ayrı kelime sanılıyor).
+   - Bölüm başlıkları ("Deneyim", "Eğitim", "Yetkinlikler") ayrıştırıcının aradığı
+     standart adlarla ve gerçek <h2> olarak duruyor.
+   - Süs (devre izi, terminal, zaman çizelgesi noktaları, kart çerçeveleri) ve tekrar eden
+     bilgi (datasheet kartı, footer iletişim) kâğıda gitmiyor. */
+.print-only{display:none}
+.print-head{display:none}
+@media print{
+  .print-only{display:block}
+  .sec-head.print-only{display:flex}
+  /* koyu tema seçili olsa bile kâğıda açık palet basılsın — [data-theme="dark"] üzerine yazıyor */
+  :root,[data-theme="dark"]{
+    --paper:#fff; --ink:#000; --ink-soft:#333; --prose:#000;
+    --pcb:#14503c; --copper:#7a4a1f; --line:#bbb; --card:#fff; --mist:#f2f2f2;
+  }
+  @page{margin:14mm}
+  html{scroll-behavior:auto}
+  body{background:#fff;color:#000;font-size:10.5pt;line-height:1.45}
+
+  /* ekrana ait olan her şey: gezinme, dekor, terminal, blog, easter egg'ler */
+  nav,.bg-circuit,.sq-divider,.term-wrap,.hero-cta,#blog,.kesif-rozet,
+  .kutlama-overlay,.ufo-alan,.sec-head .pin,.etiket-bar,.kod-kopyala,.post-nav,
+  /* unvanı print-head zaten yazıyor, hero'daki eyebrow tekrar olurdu */
+  .eyebrow,
+  /* datasheet kartı: ad/konum/rol künyeyi, diller/sistem/MCU ise Yetkinlikler'i tekrar ediyor.
+     Tekrar eden bilgi ATS'te hem yer harcıyor hem eşleştirmeyi bulandırıyor. */
+  .spec-card,
+  /* iletişim künyede zaten var; footer'daki tekrar + easter egg metni kâğıda gitmesin */
+  footer{display:none !important}
+
+  /* ---- künye: sayfanın en üstünde, ad → unvan → iletişim sırasıyla (ATS bu sırayı bekliyor) ---- */
+  .print-head{display:block;border-bottom:1.5pt solid #000;padding:0 0 8px;margin-bottom:2px}
+  .print-head h2{font-family:var(--disp);font-size:20pt;line-height:1.1;color:#000}
+  .print-role{font-size:11pt;color:#000;margin-top:1px}
+  .print-contact{font-size:9pt;color:#000;margin-top:5px;line-height:1.5}
+
+  /* ---- TEK KOLON: ATS'in metni karıştırmaması için en kritik kural ---- */
+  header{display:block;padding:10px 0 0;max-width:none}
+  .about-grid,.proj-grid,.skill-cols{display:block}
+  section{padding:9px 0;max-width:none;break-inside:auto}
+
+  /* ---- bölüm başlıkları: ayrıştırıcının tanıdığı düz, belirgin başlıklar ---- */
+  .sec-head{margin-bottom:7px;border-bottom:.5pt solid #999;padding-bottom:2px;break-after:avoid}
+  .sec-head h2{font-family:var(--disp);font-size:11.5pt;text-transform:uppercase;letter-spacing:.04em;color:#000}
+  h1,h2,h3{break-after:avoid}
+
+  /* özet cümlesi: kâğıtta afiş değil, normal bir paragraf olmalı */
+  h1{font-size:11pt;font-weight:600;line-height:1.4;margin-bottom:3px}
+  h1 br{display:none}
+  h1 span{color:#000}
+  .hero-sub{font-size:10pt;max-width:none;margin-top:0}
+  #hakkimda p{margin-bottom:.5em}
+
+  /* ---- deneyim: zaman çizelgesi süsü kalksın, kayıtlar düz aksın ---- */
+  .xp{border-left:none;margin-left:0;padding-left:0;gap:11px}
+  .xp-item::before{display:none}
+  .xp-item{break-inside:avoid}
+  .xp-date{font-size:9pt;color:#000}
+  .xp-item h3{font-size:11pt;margin:1px 0}
+  .xp-role{font-size:10pt;color:#000;font-weight:600}
+  .xp-item p{font-size:9.5pt;margin-top:3px;max-width:none;color:#000}
+
+  /* ---- projeler / eğitimler: kart görünümü değil, düz kayıtlar ---- */
+  .proj{background:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-bottom:11px;break-inside:avoid;display:block}
+  .proj .ref{font-size:8.5pt;color:#000;margin-bottom:2px}
+  .proj h3{font-size:11pt;margin-bottom:2px}
+  .proj p{font-size:9.5pt;color:#000}
+  .proj a{display:inline;margin-top:0;font-size:9pt;color:#000}
+  .proj .links{margin-top:2px;gap:14px}
+
+  /* ---- etiketler: kutucuklar ayrı ayrı kelime sanılıyor, virgüllü tek satıra çeviriyoruz.
+     Ayraç HEM virgülle HEM de gerçek bir boşlukla veriliyor: virgül CSS üretilmiş içerik
+     (::after) ve bazı PDF metin çıkarıcıları onu atlıyor; margin ise fiziksel boşluk
+     bıraktığı için çıkarıcı kelimeleri her hâlükârda ayırabiliyor. ---- */
+  .xp-tags{display:block;margin-top:3px;max-width:none}
+  .tag{display:inline-block;background:none;border:none;padding:0;border-radius:0;font-size:9pt;color:#000}
+  /* ---- yetkinlikler: "BAŞLIK: a, b, c" — ATS'in en rahat okuduğu beceri biçimi ---- */
+  .skill-box{background:none;border:none;padding:0;margin-bottom:3px;break-inside:avoid}
+  .skill-box h3{display:inline-block;font-size:9.5pt;color:#000;margin:0}
+  .skill-box ul{display:inline;margin:0}
+  .skill-box li{display:inline-block;border:none;padding:0;font-size:9.5pt;color:#000}
+  .skill-box li::before{content:none}
+
+  /* Ayraçlar normalde beforeprint'te GERÇEK metin düğümü olarak ekleniyor (aşağıdaki
+     cvAyraclariEkle). Aşağıdaki kurallar yalnızca o çalışmadıysa (body'de .ayrac-var yoksa)
+     devreye giren yedek: CSS ::after kâğıda basılıyor ama üretilmiş içerik olduğu için
+     bazı PDF metin çıkarıcıları atlayabiliyor. İkisi aynı anda uygulanmıyor — çift virgül olmaz. */
+  body:not(.ayrac-var) .tag{margin-right:.32em}
+  body:not(.ayrac-var) .tag:not(:last-child)::after{content:','}
+  body:not(.ayrac-var) .skill-box h3{margin-right:.35em}
+  body:not(.ayrac-var) .skill-box h3::after{content:':'}
+  body:not(.ayrac-var) .skill-box li{margin-right:.32em}
+  body:not(.ayrac-var) .skill-box li:not(:last-child)::after{content:','}
+
+  /* ---- linkler: adres metnin yanına yazılıyor, yoksa kâğıtta tıklanamayan bir metin kalıyor ---- */
+  a{color:#000;text-decoration:none}
+  #projeler a[href^="http"]::after,#egitimler a[href^="http"]::after,#hobi a[href^="http"]::after{
+    content:' — ' attr(href);font-size:8.5pt;color:#000;word-break:break-all;
+  }
+  /* tek istisna: Pinterest pano adresi yüzde-kodlu ve üç satır sürüyor, CV'yi çöplüyor */
+  #hobi a[href*="pinterest"]::after{content:none}
+
+  p,li{orphans:2;widows:2}
+}
+
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .cursor{animation:none}
@@ -548,14 +688,26 @@ window.goatcounter = {
 
 <main>
 
+<!-- yalnızca yazdırmada görünür: nav ve terminal kâğıda gitmediği için künye buraya taşınıyor -->
+<div class="print-head">
+  <h2>Cemal Kör</h2>
+  <div class="print-role" data-i18n="print.role">Gömülü Yazılım Mühendisi</div>
+  <div class="print-contact">cemalkor94@gmail.com · Ankara, TR · cemalkor.com.tr · github.com/cemalkor · linkedin.com/in/cemalkor</div>
+</div>
+
 <header id="top">
   <div>
+    <!-- ATS'ler "Özet / Summary" başlığını tanıyor; ekranda gereksiz, kâğıtta hero metnini konumlandırıyor -->
+    <div class="sec-head print-only"><h2 data-i18n="print.summary">Özet</h2></div>
     <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
     <h1 data-i18n="hero.h1">IoT ekosistemindeki cihazlar için uçtan uca <span>güvenilir gömülü yazılım</span> çözümleri üretiyorum.</h1>
     <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
       <a class="btn btn-ghost" href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub →</a>
+      <!-- CV ayrı bir dosya değil: sayfanın kendisi @media print ile özgeçmiş olarak dizilir,
+           böylece CV hep siteyle aynı ve güncel kalıyor -->
+      <button type="button" class="btn btn-ghost" id="cv-btn" data-i18n="hero.cv">CV indir ↓</button>
     </div>
   </div>
   <div class="term-wrap">
@@ -590,7 +742,7 @@ window.goatcounter = {
       <div class="spec-row"><span class="k" data-i18n="spec.os">Sistem</span><span class="v">Bare-metal · FreeRTOS · ThreadX</span></div>
       <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
       <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — Inodya Teknoloji</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.bat">Pil</span><span class="v pil-v">
+      <div class="spec-row pil-row"><span class="k" data-i18n="spec.bat">Pil</span><span class="v pil-v">
         <svg class="pil-svg" viewBox="0 0 30 12" aria-hidden="true">
           <rect x="1" y="1" width="24" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
           <rect x="27" y="4" width="2.5" height="4" rx="1" fill="currentColor"/>
@@ -725,6 +877,20 @@ window.goatcounter = {
 
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7.5s;animation-delay:-3s" d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
 
+<!-- Yalnızca yazdırmada (CV'de) görünür. Sitede ayrı bir "Eğitim" bölümü yok, diploma bilgisi
+     "Hakkımda" metninin içinde geçiyor; ama özgeçmiş ayrıştırıcıları (ATS) bunu kendi başlığı
+     altında arıyor. Yıl eklemek istersen xp-date satırını aç ve doldur. -->
+<section id="egitim-print" class="print-only">
+  <div class="sec-head"><h2 data-i18n="print.edu">Eğitim</h2></div>
+  <div class="xp">
+    <div class="xp-item">
+      <!-- <div class="xp-date">2018 — 2022</div> -->
+      <h3>Gazi Üniversitesi</h3>
+      <div class="xp-role" data-i18n="print.edu.gazi">Elektrik-Elektronik Mühendisliği — Lisans</div>
+    </div>
+  </div>
+</section>
+
 <section id="egitimler">
   <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
   <div class="proj-grid">
@@ -770,6 +936,7 @@ window.goatcounter = {
 
 <section id="blog">
   <div class="sec-head"><h2>Blog</h2><span class="pin" aria-hidden="true" data-pin="posts.a"></span></div>
+  <div id="etiket-bar" class="etiket-bar" role="group" aria-label="Etiket filtresi" hidden></div>
   <div id="blog-list"></div>
   <div id="post-view">
     <a class="back-btn" id="geri-btn" href="/" data-i18n="blog.back">← Tüm yazılar</a>
@@ -789,6 +956,8 @@ window.goatcounter = {
       <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
       <a href="https://github.com/cemalkor" target="_blank" rel="me noopener">GitHub</a>
       <a href="https://www.instagram.com/cemalkor" target="_blank" rel="me noopener">Instagram</a>
+      <!-- href'i applyLang() dile göre ayarlıyor -->
+      <a id="rss-link" href="/feed.xml">RSS</a>
     </div>
     <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle, özellikle konami şifresini!<br>// Gizlemezsen herkes şunları buldum diye yazar sonra!!!</p>
     <div class="foot-bottom">
@@ -851,6 +1020,35 @@ temaBtn.addEventListener('click', () => {
 });
 temaGoster();
 
+/* ---------- CV: ayrı dosya yok, sayfa @media print ile özgeçmiş olarak diziliyor ----------
+   Etiketler ve beceri maddeleri HTML'de ayraçsız yan yana duruyor (<span>Sigfox</span><span>NB-IoT</span>);
+   ekranda araları flex gap ile açılıyor. Kâğıtta araya virgül gerekiyor ve bunu CSS ::after ile
+   çizmek riskli: üretilmiş içerik basılıyor ama PDF'ten metin çıkaran özgeçmiş ayrıştırıcılarının
+   (ATS) bir kısmı onu atlayıp "SigfoxNB-IoTBLE 5.4" gibi birleşik okuyor — ki anahtar kelime
+   eşleşmesi tam da buradan yapılıyor. Bu yüzden yazdırmanın hemen öncesinde gerçek metin düğümü
+   ekleyip hemen sonrasında geri alıyoruz; CSS yedeği .ayrac-var ile devre dışı kalıyor. */
+let cvAyraclar = [];
+function cvAyraclariEkle(){
+  if(cvAyraclar.length) return;
+  const koy = (el, metin) => {
+    const dugum = document.createTextNode(metin);
+    el.parentNode.insertBefore(dugum, el.nextSibling);
+    cvAyraclar.push(dugum);
+  };
+  /* sonuncudan sonra ayraç yok */
+  document.querySelectorAll('.xp-tags .tag, .skill-box li').forEach(el => { if(el.nextElementSibling) koy(el, ', '); });
+  document.querySelectorAll('.skill-box h3').forEach(el => koy(el, ': '));
+  document.body.classList.add('ayrac-var');
+}
+function cvAyraclariKaldir(){
+  cvAyraclar.forEach(d => d.remove());
+  cvAyraclar = [];
+  document.body.classList.remove('ayrac-var');
+}
+window.addEventListener('beforeprint', cvAyraclariEkle);
+window.addEventListener('afterprint', cvAyraclariKaldir);
+document.getElementById('cv-btn').addEventListener('click', () => window.print());
+
 /* ---------- mobil nav: aşağı kayarken gizle, yukarı kayarken göster ---------- */
 const navEl = document.querySelector('nav');
 const navMobil = window.matchMedia('(max-width:840px)');
@@ -868,7 +1066,10 @@ const I18N = {
   'hero.eyebrow':'Embedded Software Engineer · Ankara',
   'hero.h1':'I build end-to-end, <span>reliable embedded software</span> solutions for devices in the IoT ecosystem.',
   'hero.sub':'Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.',
-  'hero.cta':'See my projects',
+  'hero.cta':'See my projects','hero.cv':'Download CV ↓',
+  'print.role':'Embedded Software Engineer',
+  'print.summary':'Summary','print.edu':'Education',
+  'print.edu.gazi':'Electrical & Electronics Engineering — BSc',
   'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
   'about.p1':"From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code — I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
   'about.p2':"In the BESoft Teknoloji and Aselsan UGES medical device projects — a defining chapter of my engineering journey — human health was directly on the line. Developing these critical systems where there is no room for error taught me that reliability is more than a technical property; it is an unbreakable promise. The high sense of responsibility and the zero-defect discipline I built there, I carry with me to this day.",
@@ -917,14 +1118,20 @@ const MSG = {
     desc:'Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.',
     empty:'Henüz yazı yok. İlk yazını eklemek için <code>posts/</code> klasörüne bir <code>.md</code> dosyası koyup <code>posts.json</code>\'a bir satır ekle.',
     loadErr:'⚠ Yazılar yüklenemedi. Bu site bir sunucu üzerinden (ör. GitHub Pages) açıldığında blog otomatik çalışır. Bilgisayarında denemek için klasörde <code>python -m http.server</code> çalıştırıp <code>localhost:8000</code> adresini aç.',
-    postErr:'Yazı yüklenemedi.'
+    postErr:'Yazı yüklenemedi.',
+    dk:'dk okuma', tumu:'Tümü', etiketBos:'Bu etikette yazı yok.',
+    onceki:'← Önceki yazı', sonraki:'Sonraki yazı →',
+    kopyala:'kopyala', kopyalandi:'kopyalandı ✓', kopyaHata:'kopyalanamadı'
   },
   en:{
     docTitle:'Cemal Kör — Embedded Software Engineer',
     desc:'Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.',
     empty:'No posts yet.',
     loadErr:'⚠ Posts could not be loaded. The blog works automatically when the site is served over HTTP (e.g. GitHub Pages).',
-    postErr:'Could not load this post.'
+    postErr:'Could not load this post.',
+    dk:'min read', tumu:'All', etiketBos:'No posts with this tag.',
+    onceki:'← Previous post', sonraki:'Next post →',
+    kopyala:'copy', kopyalandi:'copied ✓', kopyaHata:'copy failed'
   }
 };
 /* ---------- adres şeması: TR kök adreste, EN ?lang=en üzerinde, yazılar ?yazi=slug ----------
@@ -960,6 +1167,7 @@ function applyLang(){
   });
   document.documentElement.lang = lang;
   document.getElementById('lang-btn').textContent = lang==='en' ? 'TR' : 'EN';
+  document.getElementById('rss-link').setAttribute('href', lang==='en' ? '/feed.en.xml' : '/feed.xml');
 }
 document.getElementById('lang-btn').addEventListener('click', ()=>{
   lang = lang==='en' ? 'tr' : 'en';
@@ -1408,7 +1616,12 @@ document.addEventListener('touchend', e => {
 const listEl = document.getElementById('blog-list');
 const viewEl = document.getElementById('post-view');
 const contentEl = document.getElementById('post-content');
+const etiketBarEl = document.getElementById('etiket-bar');
 let posts = [];
+/* okuma süreleri posts.json'da değil ayrı ve ÜRETİLEN dosyada: posts.json elle yazılıyor,
+   süreler markdown'dan hesaplanıyor (tools/feed-uret.ps1). Yoksa süre hiç gösterilmez. */
+let okuma = {};
+let aktifEtiket = '';   /* '' = tümü; sadece bellekte, adrese yazılmıyor */
 
 /* marked yalnızca bir yazı açılınca indirilir — ana sayfayı açan ziyaretçi bu ~40 KB'ı hiç çekmez */
 let markedSozu = null;
@@ -1503,7 +1716,7 @@ function git(url){
 /* kartlar ve geri linki gerçek <a> — crawler takip eder, kullanıcıda SPA gibi çalışır */
 document.addEventListener('click', e=>{
   if(e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-  const a = e.target.closest('a.post-card, a.back-btn');
+  const a = e.target.closest('a.post-card, a.back-btn, a.post-nav-link');
   if(!a) return;
   e.preventDefault();
   git(a.getAttribute('href'));
@@ -1525,22 +1738,124 @@ async function loadPosts(){
     renderRoute();
   }catch(e){
     listEl.innerHTML = `<div class="blog-note">${MSG[lang].loadErr}</div>`;
+    return;
   }
+  /* okuma süreleri ayrı ve isteğe bağlı: gelmezse blog aynen çalışır, sadece süre yazmaz */
+  try{
+    const r = await fetch('posts/okuma.json', {cache:'no-store'});
+    if(r.ok){ okuma = await r.json(); renderRoute(); }
+  }catch(e){ /* sessiz geç */ }
 }
+
+/* "4 dk okuma" — süre bilinmiyorsa boş döner */
+function okumaMetni(slug){
+  const o = okuma[slug];
+  if(!o) return '';
+  const dk = lang==='en' ? (o.en || o.tr) : o.tr;
+  return dk ? `${dk} ${MSG[lang].dk}` : '';
+}
+
+function baslikOf(p){ return (lang==='en' && p.title_en) ? p.title_en : p.title; }
+
+/* liste üstündeki etiket çipleri; tek etiket varsa filtrenin anlamı yok, gösterilmiyor */
+function renderEtiketBar(){
+  const hepsi = [];
+  posts.forEach(p => (p.tags||[]).forEach(t => { if(t && hepsi.indexOf(t) === -1) hepsi.push(t); }));
+  if(hepsi.length < 2){ etiketBarEl.hidden = true; etiketBarEl.innerHTML = ''; return; }
+  etiketBarEl.hidden = false;
+  etiketBarEl.innerHTML = [['', MSG[lang].tumu]].concat(hepsi.map(t => [t, t]))
+    .map(([deger, ad]) => `<button type="button" class="etiket-chip" data-etiket="${kacir(deger)}" aria-pressed="${deger === aktifEtiket}">${kacir(ad)}</button>`)
+    .join('');
+}
+
+etiketBarEl.addEventListener('click', e => {
+  const b = e.target.closest('.etiket-chip');
+  if(!b) return;
+  aktifEtiket = b.dataset.etiket || '';
+  renderList();
+});
 
 function renderList(){
   viewEl.style.display = 'none';
   listEl.style.display = 'grid';
   if(!posts.length){
+    etiketBarEl.hidden = true;
     listEl.innerHTML = `<div class="blog-note">${MSG[lang].empty}</div>`;
     return;
   }
-  listEl.innerHTML = posts.map(p => `
+  renderEtiketBar();
+  const gorunen = aktifEtiket ? posts.filter(p => (p.tags||[]).indexOf(aktifEtiket) !== -1) : posts;
+  if(!gorunen.length){
+    listEl.innerHTML = `<div class="blog-note">${MSG[lang].etiketBos}</div>`;
+    return;
+  }
+  listEl.innerHTML = gorunen.map(p => {
+    const sure = okumaMetni(p.slug);
+    const meta = [p.date, (p.tags||[]).join(' · '), sure].filter(Boolean).join(' · ');
+    return `
     <a class="post-card" href="${rotaUrl(p.slug, lang)}">
-      <div class="meta">${p.date} · ${(p.tags||[]).join(' · ')}</div>
-      <h3>${(lang==='en' && p.title_en) ? p.title_en : p.title}</h3>
+      <div class="meta">${meta}</div>
+      <h3>${baslikOf(p)}</h3>
       <p>${(lang==='en' && p.summary_en) ? p.summary_en : (p.summary||'')}</p>
-    </a>`).join('');
+    </a>`;
+  }).join('');
+}
+
+/* yazılar yeniden eskiye sıralı: önceki = daha eski (sonraki indeks), sonraki = daha yeni */
+function postNavHtml(slug){
+  const i = posts.findIndex(x => x.slug === slug);
+  if(i === -1) return '';
+  const yeni = posts[i-1], eski = posts[i+1];
+  if(!yeni && !eski) return '';
+  const kart = (p, sinif, yon) => p
+    ? `<a class="post-nav-link ${sinif}" href="${rotaUrl(p.slug, lang)}"><span class="yon">${yon}</span><span class="ad">${baslikOf(p)}</span></a>`
+    : '';
+  return `<nav class="post-nav">${kart(eski, 'onceki', MSG[lang].onceki)}${kart(yeni, 'sonraki', MSG[lang].sonraki)}</nav>`;
+}
+
+/* Pano yazımı: modern API izin ister ve belge odakta değilse reddeder. Reddedilirse
+   seçim + execCommand ile yazıyoruz — eski ama izinsiz çalışıyor. İkisi de olmazsa false. */
+async function panoyaYaz(metin){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(metin);
+      return true;
+    }
+  }catch(e){ /* yedek yola düş */ }
+  try{
+    const ta = document.createElement('textarea');
+    ta.value = metin;
+    ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    const oldu = document.execCommand('copy');
+    ta.remove();
+    return oldu;
+  }catch(e){ return false; }
+}
+
+/* her kod bloğuna kopyala butonu; pre'yi sarmalayıp butonu sarmalayıcıya koyuyoruz ki
+   uzun satırlarda yatay kaydırma butonu ekrandan kaçırmasın */
+function kodKopyalaEkle(){
+  contentEl.querySelectorAll('pre').forEach(pre => {
+    if(pre.parentElement.classList.contains('kod-sar')) return;
+    const sar = document.createElement('div');
+    sar.className = 'kod-sar';
+    pre.parentNode.insertBefore(sar, pre);
+    sar.appendChild(pre);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'kod-kopyala';
+    btn.textContent = MSG[lang].kopyala;
+    btn.addEventListener('click', async () => {
+      const oldu = await panoyaYaz(pre.innerText);
+      btn.textContent = oldu ? MSG[lang].kopyalandi : MSG[lang].kopyaHata;
+      btn.classList.toggle('ok', oldu);
+      setTimeout(() => { btn.textContent = MSG[lang].kopyala; btn.classList.remove('ok'); }, 1600);
+    });
+    sar.appendChild(btn);
+  });
 }
 
 async function renderPost(slug){
@@ -1549,16 +1864,31 @@ async function renderPost(slug){
   if(!p){ history.replaceState(null, '', rotaUrl('', lang)); renderList(); updateMeta(); return; }
   document.getElementById('geri-btn').setAttribute('href', rotaUrl('', lang));
   listEl.style.display = 'none';
+  etiketBarEl.hidden = true;
   viewEl.style.display = 'block';
   try{
     const file = (lang==='en' && p.file_en) ? p.file_en : p.file;
     const [r] = await Promise.all([fetch(`posts/${file}`, {cache:'no-store'}), loadMarked()]);
     if(!r.ok) throw new Error();
-    contentEl.innerHTML = marked.parse(await r.text());
+    const sure = okumaMetni(p.slug);
+    const ust = `<div class="post-meta">${[p.date, (p.tags||[]).join(' · '), sure].filter(Boolean).join(' · ')}</div>`;
+    contentEl.innerHTML = ust + marked.parse(await r.text());
+    kodKopyalaEkle();
+    postNavYaz(slug);
     document.getElementById('blog').scrollIntoView();
   }catch(e){
     contentEl.innerHTML = `<p>${MSG[lang].postErr}</p>`;
+    postNavYaz(null);
   }
+}
+
+/* önceki/sonraki bloğu article'ın dışında duruyor — post-content'in kart zemini onu sarmasın */
+function postNavYaz(slug){
+  const eski = viewEl.querySelector('.post-nav');
+  if(eski) eski.remove();
+  if(!slug) return;
+  const html = postNavHtml(slug);
+  if(html) viewEl.insertAdjacentHTML('beforeend', html);
 }
 
 function renderRoute(){
