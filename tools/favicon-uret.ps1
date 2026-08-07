@@ -1,4 +1,4 @@
-# favicon.ico uretici — favicon.svg ile ayni motif, 16/32/48 boyutlarinda cok katmanli ICO
+﻿# favicon.ico uretici — favicon.svg ile ayni motif, 16/32/48 boyutlarinda cok katmanli ICO
 Add-Type -AssemblyName System.Drawing
 
 $out = $args[0]

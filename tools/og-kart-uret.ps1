@@ -1,4 +1,4 @@
-# cemalkor.com.tr — paylasim karti (og.png) ve apple-touch-icon uretici
+﻿# cemalkor.com.tr — paylasim karti (og.png) ve apple-touch-icon uretici
 # Sitenin PCB / terminal estetigini System.Drawing ile ciziyor.
 Add-Type -AssemblyName System.Drawing
 
