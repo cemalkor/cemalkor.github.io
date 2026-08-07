@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Yeni blog yazisi eklerken bu dosyaya da yazinin TR ve EN adreslerini eklemeyi unutma.
-  Hazir blok icin README.md'ye bak.
--->
+<!-- Uretilen dosya - elle duzenleme. Yazi ekledikten sonra: .\tools\feed-uret.ps1 . -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Uretilen dosya - elle duzenleme. Kaynak: posts/posts.json + tools/feed-uret.ps1 -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cemal Kör — Blog (EN)</title>
+    <link>https://cemalkor.com.tr/?lang=en</link>
+    <description>Posts on embedded systems, smart meters and lessons learned in the field.</description>
+    <language>en</language>
+    <atom:link href="https://cemalkor.com.tr/feed.en.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>printf(&quot;Hello World&quot;); — Why Does This Blog Exist?</title>
+      <link>https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</link>
+      <guid isPermaLink="true">https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</guid>
+      <pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate>
+      <description>The opening post of a blog about embedded systems, smart meters and lessons learned in the field.</description>
+      <category>Genel</category>
+    </item>
+  </channel>
+</rss>
