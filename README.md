@@ -23,7 +23,7 @@ Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown
   etiket filtresi, yazı altında önceki/sonraki geçişi, kod bloklarında kopyala düğmesi var
 - **RSS** — `feed.xml` (TR) ve `feed.en.xml` (EN); `posts.json`'dan üretiliyor, head'den ve footer'dan keşfedilebiliyor
 - **İnteraktif mini terminal** — hero'daki terminale komut yazılabiliyor; `help` ile başla
-- **Easter egg'ler** 🪲 — sayfada gizli 10 easter egg var (F12 konsol mesajı hariç); buldukça sağ altta birkaç saniyeliğine `X/10` sayacı belirir, hepsini bulunca kutlama ekranı açılır (üzerinde "benimle başarını paylaş" tuşuyla). `help`'te görünmeyen terminal komutlarını, konami kodunu (mobilde de bir dokunma jesti var) ve footer'ı kurcala — sayaç her yenilemede sıfırlanır, gerisi sana kalmış. Egg sayılmayan keyif komutları (`fortune`, `spock`, `panic`, `towel`) `help` çıktısında "keyfine" başlığı altında listeleniyor
+- **Easter egg'ler** 🪲 — sayfada gizli 10 easter egg var (F12 konsol mesajı hariç); buldukça sağ altta birkaç saniyeliğine `X/10` sayacı belirir, hepsini bulunca kutlama ekranı açılır (üzerinde "benimle başarını paylaş" tuşuyla). `help`'te görünmeyen terminal komutlarını, konami kodunu (mobilde de bir dokunma jesti var) ve footer'ı kurcala — sayaç her yenilemede sıfırlanır, gerisi sana kalmış. Egg sayılmayan keyif komutları (`credits`, `fortune`, `spock`, `panic`, `towel`) `help` çıktısında "keyfine" başlığı altında listeleniyor
 - **404 sayfasında mini oyun** — "sinyali kilitle": tarama ibresi bandı süpürerken boşluk tuşu ya da dokunuşla kilitleniyor, her isabette bant daralıp tarama hızlanıyor. Rekor `localStorage`'da tutuluyor, metinler TR + altında EN
 
 ## Adres şeması

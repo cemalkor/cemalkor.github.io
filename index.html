@@ -1264,7 +1264,7 @@ function satirYaz(html){
 function ozellik(k, v){ return `<span class="ok" style="white-space:pre">${k}</span><span class="val">${v}</span>`; }
 function terminalSifirla(){
   termOut.innerHTML = '';
-  satirYaz(`<span class="t"># ${lang==='en' ? "try typing 'help'" : "'help' yazmayı dene"}</span>`);
+  satirYaz(`<span class="t"># ${lang==='en' ? "Type 'help' to start" : "Denemek için 'help' yaz"}</span>`);
 }
 /* türkçe karakterleri düzle: 'böcek', 'yardım', 'çıkış' da çalışsın */
 function normallestir(s){
@@ -1273,7 +1273,10 @@ function normallestir(s){
 const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about', ben:'about',
   yetenekler:'skills', beceriler:'skills', projeler:'projects', iletisim:'contact',
   temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug', tara:'scan',
-  kismet:'fortune', fal:'fortune', isinla:'beam', warp:'beam', enterprise:'beam', 'ncc-1701':'beam',
+  kismet:'fortune', fal:'fortune',
+  /* "siteyi kim yaptı", "kim yaptı", "who made this site" gibi girdiler de kredilere düşsün:
+     komut ilk kelimeden çözüldüğü için baştaki kelimelerin hepsi alias */
+  siteyi:'credits', kim:'credits', yapan:'credits', who:'credits', made:'credits', krediler:'credits', isinla:'beam', warp:'beam', enterprise:'beam', 'ncc-1701':'beam',
   scotty:'beam', mrspock:'spock', cevap:'42', answer:'42', deepthought:'42', derindusunce:'42',
   panik:'panic', 'dont-panic':'panic', dont:'panic', "don't":'panic', havlu:'towel'};
 
@@ -1289,42 +1292,43 @@ function komutCalistir(ham){
   kmt = takma[kmt] || kmt;
   switch(kmt){
     case 'help':
-      satirYaz(`<span class="t">${en ? 'available commands:' : 'komutlar:'}</span>`);
-      [['whoami',  en ? 'who am i'         : 'ben kimim'],
-       ['about',   en ? 'about me'         : 'hakkımda'],
-       ['skills',  en ? 'technical skills' : 'teknik yetenekler'],
-       ['projects',en ? 'projects'         : 'projeler'],
-       ['contact', en ? 'contact info'     : 'iletişim'],
-       ['clear',   en ? 'clear the screen' : 'ekranı temizle']
+      satirYaz(`<span class="t">${en ? 'Available commands:' : 'Komutlar:'}</span>`);
+      [['whoami',  en ? 'Who am I'         : 'Ben kimim'],
+       ['about',   en ? 'About me'         : 'Hakkımda'],
+       ['skills',  en ? 'Technical skills' : 'Teknik yetenekler'],
+       ['projects',en ? 'Projects'         : 'Projeler'],
+       ['contact', en ? 'Contact info'     : 'İletişim'],
+       ['clear',   en ? 'Clear the screen' : 'Ekranı temizle']
       ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
       /* egg sayılmayan keyif komutları: listede dursunlar, egg'ler gizli kalsın */
-      satirYaz(`<span class="t">${en ? 'just for fun:' : 'keyfine:'}</span>`);
-      [['fortune', en ? 'a piece of embedded wisdom'   : 'gömülü yazılım atasözü'],
-       ['spock',   en ? 'live long and prosper'        : 'canlı kal ve başarılı ol'],
-       ['panic',   en ? 'large, friendly letters'      : 'iri ve dostane harfler'],
-       ['towel',   en ? "never travel without one"     : 'onsuz yola çıkılmaz']
+      satirYaz(`<span class="t">${en ? 'Just for fun:' : 'Keyfine:'}</span>`);
+      [['credits', en ? 'Who made this site?'          : 'Siteyi kim yaptı?'],
+       ['fortune', en ? 'A piece of embedded wisdom'   : 'Gömülü yazılım atasözü'],
+       ['spock',   en ? 'Live long and prosper'        : 'Canlı kal ve başarılı ol'],
+       ['panic',   en ? 'Large, friendly letters'      : 'İri ve dostane harfler'],
+       ['towel',   en ? "Never travel without one"     : 'Onsuz yola çıkılmaz']
       ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
-      satirYaz(`<span class="t"># ${en ? 'some commands are not on this list...' : 'bazı komutlar bu listede yok...'}</span>`);
+      satirYaz(`<span class="t"># ${en ? 'Some commands are not on this list...' : 'Bazı komutlar bu listede yok...'}</span>`);
       break;
     case 'whoami':
-      satirYaz(`<span class="ok">cemal_kor</span><span class="val"> — ${en ? 'embedded software engineer' : 'gömülü yazılım mühendisi'} · ankara, TR</span>`);
+      satirYaz(`<span class="ok">cemal_kor</span><span class="val"> — ${en ? 'Embedded software engineer' : 'Gömülü yazılım mühendisi'} · Ankara, TR</span>`);
       break;
     case 'about':
-      satirYaz(ozellik('edu:   ', en ? 'gazi university — electrical & electronics eng.' : 'gazi üniversitesi — elektrik-elektronik müh.'));
-      satirYaz(ozellik('work:  ', en ? 'inodya teknoloji — smart water &amp; gas meters' : 'inodya teknoloji — akıllı su &amp; gaz sayaçları'));
-      satirYaz(ozellik('prev:  ', en ? 'aselsan uges medical device projects (besoft)' : 'aselsan uges medikal cihaz projeleri (besoft)'));
-      satirYaz(ozellik('focus: ', en ? 'low-power IoT running for years on one battery' : 'tek pille yıllarca çalışan düşük güçlü IoT'));
+      satirYaz(ozellik('edu:   ', en ? 'Gazi University — Electrical &amp; Electronics Eng.' : 'Gazi Üniversitesi — Elektrik-Elektronik Müh.'));
+      satirYaz(ozellik('work:  ', en ? 'Inodya Teknoloji — smart water &amp; gas meters' : 'Inodya Teknoloji — akıllı su &amp; gaz sayaçları'));
+      satirYaz(ozellik('prev:  ', en ? 'Aselsan UGES medical device projects (BESoft)' : 'Aselsan UGES medikal cihaz projeleri (BESoft)'));
+      satirYaz(ozellik('focus: ', en ? 'Low-power IoT running for years on one battery' : 'Tek pille yıllarca çalışan düşük güçlü IoT'));
       break;
     case 'skills':
       satirYaz(ozellik('lang:  ', 'C/C++ · C# · Python'));
-      satirYaz(ozellik('radio: ', 'sigfox · ble 5.4 · nb-iot · nfc'));
-      satirYaz(ozellik('os:    ', 'bare-metal · freertos · threadx'));
-      satirYaz(ozellik('mcu:   ', 'stm32 · esp · pic'));
+      satirYaz(ozellik('radio: ', 'Sigfox · BLE 5.4 · NB-IoT · NFC'));
+      satirYaz(ozellik('os:    ', 'Bare-metal · FreeRTOS · ThreadX'));
+      satirYaz(ozellik('mcu:   ', 'STM32 · ESP · PIC'));
       break;
     case 'projects':
-      satirYaz(`<span class="t">[1]</span> <span class="val">${en ? 'smart water &amp; gas meters — sigfox/nb-iot, years on one battery (inodya)' : 'akıllı su &amp; gaz sayaçları — sigfox/nb-iot, tek pille yıllarca (inodya)'}</span>`);
+      satirYaz(`<span class="t">[1]</span> <span class="val">${en ? 'Smart water &amp; gas meters — Sigfox/NB-IoT, years on one battery (Inodya)' : 'Akıllı su &amp; gaz sayaçları — Sigfox/NB-IoT, tek pille yıllarca (Inodya)'}</span>`);
       satirYaz(`<span class="t">[2]</span> <span class="val">${en ? 'IEEE CSCON-25 BLE training material' : 'IEEE CSCON-25 BLE eğitim materyali'} → <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener">github</a></span>`);
-      satirYaz(`<span class="t">[3]</span> <span class="val">${en ? 'all of it' : 'tümü'} → <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor</a></span>`);
+      satirYaz(`<span class="t">[3]</span> <span class="val">${en ? 'All of it' : 'Tümü'} → <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor</a></span>`);
       break;
     case 'contact':
       satirYaz(ozellik('mail:     ', '<a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>'));
@@ -1335,19 +1339,19 @@ function komutCalistir(ham){
       termOut.innerHTML = '';
       break;
     case 'exit':
-      satirYaz(`<span class="t">${en ? 'logging out...' : 'oturum kapatılıyor...'}</span>`);
-      setTimeout(() => uyut(en ? '[ SLEEP ] session closed — tap anywhere to wake' : '[ SLEEP ] oturum kapatıldı — uyandırmak için dokun'), 600);
+      satirYaz(`<span class="t">${en ? 'Logging out...' : 'Oturum kapatılıyor...'}</span>`);
+      setTimeout(() => uyut(en ? '[ SLEEP ] Session closed — tap anywhere to wake' : '[ SLEEP ] Oturum kapatıldı — uyandırmak için dokun'), 600);
       break;
     case 'disco': {
       if(kesifBildir('disco')) break;
-      if(reduced){ satirYaz(`<span class="t">${en ? '[ cancelled ] reduced-motion is on — the disco ball stays still' : '[ iptal ] reduced-motion aktif — disko topu dönmüyor'}</span>`); break; }
+      if(reduced){ satirYaz(`<span class="t">${en ? '[ cancelled ] Reduced-motion is on — the disco ball stays still' : '[ iptal ] Reduced-motion aktif — disko topu dönmüyor'}</span>`); break; }
       const termEl = document.querySelector('.terminal');
       if(termEl.classList.contains('disco')) break;
-      satirYaz(`<span class="val">🪩 ${en ? 'pavyon mode: ON' : 'pavyon modu: AÇIK'}</span>`);
+      satirYaz(`<span class="val">🪩 ${en ? 'Pavyon mode: ON' : 'Pavyon modu: AÇIK'}</span>`);
       termEl.classList.add('disco');
       setTimeout(() => {
         termEl.classList.remove('disco');
-        satirYaz(`<span class="t">${en ? 'lights off. everybody go home.' : 'ışıklar kapandı, herkes evine.'}</span>`);
+        satirYaz(`<span class="t">${en ? 'Lights off. Everybody go home.' : 'Işıklar kapandı, herkes evine.'}</span>`);
       }, 4000);
       break;
     }
@@ -1357,13 +1361,18 @@ function komutCalistir(ham){
     case 'bug': {
       const eski = document.getElementById('bug-target');
       if(eski) eski.removeAttribute('id');
-      satirYaz(`<span class="t">[ WARN ]</span> <span class="val">${en ? 'memory leak detected: ' : 'bellek sızıntısı tespit edildi: '}<span id="bug-target">7</span>${en ? ' bytes' : ' bayt'}</span>`);
+      satirYaz(`<span class="t">[ WARN ]</span> <span class="val">${en ? 'Memory leak detected: ' : 'Bellek sızıntısı tespit edildi: '}<span id="bug-target">7</span>${en ? ' bytes' : ' bayt'}</span>`);
       if(kesifBildir('bocek')) break;
       bocekSaldir();
       break;
     }
     case 'scan':
       uzayliTara();
+      break;
+    case 'credits':
+      satirYaz(`<span class="ok">🕶️</span> <span class="val">${en ? 'The guy who built this site went blind.' : 'Bu siteyi yapan çocuk kör oldu.'}</span>`);
+      /* şaka türkçe soyadı üzerine kurulu; ingilizcede anlaşılması için tek satır not, türkçede gereksiz */
+      if(en) satirYaz(`<span class="t">   — Cemal Kör ('kör' means blind in Turkish — yes, that is his surname)</span>`);
       break;
     case 'fortune': {
       const kismetler = FORTUNE[en ? 'en' : 'tr'];
@@ -1378,19 +1387,19 @@ function komutCalistir(ham){
       isinlan();
       break;
     case 'spock':
-      satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? '"live long and prosper."' : '"canlı kal ve başarılı ol."'}</span>`);
-      satirYaz(`<span class="t">${en ? 'logical. also: 47 is the most fascinating number.' : 'mantıklı. ayrıca: 47 en büyüleyici sayıdır.'}</span>`);
+      satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? '"Live long and prosper."' : '"Canlı kal ve başarılı ol."'}</span>`);
+      satirYaz(`<span class="t">${en ? 'Logical. Also: 47 is the most fascinating number.' : 'Mantıklı. Ayrıca 47 en büyüleyici sayıdır.'}</span>`);
       break;
     case '42':
       derinDusunce();
       break;
     case 'panic':
       satirYaz(`<span class="panik">${en ? "DON'T PANIC" : 'PANİK YOK'}</span>`);
-      satirYaz(`<span class="t">${en ? '— in large, friendly letters on the cover.' : '— kapakta, iri ve dostane harflerle yazıyor.'}</span>`);
+      satirYaz(`<span class="t">${en ? '— In large, friendly letters on the cover.' : '— Kapakta, iri ve dostane harflerle yazıyor.'}</span>`);
       break;
     case 'towel':
-      satirYaz(`<span class="ok">🧻</span> <span class="val">${en ? 'a towel is the most massively useful thing an interstellar hitchhiker can carry.' : 'bir havlu, yıldızlararası otostopçunun taşıyabileceği en kullanışlı şeydir.'}</span>`);
-      satirYaz(`<span class="t">${en ? "status: he knows where his towel is." : 'durum: havlusunun nerede olduğunu biliyor.'}</span>`);
+      satirYaz(`<span class="ok">🧻</span> <span class="val">${en ? 'A towel is the most massively useful thing an interstellar hitchhiker can carry.' : 'Bir havlu, yıldızlararası otostopçunun taşıyabileceği en kullanışlı şeydir.'}</span>`);
+      satirYaz(`<span class="t">${en ? "Status: he knows where his towel is." : 'Durum: Havlusunun nerede olduğunu biliyor.'}</span>`);
       break;
     default:
       satirYaz(`<span class="val">bash: ${kacir(hamIlk)}: ${en ? 'command not found' : 'komut bulunamadı'}</span> <span class="t">${en ? "(try 'help')" : "('help' yazmayı dene)"}</span>`);
@@ -1400,14 +1409,14 @@ function komutCalistir(ham){
 function rmPanik(norm){
   const en = lang === 'en';
   if(!(norm.includes('-rf') || norm.includes('-fr') || (norm.includes(' -r') && norm.includes(' -f')))){
-    satirYaz(`<span class="val">rm: ${en ? 'permission denied — file system is read-only' : 'izin reddedildi — dosya sistemi salt okunur'}</span>`);
+    satirYaz(`<span class="val">rm: ${en ? 'Permission denied — file system is read-only' : 'İzin reddedildi — dosya sistemi salt okunur'}</span>`);
     return;
   }
   if(kesifBildir('rm')) return;
   islemde = true;
   const dizinler = ['/bin', '/boot', '/etc', '/home/cemal', '/lib'];
   dizinler.forEach((d, i) => {
-    setTimeout(() => satirYaz(`<span class="t">${en ? 'removing:' : 'siliniyor:'}</span> <span class="val">${d} ...</span>`), 350 * (i + 1));
+    setTimeout(() => satirYaz(`<span class="t">${en ? 'Removing:' : 'Siliniyor:'}</span> <span class="val">${d} ...</span>`), 350 * (i + 1));
   });
   setTimeout(() => {
     termOut.innerHTML = '';
@@ -1415,7 +1424,7 @@ function rmPanik(norm){
   }, 350 * (dizinler.length + 1));
   setTimeout(() => {
     terminalSifirla();
-    satirYaz(`<span class="val">${en ? 'restored from backup ✓' : 'yedekten geri yüklendi ✓'}</span>`);
+    satirYaz(`<span class="val">${en ? 'Restored from backup ✓' : 'Yedekten geri yüklendi ✓'}</span>`);
     islemde = false;
   }, 350 * (dizinler.length + 1) + 2200);
 }
@@ -1428,10 +1437,10 @@ function uzayliTara(){
   let t = 0;
   bantlar.forEach(b => {
     t += 430;
-    setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'scanning' : 'taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
+    setTimeout(() => satirYaz(`<span class="t">[ RF ]</span> <span class="ok">${en ? 'Scanning' : 'Taranıyor'}:</span> <span class="val">${b[0]} (${b[1]}) ......... ${en ? 'clear' : 'temiz'}</span>`), t);
   });
   t += 520;
-  setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'unknown carrier' : 'bilinmeyen taşıyıcı'} @ 1923 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
+  setTimeout(() => satirYaz(`<span class="t">[ !! ]</span> <span class="val">${en ? 'Unknown carrier' : 'Bilinmeyen taşıyıcı'} @ 1923 MHz ....... 📡 ${en ? 'locked' : 'kilitlendi'}</span>`), t);
   /* sinyal kilitlenince UFO havalanıp ekran ortasına süzülür */
   const tUfo = t + 300;
   setTimeout(ufoUcus, tUfo);
@@ -1462,40 +1471,40 @@ function yesilParlama(){
 
 /* ---------- fortune: rastgele gömülü yazılım atasözü (egg sayılmaz, sadece keyif) ---------- */
 const FORTUNE = {
-  tr:['önce GND\'yi kontrol et.',
-      'volatile koymayı unutma; derleyici senden akıllı olduğunu sanıyor.',
-      'çalışmıyorsa lehimle, çalışıyorsa dokunma.',
-      'her şey bir pull-up direnciyle çözülür. çözülmezse iki tane koy.',
-      'watchdog\'u besleyemeyen, onun tarafından yenir.',
-      'delay(100) bir çözüm değildir. ama bazen çözümdür.',
-      'sahada çalışan kod, masada çalışan koddan iyidir.',
-      'osiloskop yalan söylemez; sen yanlış yere prob tutuyorsun.',
-      'stack overflow gerçek bir hata, gerçek bir site değil.',
-      'pil ömrünü uzatmanın en kolay yolu: cihazı daha çok uyutmak.'],
-  en:['check the ground first.',
-      'don\'t forget the volatile; the compiler thinks it is smarter than you.',
-      'if it doesn\'t work, solder it. if it works, don\'t touch it.',
-      'everything can be fixed with a pull-up. if not, add a second one.',
-      'feed the watchdog, or be eaten by it.',
-      'delay(100) is not a solution. except when it is.',
-      'code that runs in the field beats code that runs on the bench.',
-      'the scope never lies; your probe is in the wrong place.',
-      'stack overflow is a real bug, not just a website.',
-      'the easiest way to extend battery life: let the device sleep more.']
+  tr:['Önce GND\'yi kontrol et.',
+      'Volatile koymayı unutma; derleyici senden akıllı olduğunu sanıyor.',
+      'Çalışmıyorsa lehimle, çalışıyorsa dokunma.',
+      'Her şey bir pull-up direnciyle çözülür. Çözülmezse iki tane koy.',
+      'Watchdog\'u besleyemeyen, onun tarafından yenir.',
+      'delay(100) bir çözüm değildir. Ama bazen çözümdür.',
+      'Sahada çalışan kod, masada çalışan koddan iyidir.',
+      'Osiloskop yalan söylemez; sen yanlış yere prob tutuyorsun.',
+      'Stack overflow gerçek bir hata, gerçek bir site değil.',
+      'Pil ömrünü uzatmanın en kolay yolu: Cihazı daha çok uyutmak.'],
+  en:['Check the ground first.',
+      'Don\'t forget the volatile; the compiler thinks it is smarter than you.',
+      'If it doesn\'t work, solder it. If it works, don\'t touch it.',
+      'Everything can be fixed with a pull-up. If not, add a second one.',
+      'Feed the watchdog, or be eaten by it.',
+      'delay(100) is not a solution. Except when it is.',
+      'Code that runs in the field beats code that runs on the bench.',
+      'The scope never lies; your probe is in the wrong place.',
+      'Stack overflow is a real bug, not just a website.',
+      'The easiest way to extend battery life: Let the device sleep more.']
 };
 
 /* ---------- easter egg: matrix — terminalin üstünde karakter yağmuru ---------- */
 function matrixYagmuru(){
   const en = lang === 'en';
   if(reduced){
-    satirYaz(`<span class="t">${en ? '[ cancelled ] reduced-motion is on — the rain stays in the cloud' : '[ iptal ] reduced-motion aktif — yağmur bulutta kaldı'}</span>`);
+    satirYaz(`<span class="t">${en ? '[ cancelled ] Reduced-motion is on — the rain stays in the cloud' : '[ iptal ] Reduced-motion aktif — yağmur bulutta kaldı'}</span>`);
     kesifBildir('matrix');
     return;
   }
   const term = document.querySelector('.terminal');
   const wrap = document.querySelector('.term-wrap');
   if(wrap.querySelector('.matrix-cv')) return;
-  satirYaz(`<span class="val">${en ? 'wake up, neo... the meter is watching you.' : 'uyan neo... sayaç seni izliyor.'}</span>`);
+  satirYaz(`<span class="val">${en ? 'Wake up, Neo... The meter is watching you.' : 'Uyan Neo... Sayaç seni izliyor.'}</span>`);
 
   const w = term.offsetWidth, h = term.offsetHeight;
   const cv = document.createElement('canvas');
@@ -1537,7 +1546,7 @@ function matrixYagmuru(){
     clearInterval(tik);
     cv.classList.remove('acik');
     setTimeout(() => cv.remove(), 500);
-    satirYaz(`<span class="t">${en ? 'connection closed. there is no spoon, only firmware.' : 'bağlantı kapandı. kaşık yok, sadece firmware var.'}</span>`);
+    satirYaz(`<span class="t">${en ? 'Connection closed. There is no spoon, only firmware.' : 'Bağlantı kapandı. Kaşık yok, sadece firmware var.'}</span>`);
     islemde = false;
     kesifBildir('matrix');
   }, 4200);
@@ -1548,22 +1557,22 @@ function isinlan(){
   const en = lang === 'en';
   islemde = true;
   const adimlar = en
-    ? [['target lock', 'NCC-1701'], ['pattern buffer', 'ok'], ['annular confinement beam', 'ok']]
-    : [['hedef kilidi', 'NCC-1701'], ['desen tamponu', 'ok'], ['halka sınırlama ışını', 'ok']];
+    ? [['Target lock', 'NCC-1701'], ['Pattern buffer', 'ok'], ['Annular confinement beam', 'ok']]
+    : [['Hedef kilidi', 'NCC-1701'], ['Desen tamponu', 'ok'], ['Halka sınırlama ışını', 'ok']];
   let t = 0;
   adimlar.forEach(([k, v]) => {
     t += 340;
     setTimeout(() => satirYaz(`<span class="t">[ TRANSPORTER ]</span> <span class="ok">${k}</span> <span class="val">...... ${v}</span>`), t);
   });
   t += 420;
-  setTimeout(() => satirYaz(`<span class="val">${en ? '"energize."' : '"enerji!"'}</span>`), t);
+  setTimeout(() => satirYaz(`<span class="val">${en ? '"Energize."' : '"Enerji!"'}</span>`), t);
   t += 500;
   setTimeout(() => { if(!reduced) termOut.classList.add('isinla'); }, t);
   setTimeout(() => {
     termOut.classList.remove('isinla');
     termOut.innerHTML = '';
-    satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? 'transport complete — you are on the pad.' : 'ışınlanma tamam — platformdasın.'}</span>`);
-    satirYaz(`<span class="t">${en ? "scotty: 'she cannae take much more of this, captain!'" : "scotty: 'daha fazla dayanamaz kaptan!'"}</span>`);
+    satirYaz(`<span class="ok">🖖</span> <span class="val">${en ? 'Transport complete — you are on the pad.' : 'Işınlanma tamam — platformdasın.'}</span>`);
+    satirYaz(`<span class="t">${en ? "Scotty: 'She cannae take much more of this, Captain!'" : "Scotty: 'Daha fazla dayanamaz Kaptan!'"}</span>`);
     islemde = false;
     kesifBildir('isinla');
   }, t + (reduced ? 200 : 1500));
@@ -1575,7 +1584,7 @@ function derinDusunce(){
   islemde = true;
   const sayilar = ['7.500.000', '4.100.000', '900.000', '12'];
   const yil = en ? 'years remaining' : 'yıl kaldı';
-  satirYaz(`<span class="t">[ DEEP THOUGHT ]</span> <span class="ok">${en ? 'question accepted: life, the universe and everything' : 'soru kabul edildi: hayat, evren ve her şey'}</span>`);
+  satirYaz(`<span class="t">[ DEEP THOUGHT ]</span> <span class="ok">${en ? 'Question accepted: Life, the Universe and Everything' : 'Soru kabul edildi: Hayat, Evren ve Her Şey'}</span>`);
   let t = 400;
   sayilar.forEach((s, i) => {
     setTimeout(() => satirYaz(`<span class="t">[ DEEP THOUGHT ]</span> <span class="val">${en ? s.replace(/\./g, ',') : s} ${yil} ...</span>`), t);
@@ -1583,7 +1592,7 @@ function derinDusunce(){
   });
   setTimeout(() => {
     satirYaz(`<span class="ok" style="font-size:1.3em">= 42</span>`);
-    satirYaz(`<span class="t">${en ? "that's the answer. nobody remembers the question." : 'cevap bu. soruyu hatırlayan yok.'}</span>`);
+    satirYaz(`<span class="t">${en ? "That's the answer. Nobody remembers the question." : 'Cevap bu. Soruyu hatırlayan yok.'}</span>`);
     islemde = false;
     kesifBildir('cevap');
   }, t + 500);
@@ -1747,7 +1756,7 @@ let pilZaman = setInterval(pilAzalt, 20000);
 function uyut(mesaj){
   clearInterval(pilZaman);
   if(kesifBildir('uyku')) return; /* son egg buysa uyutmak yerine kutla */
-  uykuEl.textContent = mesaj || (lang === 'en' ? '[ SLEEP ] battery depleted — tap anywhere to wake' : '[ SLEEP ] pil bitti — uyandırmak için herhangi bir yere dokun');
+  uykuEl.textContent = mesaj || (lang === 'en' ? '[ SLEEP ] Battery depleted — tap anywhere to wake' : '[ SLEEP ] Pil bitti — uyandırmak için herhangi bir yere dokun');
   uykuEl.hidden = false;
   const uyandir = () => {
     uykuEl.hidden = true;
