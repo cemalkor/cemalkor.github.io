@@ -69,9 +69,13 @@ cemalkor.github.io/
 └── posts/
     ├── posts.json      → yazı listesi (başlık, tarih, dosya adı) — ELLE yazılır
     ├── okuma.json      → ÜRETİLEN: yazı başına okuma süresi (dakika)
+    ├── gorseller/      → yazılarda kullanılan fotoğraflar
     ├── merhaba-dunya.md
     └── merhaba-dunya.en.md
 ```
+
+Yazıların ham hâli (düzenlenmemiş metin, işlenmemiş fotoğraf) `Blog hazırlık dosyaları/` altında tutuluyor;
+`.gitignore` ile repoya girmiyor.
 
 **ÜRETİLEN** işaretli dosyaları elle düzenleme — `tools/feed-uret.ps1` her çalıştığında üzerlerine yazıyor.
 
@@ -143,6 +147,10 @@ bumplamak için: `.\tools\feed-uret.ps1 . -AnaSayfaTarih 2026-08-06`. Vermezsen 
 (yazı eklemek ana sayfayı değiştirmediği için varsayılan bu).
 
 Yazılar normal Markdown: başlıklar (`#`), listeler, tablolar, kod blokları (```` ```c ````), resimler hepsi destekleniyor. İngilizce dosya yoksa EN dilinde Türkçe içerik gösterilir.
+
+**Görseller:** dosyayı `posts/gorseller/` altına koy ve markdown içinde **`posts/gorseller/ad.jpg`** diye
+yaz — sadece `gorseller/ad.jpg` yazma. Yazı `?yazi=slug` adresinde, yani kök dizinde render ediliyor;
+göreli adres markdown dosyasına değil sayfaya göre çözülüyor ve resim kırık çıkar.
 
 ## Bilgisayarda test etme
 

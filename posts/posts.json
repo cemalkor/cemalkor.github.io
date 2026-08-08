@@ -1,5 +1,16 @@
 [
   {
+    "slug": "fuota-kurtarma-operasyonu",
+    "file": "fuota-kurtarma-operasyonu.md",
+    "file_en": "fuota-kurtarma-operasyonu.en.md",
+    "title": "Mührü Bozmadan: Bir Güvenlik Açığını FUOTA ile Kapatmak",
+    "title_en": "Without Breaking the Seal: Closing a Security Hole with FUOTA",
+    "date": "2026-08-08",
+    "tags": ["FUOTA", "BLE", "Saha"],
+    "summary": "Kahve molasında fark ettiğimiz bir güvenlik açığı, sevk edilmiş 1900 cihaz ve açılmamış kutular. Yazarken en sevmediğim kodun beni nasıl kurtardığı, iki bilgisayarın iki ayrı BLE karakteri ve bir öğleden sonrada 160 cihaz.",
+    "summary_en": "A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon."
+  },
+  {
     "slug": "merhaba-dunya",
     "file": "merhaba-dunya.md",
     "file_en": "merhaba-dunya.en.md",

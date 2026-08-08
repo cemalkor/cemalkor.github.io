@@ -322,7 +322,9 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .post-nav .sonraki{margin-left:auto;text-align:right}
 @media (max-width:600px){.post-nav{flex-direction:column}.post-nav a{max-width:none}.post-nav .sonraki{text-align:left}}
 #post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
-#post-content img{max-width:100%;border-radius:8px}
+/* max-height dikey (portre) fotograflar icin: sadece max-width olunca 900px'i asip
+   ekrani tek basina dolduruyorlardi. Ikisi de "en fazla" oldugu icin oran korunuyor. */
+#post-content img{max-width:100%;max-height:560px;width:auto;height:auto;border-radius:8px;display:block;margin:1.2em auto}
 #post-content a{color:var(--pcb)}
 .back-btn{display:inline-block;text-decoration:none;font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
 .back-btn:hover{color:var(--copper)}

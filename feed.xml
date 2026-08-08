@@ -8,6 +8,16 @@
     <language>tr</language>
     <atom:link href="https://cemalkor.com.tr/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>Mührü Bozmadan: Bir Güvenlik Açığını FUOTA ile Kapatmak</title>
+      <link>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu</link>
+      <guid isPermaLink="true">https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu</guid>
+      <pubDate>Sat, 08 Aug 2026 00:00:00 +0000</pubDate>
+      <description>Kahve molasında fark ettiğimiz bir güvenlik açığı, sevk edilmiş 1900 cihaz ve açılmamış kutular. Yazarken en sevmediğim kodun beni nasıl kurtardığı, iki bilgisayarın iki ayrı BLE karakteri ve bir öğleden sonrada 160 cihaz.</description>
+      <category>FUOTA</category>
+      <category>BLE</category>
+      <category>Saha</category>
+    </item>
+    <item>
       <title>printf(&quot;Merhaba Dünya&quot;); — Bu Blog Neden Var?</title>
       <link>https://cemalkor.com.tr/?yazi=merhaba-dunya</link>
       <guid isPermaLink="true">https://cemalkor.com.tr/?yazi=merhaba-dunya</guid>

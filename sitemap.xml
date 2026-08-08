@@ -25,6 +25,22 @@
 
   <!-- blog yazilari -->
   <url>
+    <loc>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <lastmod>2026-08-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <lastmod>2026-08-08</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://cemalkor.com.tr/?yazi=merhaba-dunya</loc>
     <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en"/>
