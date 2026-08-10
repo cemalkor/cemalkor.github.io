@@ -152,7 +152,9 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .sq-divider .pulse.cu{stroke:var(--copper)}
 
 /* ---------- nav ---------- */
-nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+/* "body >" şart: yazı sonundaki önceki/sonraki bloğu da bir nav öğesi, o yapışkan olmamalı.
+   Yorumda etiketi açıkça yazma — üreteci menüyü ararken buraya takılıyor. */
+body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
@@ -388,8 +390,8 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
   h1 br{display:none}
-  nav{transition:transform .3s ease}
-  nav.nav-hidden{transform:translateY(-100%)}
+  body > nav{transition:transform .3s ease}
+  body > nav.nav-hidden{transform:translateY(-100%)}
   h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .term-wrap{margin-top:0}
   .term-body{font-size:.7rem;min-height:185px;max-height:185px}
@@ -1088,7 +1090,7 @@ window.addEventListener('afterprint', cvAyraclariKaldir);
 document.getElementById('cv-btn').addEventListener('click', () => window.print());
 
 /* ---------- mobil nav: aşağı kayarken gizle, yukarı kayarken göster ---------- */
-const navEl = document.querySelector('nav');
+const navEl = document.querySelector('body > nav');
 const navMobil = window.matchMedia('(max-width:840px)');
 let sonScrollY = window.scrollY;
 window.addEventListener('scroll', () => {

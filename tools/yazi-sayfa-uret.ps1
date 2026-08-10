@@ -45,12 +45,7 @@ function Yaz($yol, $metin) {
   Write-Host "  yazildi: $($yol.Substring($kokTam.Length + 1))"
 }
 
-# ---------- HTML kacisi ----------
-# & ilk sirada olmali, yoksa sonraki kacislari bozar
-function Kacir($s) {
-  if ($null -eq $s) { return "" }
-  $s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;")
-}
+. (Join-Path $PSScriptRoot "ortak.ps1")
 
 # Markdown'daki adresler koke gore yazili (posts/gorseller/x.jpg). Yazi sayfasi /blog/slug/
 # altinda durdugu icin goreli adres kirilir; kok-mutlak hale getiriyoruz.
@@ -208,15 +203,38 @@ if (Test-Path $okumaYol) {
   $o.PSObject.Properties | ForEach-Object { $okuma[$_.Name] = $_.Value }
 }
 
-# CSS tek kaynaktan gelsin: index.html'in <style> blogu oldugu gibi aliniyor. Boylece
-# ana sayfada rengi degistirince yazi sayfalari da otomatik ayni oluyor.
+# CSS, ust menu ve arka plan devre yollari tek kaynaktan gelsin: index.html'den oldugu gibi
+# aliniyor. Boylece ana sayfada rengi ya da menuyu degistirince yazi sayfalari da ayni oluyor.
 $indexYol = Join-Path $kokTam "index.html"
 $indexHtml = Get-Content -Raw -Encoding UTF8 $indexYol
-$m = [regex]::Match($indexHtml, '(?s)<style>(.*?)</style>')
-if (-not $m.Success) { throw "index.html icinde <style> blogu bulunamadi" }
-$CSS = $m.Groups[1].Value.Trim()
 
-Write-Host "$($yazilar.Count) yazi, $($CSS.Length) karakter CSS."
+# Desenler govdedeki gercek etikete demirlenmis: CSS yorumunda ya da JS metninde gecen
+# bir etiket adina takilip yanlis yeri kesmesin diye (bir kez oldu, CSS'in yarisi gitti).
+$CSS     = (BlokAl $indexHtml '(?sm)^<style>(.*?)\r?\n</style>' '<style> blogu').Trim()
+$DEVRE   = BlokAl $indexHtml '(?sm)^<svg class="bg-circuit".*?\r?\n</svg>' 'arka plan SVG''si'
+$NAV_HAM = BlokAl $indexHtml '(?sm)^<nav>\r?\n\s*<div class="nav-in">.*?\r?\n</nav>' 'ust menu'
+$I18N    = I18NOku $indexHtml
+
+# Yanlis yeri kesmek sessizce bozuk sayfa uretiyor; boyut sinirlari bunu erken yakalasin.
+if ($DEVRE   -match '</style>') { throw "arka plan SVG'si stil blogunu da kesmis - desen bozuk" }
+if ($NAV_HAM -match '</style>') { throw "ust menu stil blogunu da kesmis - desen bozuk" }
+if ($NAV_HAM.Length -gt 4000)   { throw "ust menu beklenenden buyuk ($($NAV_HAM.Length)) - desen bozuk" }
+
+# Ust menu capalari ana sayfanin bolumlerine gidiyor; yazi sayfasinda o bolumler yok,
+# bu yuzden kok adrese cevriliyor (#projeler -> /#projeler).
+function NavUret($dil) {
+  $n = $NAV_HAM
+  if ($dil -eq "en") { $n = (I18NUygula $n $I18N).html }
+  $kok = if ($dil -eq "en") { "/en/" } else { "/" }
+  $n = $n -replace 'href="#top"', "href=`"$kok`""
+  $n = [regex]::Replace($n, 'href="#([a-z]+)"', "href=`"$kok#`$1`"")
+  # dugme etiketi gidilecek dili gosteriyor: TR sayfada "EN", EN sayfada "TR".
+  # Dugmenin kendisi <button> kaliyor, hedefi sayfa sonundaki JS bagliyor (ana sayfadaki gibi).
+  if ($dil -eq "en") { $n = $n -replace '(<button id="lang-btn"[^>]*>)EN(</button>)', '$1TR$2' }
+  $n
+}
+
+Write-Host "$($yazilar.Count) yazi, $($CSS.Length) karakter CSS, $($I18N.Count) ceviri anahtari."
 
 # ---------- sayfa ----------
 function YaziYolu($slug, $dil) {
@@ -283,7 +301,8 @@ function SayfaUret($y, $dil, $indeks) {
   $ogLocale   = if ($dil -eq "en") { "en_US" } else { "tr_TR" }
   $ogAlt      = if ($dil -eq "en") { "tr_TR" } else { "en_US" }
   $feed       = if ($dil -eq "en") { "/feed.en.xml" } else { "/feed.xml" }
-  $digerUrl   = if ($dil -eq "en") { YaziYolu $y.slug 'tr' } else { YaziYolu $y.slug 'en' }
+  $digerDil   = if ($dil -eq "en") { "tr" } else { "en" }
+  $digerUrl   = YaziYolu $y.slug $digerDil
 
   @"
 <!DOCTYPE html>
@@ -330,11 +349,10 @@ function SayfaUret($y, $dil, $indeks) {
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 $CSS
-/* yazi sayfasinda tek gorunum yazinin kendisi: SPA'nin gizledigi kutuyu geri aciyoruz */
+/* index.html'de #post-view baslangicta gizli (SPA aciyordu); burada tek gorunum o */
 #post-view{display:block}
-.yazi-ust{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
-.yazi-ust .back-btn{margin-bottom:0}
-.yazi-ust .araclar{display:flex;gap:8px}
+/* ust menuden sonra yazinin ustunde bu kadar bosluk yeter — ana sayfadaki hero yok */
+#blog{padding-top:40px}
 </style>
 <meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0F1712" media="(prefers-color-scheme: dark)">
@@ -354,16 +372,14 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
 </head>
 <body>
 
+$DEVRE
+
+$(NavUret $dil)
+
 <main>
 <section id="blog">
   <div id="post-view">
-    <div class="yazi-ust">
-      <a class="back-btn" href="/">$(Kacir $t.geri)</a>
-      <span class="araclar">
-        <a class="lang-btn" href="$digerUrl">$($t.digerDil)</a>
-        <button id="tema-btn" class="lang-btn" type="button" aria-label="$(Kacir $t.tema)">☾</button>
-      </span>
-    </div>
+    <a class="back-btn" href="$(if ($dil -eq 'en') { '/en/' } else { '/' })">$(Kacir $t.geri)</a>
     <article id="post-content">
 <div class="post-meta">$(Kacir $meta)</div>
 $govde</article>$nav
@@ -383,13 +399,28 @@ $govde</article>$nav
 </footer>
 
 <script>
-/* tema dugmesi ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
+/* tema, dil, menu ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
 document.getElementById('tema-btn').addEventListener('click', ()=>{
   const koyu = document.documentElement.dataset.theme === 'dark';
   if(koyu) delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = 'dark';
   localStorage.setItem('tema', koyu ? 'light' : 'dark');
 });
+/* dil dugmesi: yazinin oteki dildeki surumune git, tercihi de kaydet ki ana sayfa uysun */
+document.getElementById('lang-btn').addEventListener('click', ()=>{
+  localStorage.setItem('lang', '$digerDil');
+  location.href = '$digerUrl';
+});
+/* mobilde asagi kaydirirken menu gizlensin — ana sayfadakiyle ayni davranis */
+const navEl = document.querySelector('body > nav');
+const navMobil = matchMedia('(max-width:840px)');
+let sonScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
+  else navEl.classList.remove('nav-hidden');
+  sonScrollY = y;
+}, {passive:true});
 document.querySelectorAll('#post-content pre').forEach(pre => {
   const sar = document.createElement('div');
   sar.className = 'kod-sar';

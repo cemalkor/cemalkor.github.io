@@ -142,7 +142,9 @@ body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-heigh
 .sq-divider .pulse.cu{stroke:var(--copper)}
 
 /* ---------- nav ---------- */
-nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+/* "body >" şart: yazı sonundaki önceki/sonraki bloğu da bir nav öğesi, o yapışkan olmamalı.
+   Yorumda etiketi açıkça yazma — üreteci menüyü ararken buraya takılıyor. */
+body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
@@ -378,8 +380,8 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 @media (max-width:840px){
   header{grid-template-columns:1fr;padding-top:48px}
   h1 br{display:none}
-  nav{transition:transform .3s ease}
-  nav.nav-hidden{transform:translateY(-100%)}
+  body > nav{transition:transform .3s ease}
+  body > nav.nav-hidden{transform:translateY(-100%)}
   h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
   .term-wrap{margin-top:0}
   .term-body{font-size:.7rem;min-height:185px;max-height:185px}
@@ -510,11 +512,10 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   .terminal.disco{animation:none}
   .kutlama-kart{animation:none}
 }
-/* yazi sayfasinda tek gorunum yazinin kendisi: SPA'nin gizledigi kutuyu geri aciyoruz */
+/* index.html'de #post-view baslangicta gizli (SPA aciyordu); burada tek gorunum o */
 #post-view{display:block}
-.yazi-ust{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
-.yazi-ust .back-btn{margin-bottom:0}
-.yazi-ust .araclar{display:flex;gap:8px}
+/* ust menuden sonra yazinin ustunde bu kadar bosluk yeter — ana sayfadaki hero yok */
+#blog{padding-top:40px}
 </style>
 <meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0F1712" media="(prefers-color-scheme: dark)">
@@ -530,20 +531,95 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 window.goatcounter = { path: function(p){ return location.pathname + location.search + location.hash } };
 </script>
 <script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script type="application/ld+json">{"inLanguage":"en","publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"mainEntityOfPage":{"@id":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/","@type":"WebPage"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"datePublished":"2026-08-08","description":"A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.","image":"https://cemalkor.com.tr/og.png","url":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/","@type":"BlogPosting","dateModified":"2026-08-08","@context":"https://schema.org","headline":"Without Breaking the Seal: Closing a Security Hole with FUOTA","keywords":"FUOTA, BLE, Saha"}</script>
+<script type="application/ld+json">{"url":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/","@context":"https://schema.org","inLanguage":"en","headline":"Without Breaking the Seal: Closing a Security Hole with FUOTA","dateModified":"2026-08-08","keywords":"FUOTA, BLE, Saha","publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"datePublished":"2026-08-08","description":"A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.","image":"https://cemalkor.com.tr/og.png","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/"}}</script>
 </head>
 <body>
+
+<svg class="bg-circuit" aria-hidden="true" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <g class="traces">
+    <!-- sol bölge: yeşil katman -->
+    <path d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
+    <path d="M-20,350 H160 L210,400 V440"/>
+    <path d="M-20,470 H100 L150,520 V560 L200,610 H240"/>
+    <path d="M-20,690 H90 L140,740 H230"/>
+    <path d="M60,920 V860 L110,810 H240"/>
+    <!-- sol bölge: bakır katman -->
+    <path class="cu" d="M240,-20 V60 L190,110 H70"/>
+    <path class="cu" d="M-20,190 H120 L170,240 H250"/>
+    <path class="cu" d="M-20,240 H60 L110,290 V420"/>
+    <path class="cu" d="M60,440 V760"/>
+    <path class="cu" d="M-20,790 H150 L200,840 V920"/>
+    <!-- sağ bölge: yeşil katman -->
+    <path d="M1580,-20 V30 L1530,80 H1440"/>
+    <path d="M1620,220 H1480 L1430,170 V130"/>
+    <path d="M1620,380 H1470 L1420,430 V490"/>
+    <path d="M1620,560 H1440 L1390,510 V470"/>
+    <path d="M1420,920 V820 L1470,770 H1560"/>
+    <!-- sağ bölge: bakır katman -->
+    <path class="cu" d="M1520,-20 V60 L1470,110 H1380"/>
+    <path class="cu" d="M1620,320 H1500 L1450,270 V220"/>
+    <path class="cu" d="M1560,350 V640"/>
+    <path class="cu" d="M1620,700 H1490 L1440,750 H1370"/>
+    <path class="cu" d="M1620,880 H1520 L1470,830 V800"/>
+    <!-- via'lar (iz uçları) -->
+    <circle cx="60" cy="300" r="4.5"/><circle cx="210" cy="440" r="4.5"/><circle cx="240" cy="610" r="4.5"/>
+    <circle cx="230" cy="740" r="4.5"/><circle cx="240" cy="810" r="4.5"/>
+    <circle class="cu" cx="70" cy="110" r="4.5"/><circle class="cu" cx="250" cy="240" r="4.5"/>
+    <circle class="cu" cx="110" cy="420" r="4.5"/><circle class="cu" cx="60" cy="440" r="4.5"/><circle class="cu" cx="60" cy="760" r="4.5"/>
+    <circle cx="1440" cy="80" r="4.5"/><circle cx="1430" cy="130" r="4.5"/><circle cx="1420" cy="490" r="4.5"/>
+    <circle cx="1390" cy="470" r="4.5"/><circle cx="1560" cy="770" r="4.5"/>
+    <circle class="cu" cx="1380" cy="110" r="4.5"/><circle class="cu" cx="1450" cy="220" r="4.5"/><circle class="cu" cx="1560" cy="350" r="4.5"/>
+    <circle class="cu" cx="1560" cy="640" r="4.5"/><circle class="cu" cx="1370" cy="750" r="4.5"/><circle class="cu" cx="1470" cy="800" r="4.5"/>
+    <!-- via stitching (dolu pad'ler) -->
+    <circle class="pad" cx="100" cy="730" r="2.5"/><circle class="pad" cx="120" cy="60" r="2.5"/>
+    <circle class="pad" cx="1580" cy="300" r="2.5"/><circle class="pad" cx="1500" cy="560" r="2.5"/>
+  </g>
+  <g class="pulses">
+    <path pathLength="1000" style="animation-duration:11s" d="M-20,140 H180 L230,190 V250 L180,300 H60"/>
+    <path pathLength="1000" style="animation-duration:13.5s;animation-delay:-4s" d="M-20,350 H160 L210,400 V440"/>
+    <path pathLength="1000" style="animation-duration:12.5s;animation-delay:-10s" d="M-20,470 H100 L150,520 V560 L200,610 H240"/>
+    <path pathLength="1000" style="animation-duration:12s;animation-delay:-6.5s" d="M-20,690 H90 L140,740 H230"/>
+    <path pathLength="1000" style="animation-duration:9.5s;animation-delay:-2.5s" d="M60,920 V860 L110,810 H240"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M240,-20 V60 L190,110 H70"/>
+    <path class="cu" pathLength="1000" style="animation-duration:8.5s;animation-delay:-1.5s" d="M-20,190 H120 L170,240 H250"/>
+    <path class="cu" pathLength="1000" style="animation-duration:14s;animation-delay:-7.5s" d="M-20,240 H60 L110,290 V420"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10.5s;animation-delay:-3s" d="M60,440 V760"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10s;animation-delay:-4.5s" d="M-20,790 H150 L200,840 V920"/>
+    <path pathLength="1000" style="animation-duration:10s;animation-delay:-6s" d="M1580,-20 V30 L1530,80 H1440"/>
+    <path pathLength="1000" style="animation-duration:14s;animation-delay:-5s" d="M1620,220 H1480 L1430,170 V130"/>
+    <path pathLength="1000" style="animation-duration:13s;animation-delay:-4s" d="M1620,380 H1470 L1420,430 V490"/>
+    <path pathLength="1000" style="animation-duration:11.5s;animation-delay:-8s" d="M1620,560 H1440 L1390,510 V470"/>
+    <path pathLength="1000" style="animation-duration:8.5s;animation-delay:-3.5s" d="M1420,920 V820 L1470,770 H1560"/>
+    <path class="cu" pathLength="1000" style="animation-duration:15s;animation-delay:-7s" d="M1520,-20 V60 L1470,110 H1380"/>
+    <path class="cu" pathLength="1000" style="animation-duration:12s;animation-delay:-5.5s" d="M1620,320 H1500 L1450,270 V220"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9.5s;animation-delay:-2s" d="M1560,350 V640"/>
+    <path class="cu" pathLength="1000" style="animation-duration:9s;animation-delay:-8s" d="M1620,700 H1490 L1440,750 H1370"/>
+    <path class="cu" pathLength="1000" style="animation-duration:10.5s;animation-delay:-1s" d="M1620,880 H1520 L1470,830 V800"/>
+  </g>
+</svg>
+
+<nav>
+  <div class="nav-in">
+    <a class="logo" href="/en/">cemal<b>@</b>kor:~$</a>
+    <div class="nav-links">
+      <a href="/en/#hakkimda" data-i18n="nav.about">About</a>
+      <a href="/en/#deneyim" data-i18n="nav.xp">Experience</a>
+      <a href="/en/#projeler" data-i18n="nav.proj">Projects</a>
+      <a href="/en/#yetkinlikler" data-i18n="nav.skills">Skills</a>
+      <a href="/en/#egitimler" data-i18n="nav.edu">Workshops</a>
+      <a href="/en/#hobi" data-i18n="nav.hobby">Hobby</a>
+      <a href="/en/#blog">Blog</a>
+      <a href="/en/#iletisim" data-i18n="nav.contact">Contact</a>
+      <button id="lang-btn" class="lang-btn" aria-label="Türkçe / English">TR</button>
+      <button id="tema-btn" class="lang-btn" aria-label="Koyu / açık tema">☾</button>
+    </div>
+  </div>
+</nav>
 
 <main>
 <section id="blog">
   <div id="post-view">
-    <div class="yazi-ust">
-      <a class="back-btn" href="/">← All posts</a>
-      <span class="araclar">
-        <a class="lang-btn" href="/blog/fuota-kurtarma-operasyonu/">TR</a>
-        <button id="tema-btn" class="lang-btn" type="button" aria-label="Dark / light theme">☾</button>
-      </span>
-    </div>
+    <a class="back-btn" href="/en/">← All posts</a>
     <article id="post-content">
 <div class="post-meta">2026-08-08 · FUOTA · BLE · Saha · 5 min read</div>
 <h1>Without Breaking the Seal: Closing a Security Hole with FUOTA</h1>
@@ -596,13 +672,28 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
 </footer>
 
 <script>
-/* tema dugmesi ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
+/* tema, dil, menu ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
 document.getElementById('tema-btn').addEventListener('click', ()=>{
   const koyu = document.documentElement.dataset.theme === 'dark';
   if(koyu) delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = 'dark';
   localStorage.setItem('tema', koyu ? 'light' : 'dark');
 });
+/* dil dugmesi: yazinin oteki dildeki surumune git, tercihi de kaydet ki ana sayfa uysun */
+document.getElementById('lang-btn').addEventListener('click', ()=>{
+  localStorage.setItem('lang', 'tr');
+  location.href = '/blog/fuota-kurtarma-operasyonu/';
+});
+/* mobilde asagi kaydirirken menu gizlensin — ana sayfadakiyle ayni davranis */
+const navEl = document.querySelector('body > nav');
+const navMobil = matchMedia('(max-width:840px)');
+let sonScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
+  else navEl.classList.remove('nav-hidden');
+  sonScrollY = y;
+}, {passive:true});
 document.querySelectorAll('#post-content pre').forEach(pre => {
   const sar = document.createElement('div');
   sar.className = 'kod-sar';

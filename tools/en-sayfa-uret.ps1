@@ -20,6 +20,8 @@ param([string]$Kok = ".")
 
 $ErrorActionPreference = "Stop"
 
+. (Join-Path $PSScriptRoot "ortak.ps1")
+
 # DIKKAT: bu dosya UTF-8 BOM ILE kaydedilmeli (bkz. feed-uret.ps1 icindeki not).
 $SITE = "https://cemalkor.com.tr"
 
@@ -31,59 +33,8 @@ $utf8 = New-Object System.Text.UTF8Encoding $false
 $html = [System.IO.File]::ReadAllText($indexYol, [System.Text.Encoding]::UTF8)
 
 # ---------- I18N sozlugunu oku ----------
-# JS nesne sabiti: 'anahtar':'deger' ciftleri. Deger HTML ve kesme isareti icerdigi icin
-# regex yerine karakter karakter taraniyor; tirnak turu ve \ kacislari korunuyor.
-function JsSozlukCoz($blok) {
-  $sozluk = [ordered]@{}
-  $i = 0
-  $n = $blok.Length
-  function SonrakiMetin([ref]$idx) {
-    $b = $blok
-    while ($idx.Value -lt $b.Length -and $b[$idx.Value] -notin @("'", '"')) { $idx.Value++ }
-    if ($idx.Value -ge $b.Length) { return $null }
-    $tirnak = $b[$idx.Value]
-    $idx.Value++
-    $sb = New-Object System.Text.StringBuilder
-    while ($idx.Value -lt $b.Length) {
-      $c = $b[$idx.Value]
-      if ($c -eq '\') {
-        $idx.Value++
-        $k = $b[$idx.Value]
-        switch ($k) {
-          'n'  { [void]$sb.Append("`n") }
-          't'  { [void]$sb.Append("`t") }
-          'r'  { }
-          default { [void]$sb.Append($k) }
-        }
-        $idx.Value++
-        continue
-      }
-      if ($c -eq $tirnak) { $idx.Value++; break }
-      [void]$sb.Append($c)
-      $idx.Value++
-    }
-    return $sb.ToString()
-  }
-  while ($i -lt $n) {
-    $anahtar = SonrakiMetin ([ref]$i)
-    if ($null -eq $anahtar) { break }
-    # anahtar ile deger arasindaki ':' atlanir
-    while ($i -lt $n -and $blok[$i] -ne ':') { $i++ }
-    $i++
-    $deger = SonrakiMetin ([ref]$i)
-    if ($null -eq $deger) { break }
-    $sozluk[$anahtar] = $deger
-    while ($i -lt $n -and $blok[$i] -ne ',') { $i++ }
-    $i++
-  }
-  $sozluk
-}
-
-$i18nBlok = [regex]::Match($html, '(?s)const I18N = \{(.*?)\r?\n\};')
-if (-not $i18nBlok.Success) { throw "index.html icinde 'const I18N = { ... };' blogu bulunamadi" }
-$I18N = JsSozlukCoz $i18nBlok.Groups[1].Value
+$I18N = I18NOku $html
 Write-Host "  I18N: $($I18N.Count) anahtar okundu."
-if ($I18N.Count -lt 50) { throw "I18N beklenenden az anahtar dondu ($($I18N.Count)) - bicim degismis olabilir" }
 
 # MSG.en icindeki sayfa basligi ve aciklamasi
 $msgEn = [regex]::Match($html, "(?s)\ben:\{(.*?)\n  \}")
@@ -95,25 +46,9 @@ if (-not $enBaslik -or -not $enAciklama) { throw "MSG.en icinde docTitle/desc ok
 # ---------- govde: [data-i18n] elemanlarini cevir ----------
 # Ayni etiketin ic ice gectigi bir data-i18n elemani yok (tools/ notu: 109 elemanda kontrol
 # edildi), bu yuzden ilk kapanis etiketine kadar olan kisim guvenle ic HTML sayilabiliyor.
-$cevrilen = 0
-$atlanan  = New-Object System.Collections.ArrayList
-
-# Acilis etiketlerini tek tek gezip ic HTML'i degistiriyoruz. Metin uzunlugu degistigi icin
-# sondan basa gidiliyor, boylece onceki eslesmelerin indeksleri kaymiyor.
-$eslesmeler = @([regex]::Matches($html, '<(\w+)[^>]*\sdata-i18n="([^"]+)"[^>]*>'))
-[array]::Reverse($eslesmeler)
-$sonuc = $html
-foreach ($m in $eslesmeler) {
-  $etiket  = $m.Groups[1].Value
-  $anahtar = $m.Groups[2].Value
-  if (-not $I18N.Contains($anahtar)) { [void]$atlanan.Add($anahtar); continue }
-  $icBas  = $m.Index + $m.Length
-  $icSon  = $sonuc.IndexOf("</$etiket>", $icBas)
-  if ($icSon -lt 0) { throw "kapanis etiketi bulunamadi: <$etiket data-i18n=`"$anahtar`">" }
-  $sonuc = $sonuc.Substring(0, $icBas) + $I18N[$anahtar] + $sonuc.Substring($icSon)
-  $cevrilen++
-}
-Write-Host "  govde: $cevrilen eleman cevrildi, $($atlanan.Count) eleman I18N'de yok (Turkce kaldi)."
+$c = I18NUygula $html $I18N
+$sonuc = $c.html
+Write-Host "  govde: $($c.sayac) eleman cevrildi, $($c.toplam - $c.sayac) eleman I18N'de yok (Turkce kaldi)."
 
 # ---------- head: Ingilizceye cevir ----------
 # Her degisiklik birebir eslesmeli; eslesmezse index.html degismis demektir ve sessizce

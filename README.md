@@ -87,6 +87,7 @@ cemalkor.github.io/
 │   ├── og-kart-uret.ps1
 │   ├── favicon-uret.ps1
 │   ├── feed-uret.ps1   → feed.xml, feed.en.xml, sitemap.xml, posts/okuma.json
+│   ├── ortak.ps1           → iki üreticinin paylaştığı yardımcılar (I18N, blok çıkarma)
 │   ├── yazi-sayfa-uret.ps1 → blog/<slug>/ sayfaları (feed-uret.ps1 sonunda çağırıyor)
 │   ├── en-sayfa-uret.ps1   → en/index.html          (feed-uret.ps1 sonunda çağırıyor)
 │   └── indexnow-bildir.ps1 → Bing/Yandex'e "adres değişti" bildirimi (elle çalıştırılır)
@@ -116,8 +117,14 @@ Tek komut hepsini üretir: `feed.xml`, `feed.en.xml`, `sitemap.xml`, `posts/okum
 `en-sayfa-uret.ps1` çağırıyor, onları ayrıca çalıştırmak gerekmez.
 
 **Site metnini `index.html` içinde değiştirdiysen de bu komutu çalıştır** — yoksa `en/index.html`
-eski metinde kalır. Aynı şekilde tema/renk değişikliğinden sonra da: yazı sayfalarının CSS'i
-`index.html`'in `<style>` bloğundan okunuyor, tek kaynak orası.
+eski metinde kalır. Aynı şekilde tema/renk/menü değişikliğinden sonra da: yazı sayfaları
+`index.html`'den **CSS'i, üst menüyü ve arka plandaki devre yollarını** olduğu gibi alıyor, tek
+kaynak orası. Menü çıpaları yazı sayfasında ana sayfaya çevriliyor (`#projeler` → `/#projeler`).
+
+⚠️ `index.html`'in CSS'inde veya JS'inde **yorum içine `<nav>` gibi düz etiket yazma** — üreteç
+menüyü ve arka plan SVG'sini metin araması ile buluyor, yoruma takılıp yanlış yeri kesiyor. Bir kez
+oldu, CSS'in yarısı yazı sayfasına metin olarak basıldı. Üreteçte buna karşı boyut kontrolü var ama
+en iyisi yorumda etiket adını düz yazmamak.
 
 `en-sayfa-uret.ps1` head'i çevirirken birebir eşleşme arıyor; `index.html`'in head'ini değiştirirsen
 script sessizce bozuk sayfa üretmek yerine **hata verip durur**. Hata mesajı hangi satırın
