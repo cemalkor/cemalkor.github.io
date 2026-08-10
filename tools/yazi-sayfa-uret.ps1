@@ -281,7 +281,9 @@ function SayfaUret($y, $dil, $indeks) {
            (& $navKart $eski 'onceki' $t.onceki) + (& $navKart $yeni 'sonraki' $t.sonraki) + "</nav>"
   }
 
-  $ld = @{
+  # [ordered] sart: siradan hashtable'da anahtar sirasi her calistirmada degisiyor, uretilen
+  # JSON-LD de oyle. Icerik ayni kalsa bile dosya degisik gorunup git'i gereksiz kirletiyordu.
+  $ld = [ordered]@{
     '@context' = 'https://schema.org'
     '@type'    = 'BlogPosting'
     headline   = $baslik
@@ -291,7 +293,7 @@ function SayfaUret($y, $dil, $indeks) {
     inLanguage = if ($dil -eq "en") { 'en' } else { 'tr-TR' }
     keywords   = (@($y.tags) -join ', ')
     url        = $url
-    mainEntityOfPage = @{ '@type' = 'WebPage'; '@id' = $url }
+    mainEntityOfPage = [ordered]@{ '@type' = 'WebPage'; '@id' = $url }
     author     = @{ '@id' = "$SITE/#cemalkor" }
     publisher  = @{ '@id' = "$SITE/#cemalkor" }
     image      = "$SITE/og.png"

@@ -4,6 +4,8 @@
 
 Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown dosyalarıyla** çalışan kişisel portfolyo sitesi.
 
+> Bu depoda bir yapay zekâ ajanıyla çalışıyorsan: kuralları ve tuzakları [AGENTS.md](AGENTS.md) topluyor.
+
 ## Özellikler
 
 - **İki dil (TR/EN)** — dil adresten okunur: kök adres TR, `?lang=en` EN. Nav'daki düğmeyle değiştirilir, tercih `localStorage`'da saklanır ve sonraki ziyarette adres ona göre düzeltilir
@@ -113,8 +115,15 @@ Yazıların ham hâli (düzenlenmemiş metin, işlenmemiş fotoğraf) `Blog haz�
 ```
 
 Tek komut hepsini üretir: `feed.xml`, `feed.en.xml`, `sitemap.xml`, `posts/okuma.json`,
-`blog/<slug>/` sayfaları ve `en/index.html`. `feed-uret.ps1` son adımda `yazi-sayfa-uret.ps1` ile
-`en-sayfa-uret.ps1` çağırıyor, onları ayrıca çalıştırmak gerekmez.
+`blog/<slug>/` sayfaları, `en/index.html` ve **ana sayfadaki yazı listesi**.
+`feed-uret.ps1` son adımda `yazi-sayfa-uret.ps1` ile `en-sayfa-uret.ps1` çağırıyor, onları
+ayrıca çalıştırmak gerekmez.
+
+Ana sayfadaki yazı kartları (`index.html` içindeki `<div id="blog-list">` bloğu ve EN karşılığı)
+JS ile değil, üretim anında HTML'e gömülüyor: JS çalıştırmayan tarayıcılar ve tarayıcı botları da
+yazıları ana sayfadan görsün diye. Sayfadaki `renderList()` yalnızca etiket filtresinde devreye
+giriyor ve aynı biçimi üretiyor — biri değişirse diğeri de değişmeli
+(`tools/ortak.ps1` → `BlogKartlariHtml`).
 
 **Site metnini `index.html` içinde değiştirdiysen de bu komutu çalıştır** — yoksa `en/index.html`
 eski metinde kalır. Aynı şekilde tema/renk/menü değişikliğinden sonra da: yazı sayfaları

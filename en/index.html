@@ -3,6 +3,19 @@
 <!-- URETILEN DOSYA - elle duzenleme. Kaynak: index.html + tools/en-sayfa-uret.ps1
      Icerik degisikligi index.html icinde (govde) ve I18N sozlugunde (Ingilizcesi) yapilir,
      sonra .\tools\feed-uret.ps1 . calistirilir. -->
+<!-- ═══ AJANA NOT ═══════════════════════════════════════════════════════════════════════
+     Bu dosyaya dokunmadan once kokteki AGENTS.md'yi oku. Ozetle, en sik unutulanlar:
+
+     1. index.html TEK KAYNAK. en/index.html, blog/**/index.html, feed*.xml ve sitemap.xml
+        URETILEN dosyalar — onlari elle duzenleme, index.html'i duzenleyip su komutu calistir:
+            .\tools\feed-uret.ps1 .
+     2. Yeni metin ekliyorsan data-i18n anahtari ver ve I18N sozlugune Ingilizcesini yaz,
+        yoksa EN sayfada Turkce kalir.
+     3. Bu sayfa ayni zamanda CV: yazdirma duzeni @media print icinde ve ATS'e gore
+        kurgulandi. Bolum ekler/tasirsan Ctrl+P ciktisini da kontrol et.
+     4. Degisikligi tarayicida dogrula — MASAUSTU VE MOBIL (375px), koyu VE acik tema,
+        TR VE EN. "Bakmadim ama calisiyordur" yok.
+     ════════════════════════════════════════════════════════════════════════════════════ -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1008,8 +1021,25 @@ window.goatcounter = {
 
 <section id="blog">
   <div class="sec-head"><h2>Blog</h2><span class="pin" aria-hidden="true" data-pin="posts.a"></span></div>
+  <!-- etiket filtresi yalnizca bir suslemedir, JS'siz gorunmez; kart listesi ise asagida
+       gomulu geliyor (bkz. AGENTS.md → "Blog listesi"). -->
   <div id="etiket-bar" class="etiket-bar" role="group" aria-label="Etiket filtresi" hidden></div>
-  <div id="blog-list"></div>
+  <!-- ▼ URETILEN BLOK — elle duzenleme. Kaynak: posts/posts.json + tools/feed-uret.ps1.
+       Yazi ekleyip .\tools\feed-uret.ps1 . calistirinca burasi yeniden yazilir. Kartlar
+       HTML'e gomulu ki JS calistirmayan tarayici ve botlar da yazilari gorsun; sayfadaki
+       renderList() yalnizca etiket filtresinde devreye giriyor ve ayni bicimi uretiyor. -->
+  <div id="blog-list">
+    <a class="post-card" href="/blog/fuota-kurtarma-operasyonu/en/">
+      <div class="meta">2026-08-08 · FUOTA · BLE · Saha · 5 min read</div>
+      <h3>Without Breaking the Seal: Closing a Security Hole with FUOTA</h3>
+      <p>A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.</p>
+    </a>
+    <a class="post-card" href="/blog/merhaba-dunya/en/">
+      <div class="meta">2026-07-10 · Genel · 1 min read</div>
+      <h3>printf(&quot;Hello World&quot;); — Why Does This Blog Exist?</h3>
+      <p>The opening post of a blog about embedded systems, smart meters and lessons learned in the field.</p>
+    </a>
+  </div>
 </section>
 
 </main>

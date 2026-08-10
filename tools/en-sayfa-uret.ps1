@@ -92,6 +92,12 @@ $sonuc = Degistir $sonuc @"
       "name": "$enBaslik",
 "@ 'ld ProfilePage'
 
+# ---------- blog listesi: Ingilizce baslik ve ozetlerle ----------
+# index.html'den TR kartlar kopyalandi; bunlar posts.json'dan geliyor, I18N sozlugunde
+# olmadigi icin [data-i18n] cevirisi onlara dokunmuyor. Burada EN surumuyle degistiriliyor.
+$postsDir = Join-Path $kokTam "posts"
+$sonuc = BlogListesiGom $sonuc (BlogKartlariHtml (YazilariOku $postsDir) (OkumaOku $postsDir) "en")
+
 # uretilen dosya oldugunu belli et
 $sonuc = Degistir $sonuc '<html lang="en">' @"
 <html lang="en">

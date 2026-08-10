@@ -89,7 +89,10 @@
 }
 [data-theme="dark"] .bg-circuit .traces{opacity:.11}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* scroll-padding-top: nav yapışkan, bağlantıyla gelen bölümün başlığı altında kalmasın.
+   Değeri nav'ın gerçek yüksekliğinden JS hesaplıyor (menü dar ekranda iki satıra sarıyor);
+   aşağıdaki 56px yalnızca JS çalışmadan önceki ilk kare için yedek. */
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h,56px)}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
 ::selection{background:var(--pcb);color:var(--btn-ink)}
 
@@ -254,6 +257,13 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
 .xp-item .xp-tags{max-width:66ch}
 .tag{font-family:var(--mono);font-size:.7rem;background:var(--mist);border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
+/* Deneyim → Eğitim: aralarında ayraç yok; boşluğu da bölüm arası (64px) değil, zaman çizelgesi
+   kayıtları arası (30px) ölçekte tutuyoruz ki ikisi tek bir akış gibi okunsun.
+   Yalnızca ekranda: kâğıttaki bölüm boşluklarını @media print belirliyor. */
+@media screen{
+  #deneyim{padding-bottom:32px}
+  #egitim{padding-top:0}
+}
 
 /* ---------- projeler ---------- */
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
@@ -532,7 +542,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 window.goatcounter = { path: function(p){ return location.pathname + location.search + location.hash } };
 </script>
 <script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script type="application/ld+json">{"url":"https://cemalkor.com.tr/blog/merhaba-dunya/en/","@context":"https://schema.org","inLanguage":"en","headline":"printf(\"Hello World\"); — Why Does This Blog Exist?","dateModified":"2026-07-10","keywords":"Genel","publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"datePublished":"2026-07-10","description":"The opening post of a blog about embedded systems, smart meters and lessons learned in the field.","image":"https://cemalkor.com.tr/og.png","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/merhaba-dunya/en/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"printf(\"Hello World\"); — Why Does This Blog Exist?","description":"The opening post of a blog about embedded systems, smart meters and lessons learned in the field.","datePublished":"2026-07-10","dateModified":"2026-07-10","inLanguage":"en","keywords":"Genel","url":"https://cemalkor.com.tr/blog/merhaba-dunya/en/","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/merhaba-dunya/en/"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"image":"https://cemalkor.com.tr/og.png"}</script>
 </head>
 <body>
 

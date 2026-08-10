@@ -17,6 +17,8 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+. (Join-Path $PSScriptRoot "ortak.ps1")
+
 # DIKKAT: bu dosya UTF-8 BOM ILE kaydedilmeli. Windows PowerShell 5.1, BOM'suz bir script'i
 # ANSI sanip Turkce karakterleri bozuyor ("Kör" -> "KÃ¶r") ve bu metinler dogrudan RSS okuyucuda
 # gorunuyor. Duzenleyip kaydederken BOM'u koru.
@@ -41,11 +43,7 @@ function Yaz($yol, $metin) {
   Write-Host "  yazildi: $(Split-Path $yol -Leaf)"
 }
 
-# XML metin kacisi — & ilk sirada olmali, yoksa sonraki kacislari bozar
-function Kacir($s) {
-  if ($null -eq $s) { return "" }
-  $s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;")
-}
+# metin kacisi (XML ve HTML icin ayni): ortak.ps1'den geliyor — & ilk sirada olmali
 
 # Yazi adresi. Yazilar artik /blog/slug/ altinda gercek dosya (tools/yazi-sayfa-uret.ps1
 # uretiyor); eski ?yazi=slug adresleri index.html tarafindan buraya tasiniyor.
@@ -105,15 +103,25 @@ Write-Host "$($yazilar.Count) yazi bulundu."
 # ---------- okuma sureleri: posts/okuma.json ----------
 # posts.json elle duzenlenen dosya, ona dokunmuyoruz; okuma sureleri ayri ve uretilen dosyada.
 $okumaSatir = @()
+$okuma = @{}
 foreach ($y in $yazilar) {
   $trMd = MdOku $y.file
   $enMd = MdOku $y.file_en
   $tr = if ($trMd) { OkumaDk $trMd } else { 1 }
   $en = if ($enMd) { OkumaDk $enMd } else { $tr }   # EN dosyasi yoksa site TR icerigi gosteriyor
   $okumaSatir += '  "' + $y.slug + '": {"tr": ' + $tr + ', "en": ' + $en + '}'
+  $okuma[$y.slug] = [pscustomobject]@{ tr = $tr; en = $en }
 }
 $okumaJson = "{" + "`n" + ($okumaSatir -join ",`n") + "`n" + "}" + "`n"
 Yaz (Join-Path $postsDir "okuma.json") $okumaJson
+
+# ---------- ana sayfadaki blog listesi (TR) ----------
+# Kartlar index.html'e gomuluyor: JS calistirmayan tarayici ve botlar da yazilari gorsun.
+# EN surumu en-sayfa-uret.ps1 icinde, kendi baslik/ozetleriyle gomuluyor.
+$indexYol = Join-Path $kokTam "index.html"
+$indexHtml = [System.IO.File]::ReadAllText($indexYol, [System.Text.Encoding]::UTF8)
+$yeni = BlogListesiGom $indexHtml (BlogKartlariHtml $yazilar $okuma "tr")
+if ($yeni -ne $indexHtml) { Yaz $indexYol $yeni } else { Write-Host "  index.html: blog listesi zaten guncel." }
 
 # ---------- RSS ----------
 function FeedUret($dil) {
