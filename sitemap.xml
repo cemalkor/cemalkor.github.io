@@ -7,16 +7,16 @@
   <url>
     <loc>https://cemalkor.com.tr/</loc>
     <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/"/>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://cemalkor.com.tr/?lang=en</loc>
+    <loc>https://cemalkor.com.tr/en/</loc>
     <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/"/>
     <lastmod>2026-08-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -25,34 +25,34 @@
 
   <!-- blog yazilari -->
   <url>
-    <loc>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu</loc>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <loc>https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/"/>
     <lastmod>2026-08-08</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en</loc>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu"/>
+    <loc>https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/"/>
     <lastmod>2026-08-08</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://cemalkor.com.tr/?yazi=merhaba-dunya</loc>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <loc>https://cemalkor.com.tr/blog/merhaba-dunya/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/blog/merhaba-dunya/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/blog/merhaba-dunya/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/blog/merhaba-dunya/"/>
     <lastmod>2026-07-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</loc>
-    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/?yazi=merhaba-dunya"/>
+    <loc>https://cemalkor.com.tr/blog/merhaba-dunya/en/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/blog/merhaba-dunya/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/blog/merhaba-dunya/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/blog/merhaba-dunya/"/>
     <lastmod>2026-07-10</lastmod>
     <priority>0.7</priority>
   </url>

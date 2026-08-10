@@ -31,13 +31,30 @@ Tek dosyalık (`index.html`), derleme ve sunucu gerektirmeyen, blog'u **Markdown
 | Sayfa | Adres |
 |---|---|
 | Ana sayfa (TR) | `https://cemalkor.com.tr/` |
-| Ana sayfa (EN) | `https://cemalkor.com.tr/?lang=en` |
-| Yazı (TR) | `https://cemalkor.com.tr/?yazi=merhaba-dunya` |
-| Yazı (EN) | `https://cemalkor.com.tr/?yazi=merhaba-dunya&lang=en` |
+| Ana sayfa (EN) | `https://cemalkor.com.tr/en/` |
+| Yazı (TR) | `https://cemalkor.com.tr/blog/merhaba-dunya/` |
+| Yazı (EN) | `https://cemalkor.com.tr/blog/merhaba-dunya/en/` |
 
-Linkler gerçek `<a href>` — arama motorları takip edebiliyor; tıklamayı JS yakalayıp sayfa yenilemeden
-render ediyor (`history.pushState`). Eski `#yazi/slug` linkleri açılışta otomatik yeni adrese taşınıyor,
-kırılmıyor. `#hakkimda`, `#blog` gibi bölüm çıpaları eskisi gibi çalışıyor.
+Yazılar `blog/` altında **kendi HTML dosyasında** — `tools/yazi-sayfa-uret.ps1` üretiyor. Kendi
+`canonical`, `title`, açıklama ve JSON-LD etiketlerini taşıyorlar, içerik JS'siz de görünüyor.
+
+Bu böyle olmak zorunda: site tek bir `index.html` ve içindeki `<link rel="canonical">` statik olarak
+`/` diyor; yazı adresini yalnızca JS düzeltiyordu. Google JS'i render ettiği için sorun görünmüyordu ama
+Bing sayfayı JS'siz tarayıp her `?yazi=` adresini ana sayfanın kopyası sayıyor ve dizine almıyordu
+("Bu sayfa kurallı sayfanın alternatif sürümü olduğundan dizini oluşturulmadı").
+
+Ana sayfanın İngilizcesi de aynı sebeple `en/index.html` olarak üretiliyor —
+`tools/en-sayfa-uret.ps1` `index.html`'i alıp `data-i18n` taşıyan her elemanın içeriğini `I18N`
+sözlüğündeki karşılığıyla değiştiriyor. Yani İngilizce CV artık JS'siz de görünüyor ve kendi
+canonical'ı var. **İngilizce metni `I18N` sözlüğünde düzenle**, sonra üreteci çalıştır.
+
+Dil değiştirme düğmesi artık yerinde çeviri değil, sayfa geçişi yapıyor (`/` ↔ `/en/`) — iki dil iki
+ayrı dosya olduğu için içeriğin gelmesi gerçek sayfa yüklemesi istiyor.
+
+Eski adresler kırılmıyor: `#yazi/slug`, `?yazi=slug` ve `?lang=en` açılışta yeni adrese taşınıyor.
+GitHub Pages sunucu tarafında 301 veremediği için taşıma istemci tarafında (`location.replace`); hedef
+sayfanın kendi canonical'ı doğru olduğundan arama motoru sonunda doğru adresi görüyor. `#hakkimda`,
+`#blog` gibi bölüm çıpaları eskisi gibi çalışıyor.
 
 **Not:** Dil artık tarayıcı diline göre otomatik seçilmiyor — kök adres herkes için Türkçe açılıyor.
 Sebebi SEO: Googlebot'un tarayıcı dili `en-US` olduğu için otomatik seçim varken kök adres İngilizce
@@ -62,10 +79,17 @@ cemalkor.github.io/
 ├── og.png              → sosyal medya paylaşım kartı (1200x630)
 ├── googled09dd...html  → Google Search Console doğrulama dosyası (SİLME!)
 ├── yandex_892a...html  → Yandex Webmaster doğrulama dosyası (SİLME!)
+├── 6d33c095....txt     → IndexNow anahtar dosyası (SİLME! içeriği anahtarın kendisi)
+├── blog/               → ÜRETİLEN: yazı başına statik sayfa
+│   └── <slug>/index.html      (TR)  ve  <slug>/en/index.html  (EN)
+├── en/index.html       → ÜRETİLEN: İngilizce ana sayfa
 ├── tools/              → üretici script'ler (siteye dahil değil)
 │   ├── og-kart-uret.ps1
 │   ├── favicon-uret.ps1
-│   └── feed-uret.ps1   → feed.xml, feed.en.xml, sitemap.xml, posts/okuma.json
+│   ├── feed-uret.ps1   → feed.xml, feed.en.xml, sitemap.xml, posts/okuma.json
+│   ├── yazi-sayfa-uret.ps1 → blog/<slug>/ sayfaları (feed-uret.ps1 sonunda çağırıyor)
+│   ├── en-sayfa-uret.ps1   → en/index.html          (feed-uret.ps1 sonunda çağırıyor)
+│   └── indexnow-bildir.ps1 → Bing/Yandex'e "adres değişti" bildirimi (elle çalıştırılır)
 └── posts/
     ├── posts.json      → yazı listesi (başlık, tarih, dosya adı) — ELLE yazılır
     ├── okuma.json      → ÜRETİLEN: yazı başına okuma süresi (dakika)
@@ -87,8 +111,34 @@ Yazıların ham hâli (düzenlenmemiş metin, işlenmemiş fotoğraf) `Blog haz�
 .\tools\feed-uret.ps1 .
 ```
 
-`posts/posts.json` ve `posts/*.md` dosyalarından `feed.xml`, `feed.en.xml`, `sitemap.xml` ve
-`posts/okuma.json` üretir. Yeni yazı ekledikten sonra bir kez çalıştırılır (yukarıdaki adımlara bak).
+Tek komut hepsini üretir: `feed.xml`, `feed.en.xml`, `sitemap.xml`, `posts/okuma.json`,
+`blog/<slug>/` sayfaları ve `en/index.html`. `feed-uret.ps1` son adımda `yazi-sayfa-uret.ps1` ile
+`en-sayfa-uret.ps1` çağırıyor, onları ayrıca çalıştırmak gerekmez.
+
+**Site metnini `index.html` içinde değiştirdiysen de bu komutu çalıştır** — yoksa `en/index.html`
+eski metinde kalır. Aynı şekilde tema/renk değişikliğinden sonra da: yazı sayfalarının CSS'i
+`index.html`'in `<style>` bloğundan okunuyor, tek kaynak orası.
+
+`en-sayfa-uret.ps1` head'i çevirirken birebir eşleşme arıyor; `index.html`'in head'ini değiştirirsen
+script sessizce bozuk sayfa üretmek yerine **hata verip durur**. Hata mesajı hangi satırın
+eşleşmediğini söylüyor, script'teki karşılığını güncelle.
+
+`posts.json`'dan bir yazıyı çıkarırsan üreteç `blog/<slug>/` klasörünü **silmez**, uyarı basar;
+yayında kalmasın diye elle silmen gerekir.
+
+### Arama motorlarına haber verme (IndexNow)
+
+```powershell
+.\tools\indexnow-bildir.ps1
+```
+
+Bing ve Yandex'e "şu adresler değişti" der; tarayıcının siteye kendiliğinden uğramasını beklemezsin.
+**Push'ladıktan ve GitHub Pages dağıtımı bittikten sonra** çalıştır — script anahtar dosyasının
+yayında olduğunu doğruluyor, olmazsa anlaşılır hata veriyor.
+
+Argümansız çalışınca `sitemap.xml`'deki tüm adresleri bildirir. Tek adres için:
+`.\tools\indexnow-bildir.ps1 -Adres "https://cemalkor.com.tr/blog/yeni-yazi/"`.
+Google IndexNow kullanmıyor; orası için Search Console'dan sitemap yeniden gönderilir.
 
 ### Görselleri yeniden üretme
 

@@ -47,11 +47,12 @@ function Kacir($s) {
   $s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;")
 }
 
-# ?yazi=slug adresi. XML icinde & yerine &amp; gerekir; $xml=$false ham adresi dondurur
-function YaziUrl($slug, $dil, $xml = $true) {
-  $amp = if ($xml) { "&amp;" } else { "&" }
-  if ($dil -eq "en") { return "$SITE/?yazi=$slug$($amp)lang=en" }
-  return "$SITE/?yazi=$slug"
+# Yazi adresi. Yazilar artik /blog/slug/ altinda gercek dosya (tools/yazi-sayfa-uret.ps1
+# uretiyor); eski ?yazi=slug adresleri index.html tarafindan buraya tasiniyor.
+# Sorgu parametresi kalmadigi icin XML kacisina da gerek yok.
+function YaziUrl($slug, $dil) {
+  if ($dil -eq "en") { return "$SITE/blog/$slug/en/" }
+  return "$SITE/blog/$slug/"
 }
 
 # 2026-07-10 -> Fri, 10 Jul 2026 00:00:00 +0000
@@ -118,7 +119,7 @@ Yaz (Join-Path $postsDir "okuma.json") $okumaJson
 function FeedUret($dil) {
   $sb = New-Object System.Text.StringBuilder
   $kendi = if ($dil -eq "en") { "$SITE/feed.en.xml" } else { "$SITE/feed.xml" }
-  $anaLink = if ($dil -eq "en") { "$SITE/?lang=en" } else { "$SITE/" }
+  $anaLink = if ($dil -eq "en") { "$SITE/en/" } else { "$SITE/" }
   $baslik = if ($dil -eq "en") { "$BASLIK (EN)" } else { $BASLIK }
 
   [void]$sb.Append("<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n")
@@ -171,7 +172,7 @@ if (-not $AnaSayfaTarih) { $AnaSayfaTarih = $yazilar[0].date }
 # her adres icin ayni hreflang uclusu yazilir (Google her iki surumde de tam liste bekliyor)
 function Alternatifler($slug) {
   $tr = if ($slug) { YaziUrl $slug "tr" } else { "$SITE/" }
-  $en = if ($slug) { YaziUrl $slug "en" } else { "$SITE/?lang=en" }
+  $en = if ($slug) { YaziUrl $slug "en" } else { "$SITE/en/" }
   "    <xhtml:link rel=`"alternate`" hreflang=`"tr`" href=`"$tr`"/>`n" +
   "    <xhtml:link rel=`"alternate`" hreflang=`"en`" href=`"$en`"/>`n" +
   "    <xhtml:link rel=`"alternate`" hreflang=`"x-default`" href=`"$tr`"/>`n"
@@ -190,7 +191,7 @@ $sm = New-Object System.Text.StringBuilder
 [void]$sm.Append("        xmlns:xhtml=`"http://www.w3.org/1999/xhtml`">`n`n")
 [void]$sm.Append("  <!-- ana sayfa -->`n")
 [void]$sm.Append((Adres "$SITE/"          "" $AnaSayfaTarih "1.0" "monthly"))
-[void]$sm.Append((Adres "$SITE/?lang=en"  "" $AnaSayfaTarih "0.9" "monthly"))
+[void]$sm.Append((Adres "$SITE/en/"  "" $AnaSayfaTarih "0.9" "monthly"))
 [void]$sm.Append("`n  <!-- blog yazilari -->`n")
 foreach ($y in $yazilar) {
   [void]$sm.Append((Adres (YaziUrl $y.slug "tr") $y.slug $y.date "0.8" $null))
@@ -199,5 +200,10 @@ foreach ($y in $yazilar) {
 [void]$sm.Append("`n</urlset>`n")
 
 Yaz $sitemapYol $sm.ToString()
+
+# ---------- statik sayfalar ----------
+# okuma.json bu script'te uretildigi icin sayfa ureticileri en sonda cagriliyor.
+& (Join-Path $PSScriptRoot "yazi-sayfa-uret.ps1") -Kok $kokTam
+& (Join-Path $PSScriptRoot "en-sayfa-uret.ps1")   -Kok $kokTam
 
 Write-Host "Bitti."

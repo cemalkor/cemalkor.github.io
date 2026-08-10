@@ -3,14 +3,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cemal Kör — Blog (EN)</title>
-    <link>https://cemalkor.com.tr/?lang=en</link>
+    <link>https://cemalkor.com.tr/en/</link>
     <description>Posts on embedded systems, smart meters and lessons learned in the field.</description>
     <language>en</language>
     <atom:link href="https://cemalkor.com.tr/feed.en.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Without Breaking the Seal: Closing a Security Hole with FUOTA</title>
-      <link>https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en</link>
-      <guid isPermaLink="true">https://cemalkor.com.tr/?yazi=fuota-kurtarma-operasyonu&amp;lang=en</guid>
+      <link>https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/</link>
+      <guid isPermaLink="true">https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/</guid>
       <pubDate>Sat, 08 Aug 2026 00:00:00 +0000</pubDate>
       <description>A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.</description>
       <category>FUOTA</category>
@@ -19,8 +19,8 @@
     </item>
     <item>
       <title>printf(&quot;Hello World&quot;); — Why Does This Blog Exist?</title>
-      <link>https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</link>
-      <guid isPermaLink="true">https://cemalkor.com.tr/?yazi=merhaba-dunya&amp;lang=en</guid>
+      <link>https://cemalkor.com.tr/blog/merhaba-dunya/en/</link>
+      <guid isPermaLink="true">https://cemalkor.com.tr/blog/merhaba-dunya/en/</guid>
       <pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate>
       <description>The opening post of a blog about embedded systems, smart meters and lessons learned in the field.</description>
       <category>Genel</category>

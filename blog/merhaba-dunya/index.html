@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>printf(&quot;Merhaba Dünya&quot;); — Bu Blog Neden Var? — Cemal Kör</title>
+<meta name="description" content="Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı.">
+<meta name="author" content="Cemal Kör">
+
+<!-- Uretilen dosya - elle duzenleme. Kaynak: posts/ + tools/yazi-sayfa-uret.ps1 -->
+<link rel="canonical" href="https://cemalkor.com.tr/blog/merhaba-dunya/">
+<link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/blog/merhaba-dunya/">
+<link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/blog/merhaba-dunya/en/">
+<link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/blog/merhaba-dunya/">
+
+<link rel="alternate" type="application/rss+xml" title="Cemal Kör — Blog (TR)" href="/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="Cemal Kör — Blog (EN)" href="/feed.en.xml">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Cemal Kör">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="printf(&quot;Merhaba Dünya&quot;); — Bu Blog Neden Var? — Cemal Kör">
+<meta property="og:description" content="Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı.">
+<meta property="og:url" content="https://cemalkor.com.tr/blog/merhaba-dunya/">
+<meta property="og:image" content="https://cemalkor.com.tr/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-07-10">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="printf(&quot;Merhaba Dünya&quot;); — Bu Blog Neden Var? — Cemal Kör">
+<meta name="twitter:description" content="Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı.">
+<meta name="twitter:image" content="https://cemalkor.com.tr/og.png">
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F7F8F6;
+  --ink:#17251F;
+  --ink-soft:#4A5A52;
+  --pcb:#1E6E52;          /* solder-mask yeşili */
+  --pcb-dark:#124534;
+  --copper:#B87333;       /* bakır iz */
+  --line:#D8DED9;
+  --card:#FFFFFF;
+  --term-bg:#0E1B15;
+  --term-green:#6FDCA8;
+  --term-dim:#3E6B57;
+  --mist:#EDF2EE;          /* tag, kod, footer zemini */
+  --prose:#26352E;         /* blog yazı metni */
+  --nav-bg:rgba(247,248,246,.92);
+  --wire:#17251F;          /* footer kablo izolasyonu */
+  --btn-ink:#FFFFFF;       /* dolu buton/seçim yazısı — koyu zeminde beyaz, 6.2:1 */
+  /* terminal metni: terminal her iki temada da koyu zeminli, o yüzden tek değer yeter.
+     --term-dim kenarlık/nokta gibi dekoratif işler için sönük kalıyor; metin WCAG AA
+     için ayrıldı (açık temada 2.9:1 idi, şimdi 5.26:1) */
+  --term-dim-text:#66967F;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+  --disp:'Space Grotesk',sans-serif;
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --paper:#0F1712;
+  --ink:#E4ECE7;
+  --ink-soft:#9DB0A6;
+  --pcb:#4CB98A;
+  --pcb-dark:#2E7B5B;
+  --copper:#D69350;
+  --line:#263229;
+  --card:#151F19;
+  --term-bg:#0B120E;
+  --term-dim:#557E6A;
+  --mist:#141D17;
+  --prose:#C9D6CE;
+  --nav-bg:rgba(15,23,18,.92);
+  --wire:#C9D6CE;
+  /* koyu temada --pcb açık yeşile dönüyor; beyaz yazı 2.4:1 kalıyordu (WCAG AA 4.5:1 ister).
+     Terminal siyahına çevrildi: 7.8:1 */
+  --btn-ink:#0B120E;
+  color-scheme:dark;
+}
+[data-theme="dark"] .bg-circuit .traces{opacity:.11}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
+::selection{background:var(--pcb);color:var(--btn-ink)}
+
+/* ---------- devre izi arka planı ---------- */
+.bg-circuit{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(0,0,0,.4) 30%,#000 80%);
+  mask-image:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(0,0,0,.4) 30%,#000 80%)}
+.bg-circuit .traces{stroke:var(--pcb);stroke-width:2;fill:none;opacity:.08}
+.bg-circuit .traces .cu{stroke:var(--copper)}
+.bg-circuit .traces .pad{fill:var(--pcb);stroke:none}
+.bg-circuit .pulses{fill:none;stroke:var(--pcb);stroke-width:2;stroke-linecap:round;opacity:.45}
+.bg-circuit .pulses .cu{stroke:var(--copper)}
+.bg-circuit .pulses path{stroke-dasharray:40 960;animation:pulse-flow 12s linear infinite}
+@keyframes pulse-flow{to{stroke-dashoffset:-1000}}
+
+/* easter egg: konami POST testi — izler sırayla tam parlaklikta yanip söner */
+.bg-circuit.post .traces{opacity:1}
+.bg-circuit.post .traces path,.bg-circuit.post .traces circle{animation:postFlash 1.6s ease both}
+.bg-circuit.post .traces path:nth-child(3n){animation-delay:.25s}
+.bg-circuit.post .traces path:nth-child(3n+1){animation-delay:.5s}
+.bg-circuit.post .traces circle:nth-child(2n){animation-delay:.4s}
+@keyframes postFlash{0%,100%{opacity:.07}30%{opacity:1}70%{opacity:.8}}
+
+/* easter egg: pil göstergesi ve bitince uyku modu */
+.pil-v{display:inline-flex;align-items:center;gap:7px}
+.pil-svg{width:30px;height:12px;color:var(--ink-soft);flex-shrink:0}
+#pil-dolum{transition:width .5s ease}
+#uyku{position:fixed;inset:0;z-index:200;background:rgba(5,10,8,.9);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.85rem;color:var(--term-green);cursor:pointer;user-select:none;text-align:center;padding:24px}
+#uyku[hidden]{display:none}
+
+/* easter egg: keşif rozeti + hepsini bulunca kutlama */
+.kesif-rozet{position:fixed;right:18px;bottom:18px;z-index:210;background:var(--term-bg);color:var(--term-green);font-family:var(--mono);font-size:.78rem;padding:9px 15px;border-radius:8px;border:1px solid var(--term-dim);box-shadow:0 8px 24px rgba(5,10,8,.35);opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;pointer-events:none;max-width:min(78vw,320px)}
+.kesif-rozet.gorunur{opacity:1;transform:translateY(0)}
+.kesif-rozet[hidden]{display:none}
+.kesif-rozet b{color:#E8C48A}
+.kutlama-overlay{position:fixed;inset:0;z-index:220;background:rgba(5,10,8,.9);display:flex;align-items:center;justify-content:center;padding:24px}
+.kutlama-overlay[hidden]{display:none}
+.kutlama-kart{background:var(--term-bg);border:1px solid var(--term-dim);border-radius:14px;box-shadow:0 20px 60px rgba(5,10,8,.5);padding:34px 30px;max-width:420px;width:100%;text-align:center;font-family:var(--mono);animation:kutlaGir .35s ease both}
+.kutlama-emoji{font-size:2.6rem;line-height:1}
+.kutlama-kart h3{font-family:var(--disp);color:var(--term-green);font-size:1.3rem;margin:14px 0 10px}
+.kutlama-kart p{color:#E8C48A;font-size:.85rem;line-height:1.7;margin:0 0 22px}
+.kutlama-btnler{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@keyframes kutlaGir{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+
+/* ---------- kare dalga bölüm ayracı ---------- */
+.sq-divider{height:14px;margin:0 auto;max-width:1080px;padding:0 24px}
+.sq-divider svg{width:100%;height:14px;display:block}
+.sq-divider path{stroke:var(--line);stroke-width:1.5;fill:none}
+.sq-divider .pulse{stroke:var(--pcb);stroke-width:2;stroke-linecap:round;stroke-dasharray:30 970;animation:pulse-flow 7s linear infinite;opacity:.6}
+.sq-divider .pulse.cu{stroke:var(--copper)}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
+.logo b{color:var(--pcb)}
+.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+.nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
+.nav-links a:hover{color:var(--pcb)}
+.nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
+.lang-btn{font-family:var(--mono);font-size:.78rem;color:var(--ink-soft);background:none;border:1.5px solid var(--line);border-radius:4px;padding:2px 9px;cursor:pointer;letter-spacing:.04em}
+.lang-btn:hover{color:var(--pcb);border-color:var(--pcb)}
+
+/* ---------- hero ---------- */
+header{max-width:1080px;margin:0 auto;padding:72px 24px 56px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.eyebrow{font-family:var(--mono);font-size:.8rem;color:var(--copper);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+/* satir sonlari elle degil tarayiciya birakiliyor (İngilizcesi de oyleydi); balance oksuz
+   kelime birakmadan satirlari esitliyor, desteklemeyen tarayicida normal sarma olur */
+h1{font-family:var(--disp);font-size:clamp(2.4rem,5vw,3.6rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+/* geniş ekranda başlık boyutu: TR'deki sabit satırlar (<br>) kolona sığacak şekilde, iki dilde aynı */
+@media (min-width:841px){h1{font-size:clamp(2.2rem,4.3vw,3rem)}}
+h1 span{color:var(--pcb)}
+.hero-sub{margin-top:18px;color:var(--ink-soft);max-width:46ch;font-size:1.05rem}
+.hero-cta{margin-top:28px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.85rem;text-decoration:none;padding:11px 20px;border-radius:6px;transition:transform .15s ease, box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--pcb);color:var(--btn-ink);box-shadow:0 2px 0 var(--pcb-dark)}
+/* background:none sart: <a> degil <button> olarak kullanildiginda (kutlama ekrani)
+   tarayicinin varsayilan buttonface zemini geliyor, gri kutu gibi gorunuyordu */
+.btn-ghost{background:none;border:1.5px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--copper);color:var(--copper)}
+
+/* terminal */
+.terminal{background:var(--term-bg);border-radius:10px;box-shadow:0 12px 32px rgba(14,27,21,.28);overflow:hidden;font-family:var(--mono);cursor:text}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.term-bar i{width:10px;height:10px;border-radius:50%;background:var(--term-dim)}
+.term-bar i:first-child{background:var(--copper)}
+.term-title{margin-left:auto;font-size:.7rem;color:var(--term-dim-text)}
+.term-body{padding:16px 18px 20px;font-size:.78rem;line-height:1.8;min-height:230px;max-height:230px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--term-dim) transparent}
+.term-body .t{color:var(--term-dim-text)}
+.term-body .ok{color:var(--term-green)}
+.term-body .val{color:#E8C48A}
+.term-body a{color:var(--term-green)}
+#term-form{display:flex;align-items:baseline}
+#term-in{flex:1;min-width:0;background:none;border:0;outline:0;font:inherit;color:#E8C48A;caret-color:var(--term-green);padding:0}
+#term-form:focus-within .cursor{display:none}
+@media (pointer:coarse){#term-in{font-size:16px}}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--term-green);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.terminal.disco{animation:diskoRenk .4s linear infinite}
+@keyframes diskoRenk{0%{filter:hue-rotate(0deg) saturate(2.5) brightness(1.15)}25%{filter:hue-rotate(90deg) saturate(3) brightness(1.3)}50%{filter:hue-rotate(180deg) saturate(2.5) brightness(1.15)}75%{filter:hue-rotate(270deg) saturate(3) brightness(1.3)}100%{filter:hue-rotate(360deg) saturate(2.5) brightness(1.15)}}
+/* easter egg: matrix — terminalin üstüne serilen canvas */
+.matrix-cv{position:absolute;z-index:12;border-radius:10px;pointer-events:none;opacity:0;transition:opacity .45s ease}
+.matrix-cv.acik{opacity:1}
+/* easter egg: ışınlanma — terminal çıktısı parlayıp dağılır */
+#term-out.isinla{animation:isinlan 1.5s ease-in forwards}
+@keyframes isinlan{
+  0%{opacity:1}
+  30%{filter:brightness(2.2)}
+  60%{opacity:.5;filter:brightness(3) blur(1.4px);transform:translateY(-5px)}
+  100%{opacity:0;filter:brightness(4) blur(5px);transform:translateY(-16px)}
+}
+/* easter egg: don't panic — kitabın kapağındaki dostça harfler */
+.panik{display:inline-block;color:#E8C48A;font-weight:600;letter-spacing:.22em;animation:panikYanip 1.5s steps(1) 3}
+@keyframes panikYanip{50%{color:var(--term-green)}}
+.ufo-alan{position:fixed;inset:0;z-index:190;pointer-events:none;overflow:hidden}
+.ufo{position:absolute;top:8vh;left:-90px;font-size:2.9rem;animation:ufoGec 5.1s ease-in-out forwards}
+@keyframes ufoGec{
+  0%{transform:translate(0,0) rotate(-8deg);opacity:0}
+  8%{opacity:1}
+  22%{transform:translate(calc(50vw + 45px),34vh) rotate(0deg)}
+  40%{transform:translate(calc(50vw + 45px),30vh) rotate(0deg)}
+  60%{transform:translate(calc(50vw + 45px),37vh) rotate(0deg)}
+  80%{transform:translate(calc(50vw + 45px),33vh) rotate(0deg)}
+  92%{opacity:1}
+  100%{transform:translate(112vw,42vh) rotate(6deg);opacity:0}
+}
+.yesil-flas{position:fixed;inset:0;z-index:188;pointer-events:none;background:radial-gradient(circle at 50% 42vh,rgba(111,220,168,.55),rgba(111,220,168,.14) 42%,rgba(111,220,168,0) 68%);opacity:0;animation:yesilFlas .95s ease-out forwards}
+@keyframes yesilFlas{0%{opacity:0}22%{opacity:1}100%{opacity:0}}
+
+/* ---------- section genel ---------- */
+main{display:block}
+section{max-width:1080px;margin:0 auto;padding:64px 24px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+.sec-head h2{font-family:var(--disp);font-size:1.7rem;font-weight:600;letter-spacing:-.01em}
+.sec-head .pin{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
+/* pin metni CSS ile üretilir: ATS/ekran okuyucu metin çıkarımına girmez */
+.pin::before{content:'// ' attr(data-pin)}
+
+/* ---------- hakkımda ---------- */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px}
+.about-grid p{color:var(--ink-soft);margin-bottom:14px}
+.spec-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;font-family:var(--mono);font-size:.8rem}
+.spec-card h3{font-family:var(--disp);font-size:.95rem;margin-bottom:14px;color:var(--pcb)}
+.spec-row{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.spec-row:last-child{border-bottom:none}
+.spec-row .k{color:var(--ink-soft)}
+.spec-row .v{color:var(--ink);text-align:right}
+
+/* ---------- deneyim ---------- */
+.xp{border-left:2px solid var(--line);margin-left:6px;padding-left:28px;display:flex;flex-direction:column;gap:30px}
+.xp-item{position:relative}
+.xp-item::before{content:'';position:absolute;left:-38px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:3px solid var(--pcb)}
+.xp-item.current::before{background:var(--pcb);box-shadow:0 0 0 4px rgba(30,110,82,.15)}
+.xp-date{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
+.xp-item h3{font-family:var(--disp);font-size:1.15rem;margin:4px 0 2px}
+.xp-role{font-size:.9rem;color:var(--pcb);font-weight:500}
+.xp-item p{color:var(--ink-soft);font-size:.95rem;margin-top:8px;max-width:70ch}
+.xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.xp-item .xp-tags{max-width:66ch}
+.tag{font-family:var(--mono);font-size:.7rem;background:var(--mist);border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
+
+/* ---------- projeler ---------- */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;display:flex;flex-direction:column;transition:border-color .15s, transform .15s}
+.proj:hover{border-color:var(--pcb);transform:translateY(-3px)}
+.proj .ref{font-family:var(--mono);font-size:.7rem;color:var(--copper);margin-bottom:10px}
+.proj h3{font-family:var(--disp);font-size:1.1rem;margin-bottom:8px}
+.proj p{color:var(--ink-soft);font-size:.9rem;flex:1}
+.proj .xp-tags{margin-top:14px}
+.proj a{margin-top:14px;font-family:var(--mono);font-size:.78rem;color:var(--pcb);text-decoration:none}
+.proj a:hover{color:var(--copper)}
+.proj .links{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap}
+.proj .links a{margin-top:0}
+
+/* ---------- yetkinlikler ---------- */
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.skill-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+.skill-box h3{font-family:var(--mono);font-size:.8rem;color:var(--pcb);margin-bottom:12px;letter-spacing:.04em}
+.skill-box ul{list-style:none}
+.skill-box li{font-size:.88rem;color:var(--ink-soft);padding:5px 0;border-bottom:1px dashed var(--line)}
+.skill-box li:last-child{border:none}
+.skill-box li::before{content:'▸';color:var(--copper);margin-right:8px;font-size:.75rem}
+
+/* ---------- blog ---------- */
+#blog-list{display:grid;gap:16px}
+/* etiket filtresi: adresi degistirmiyor — ?etiket=X rotalari Google'a ince/yinelenen sayfa gorunurdu */
+.etiket-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.etiket-chip{font-family:var(--mono);font-size:.72rem;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:5px 13px;cursor:pointer;transition:border-color .15s,color .15s}
+.etiket-chip:hover{border-color:var(--copper);color:var(--copper)}
+.etiket-chip[aria-pressed="true"]{background:var(--pcb);border-color:var(--pcb);color:var(--btn-ink)}
+.post-card{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;cursor:pointer;transition:border-color .15s}
+.post-card:hover{border-color:var(--pcb)}
+.post-card .meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:6px}
+.post-card h3{font-family:var(--disp);font-size:1.15rem;margin-bottom:6px}
+.post-card p{color:var(--ink-soft);font-size:.9rem}
+#post-view{display:none}
+#post-content{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:36px 40px;max-width:760px}
+#post-content h1,#post-content h2,#post-content h3{font-family:var(--disp);margin:1.2em 0 .5em;line-height:1.25}
+#post-content h1{font-size:1.8rem;margin-top:0}
+/* yazı başındaki tarih · etiket · okuma süresi satırı */
+.post-meta{font-family:var(--mono);font-size:.72rem;color:var(--copper);margin-bottom:18px}
+#post-content p{margin-bottom:1em;color:var(--prose)}
+#post-content ul,#post-content ol{margin:0 0 1em 1.4em}
+#post-content li{margin-bottom:.35em}
+#post-content code{font-family:var(--mono);font-size:.85em;background:var(--mist);padding:2px 6px;border-radius:4px}
+#post-content pre{background:var(--term-bg);color:var(--term-green);padding:18px;border-radius:8px;overflow-x:auto;margin-bottom:1em}
+#post-content pre code{background:none;color:inherit;padding:0}
+/* kod kopyala: pre'ye degil sarmalayiciya konumlaniyor, yoksa yatay kaydirmada buton kayardi */
+.kod-sar{position:relative}
+.kod-kopyala{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:.68rem;color:var(--term-dim-text);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:5px;padding:4px 9px;cursor:pointer;opacity:0;transition:opacity .15s,color .15s,border-color .15s}
+.kod-sar:hover .kod-kopyala,.kod-kopyala:focus-visible{opacity:1}
+.kod-kopyala:hover{color:var(--term-green);border-color:var(--term-green)}
+.kod-kopyala.ok{opacity:1;color:var(--term-green);border-color:var(--term-green)}
+/* dokunmatikte hover yok — buton hep gorunsun */
+@media (hover:none){.kod-kopyala{opacity:1}}
+
+/* yazi alti onceki/sonraki gecisi */
+.post-nav{display:flex;gap:14px;justify-content:space-between;max-width:760px;margin-top:22px}
+.post-nav a{flex:1;max-width:48%;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:border-color .15s}
+.post-nav a:hover{border-color:var(--pcb)}
+.post-nav .yon{display:block;font-family:var(--mono);font-size:.7rem;color:var(--copper);margin-bottom:4px}
+.post-nav .ad{font-size:.88rem;line-height:1.35}
+.post-nav .sonraki{margin-left:auto;text-align:right}
+@media (max-width:600px){.post-nav{flex-direction:column}.post-nav a{max-width:none}.post-nav .sonraki{text-align:left}}
+#post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
+/* max-height dikey (portre) fotograflar icin: sadece max-width olunca 900px'i asip
+   ekrani tek basina dolduruyorlardi. Ikisi de "en fazla" oldugu icin oran korunuyor. */
+#post-content img{max-width:100%;max-height:560px;width:auto;height:auto;border-radius:8px;display:block;margin:1.2em auto}
+#post-content a{color:var(--pcb)}
+/* tablo: dar ekranda kırpılmasın diye kendi içinde yatay kayıyor */
+#post-content table{display:block;overflow-x:auto;width:100%;border-collapse:collapse;margin-bottom:1em;font-size:.92rem}
+#post-content th,#post-content td{border:1px solid var(--line);padding:8px 12px;text-align:left}
+#post-content th{background:var(--mist);font-weight:600}
+.back-btn{display:inline-block;text-decoration:none;font-family:var(--mono);font-size:.82rem;color:var(--pcb);background:none;border:none;cursor:pointer;margin-bottom:18px;padding:0}
+.back-btn:hover{color:var(--copper)}
+.blog-note{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft);background:var(--mist);border:1px dashed var(--line);border-radius:8px;padding:16px}
+
+/* ---------- footer ---------- */
+footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--line);margin-top:40px;position:relative}
+.wire-svg line[stroke="#17251F"]{stroke:var(--wire)}
+.foot-in{max-width:1080px;margin:0 auto;padding:36px 24px 26px}
+.foot-in .sec-head{margin-bottom:14px}
+.foot-in h2{font-family:var(--disp);color:var(--ink);font-size:1.35rem}
+.foot-in p{max-width:52ch;color:var(--ink-soft);margin-bottom:16px;font-size:.95rem}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:.85rem}
+.foot-links a{color:var(--pcb);text-decoration:none}
+.foot-links a:hover{color:var(--copper)}
+.foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
+/* satırlar sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın (en uzun satır ~72ch × 0.6em) */
+.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/45),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
+
+/* ---------- easter eggs ---------- */
+.easter-egg-wrap{position:relative;display:inline-flex;align-items:center;max-width:100%}
+.wire-svg{width:32px;height:16px;flex-shrink:0}
+.foot-text{position:relative;margin:0 8px;white-space:nowrap}
+.arc-over-text{position:absolute;top:50%;left:0;width:100%;height:24px;transform:translateY(-50%);pointer-events:none;overflow:visible}
+.arc-path{opacity:0}
+@media (hover:hover){footer:hover .arc-path{animation:arcFlash 1s forwards}}
+footer.sparking .arc-path{animation:arcFlash 1s forwards}
+@keyframes arcFlash{
+  0%{opacity:0}
+  5%,15%,25%,45%,65%,85%{opacity:1;filter:drop-shadow(0 0 3px #0ff) drop-shadow(0 0 6px #0ff)}
+  10%,20%,35%,55%,75%,95%{opacity:0}
+  100%{opacity:0}
+}
+.arc-path-2{opacity:0}
+@media (hover:hover){footer:hover .arc-path-2{animation:arcFlash2 1s forwards}}
+footer.sparking .arc-path-2{animation:arcFlash2 1s forwards}
+@keyframes arcFlash2{
+  0%{opacity:0}
+  8%,18%,38%,58%,78%,92%{opacity:1;filter:drop-shadow(0 0 2px #fff)}
+  12%,28%,48%,68%,88%,98%{opacity:0}
+  100%{opacity:0}
+}
+.wire-glow{opacity:0}
+@media (hover:hover){footer:hover .wire-glow{animation:wireFlash 1s forwards}}
+footer.sparking .wire-glow{animation:wireFlash 1s forwards}
+@keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
+@media (max-width:480px){.foot-text{white-space:normal}}
+.term-wrap{position:relative;align-self:start;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
+.term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
+@keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
+.term-bug.eating{animation:bugEat 0.25s infinite}
+
+@media (max-width:840px){
+  header{grid-template-columns:1fr;padding-top:48px}
+  h1 br{display:none}
+  nav{transition:transform .3s ease}
+  nav.nav-hidden{transform:translateY(-100%)}
+  h1{font-size:clamp(1.9rem,7.5vw,2.6rem)}
+  .term-wrap{margin-top:0}
+  .term-body{font-size:.7rem;min-height:185px;max-height:185px}
+  .about-grid{grid-template-columns:1fr}
+  .nav-links{gap:14px}
+  #post-content{padding:24px 20px}
+  .bg-circuit{opacity:.55}
+}
+/* ---------- yazdırma: sayfanın kendisi özgeçmiş olarak diziliyor ----------
+   Ayrı bir CV dosyası tutulmuyor; "CV indir" düğmesi window.print() çağırıyor.
+   Böylece CV siteyle birlikte güncelleniyor, ikisi ayrışmıyor.
+
+   Hedef, özgeçmiş ayrıştırıcılarının (ATS) düzgün okuyabildiği bir çıktı. Bunun için:
+   - TEK KOLON. Çok kolonlu düzende ayrıştırıcı metni satır satır soldan sağa okuyup
+     iki kolonu birbirine karıştırıyor; CV'nin en sık bozulma sebebi bu.
+   - Rozet/etiket kutucukları düz virgüllü listeye dönüyor (kutular ayrı ayrı kelime sanılıyor).
+   - Bölüm başlıkları ("Deneyim", "Eğitim", "Yetkinlikler") ayrıştırıcının aradığı
+     standart adlarla ve gerçek <h2> olarak duruyor.
+   - Süs (devre izi, terminal, zaman çizelgesi noktaları, kart çerçeveleri) ve tekrar eden
+     bilgi (datasheet kartı, footer iletişim) kâğıda gitmiyor. */
+.print-only{display:none}
+.print-head{display:none}
+@media print{
+  .print-only{display:block}
+  .sec-head.print-only{display:flex}
+  /* koyu tema seçili olsa bile kâğıda açık palet basılsın — [data-theme="dark"] üzerine yazıyor */
+  :root,[data-theme="dark"]{
+    --paper:#fff; --ink:#000; --ink-soft:#333; --prose:#000;
+    --pcb:#14503c; --copper:#7a4a1f; --line:#bbb; --card:#fff; --mist:#f2f2f2;
+  }
+  @page{margin:14mm}
+  html{scroll-behavior:auto}
+  body{background:#fff;color:#000;font-size:10.5pt;line-height:1.45}
+
+  /* ekrana ait olan her şey: gezinme, dekor, terminal, blog, easter egg'ler */
+  nav,.bg-circuit,.sq-divider,.term-wrap,.hero-cta,#blog,.kesif-rozet,
+  .kutlama-overlay,.ufo-alan,.sec-head .pin,.etiket-bar,.kod-kopyala,.post-nav,
+  /* unvanı print-head zaten yazıyor, hero'daki eyebrow tekrar olurdu */
+  .eyebrow,
+  /* datasheet kartı: ad/konum/rol künyeyi, diller/sistem/MCU ise Yetkinlikler'i tekrar ediyor.
+     Tekrar eden bilgi ATS'te hem yer harcıyor hem eşleştirmeyi bulandırıyor. */
+  .spec-card,
+  /* iletişim künyede zaten var; footer'daki tekrar + easter egg metni kâğıda gitmesin */
+  footer{display:none !important}
+
+  /* ---- künye: sayfanın en üstünde, ad → unvan → iletişim sırasıyla (ATS bu sırayı bekliyor) ---- */
+  .print-head{display:block;border-bottom:1.5pt solid #000;padding:0 0 8px;margin-bottom:2px}
+  .print-head h2{font-family:var(--disp);font-size:20pt;line-height:1.1;color:#000}
+  .print-role{font-size:11pt;color:#000;margin-top:1px}
+  .print-contact{font-size:9pt;color:#000;margin-top:5px;line-height:1.5}
+
+  /* ---- TEK KOLON: ATS'in metni karıştırmaması için en kritik kural ---- */
+  header{display:block;padding:10px 0 0;max-width:none}
+  .about-grid,.proj-grid,.skill-cols{display:block}
+  section{padding:9px 0;max-width:none;break-inside:auto}
+
+  /* ---- bölüm başlıkları: ayrıştırıcının tanıdığı düz, belirgin başlıklar ---- */
+  .sec-head{margin-bottom:7px;border-bottom:.5pt solid #999;padding-bottom:2px;break-after:avoid}
+  .sec-head h2{font-family:var(--disp);font-size:11.5pt;text-transform:uppercase;letter-spacing:.04em;color:#000}
+  h1,h2,h3{break-after:avoid}
+
+  /* özet cümlesi: kâğıtta afiş değil, normal bir paragraf olmalı */
+  h1{font-size:11pt;font-weight:600;line-height:1.4;margin-bottom:3px}
+  h1 br{display:none}
+  h1 span{color:#000}
+  .hero-sub{font-size:10pt;max-width:none;margin-top:0}
+  #hakkimda p{margin-bottom:.5em}
+
+  /* ---- deneyim: zaman çizelgesi süsü kalksın, kayıtlar düz aksın ---- */
+  .xp{border-left:none;margin-left:0;padding-left:0;gap:11px}
+  .xp-item::before{display:none}
+  .xp-item{break-inside:avoid}
+  .xp-date{font-size:9pt;color:#000}
+  .xp-item h3{font-size:11pt;margin:1px 0}
+  .xp-role{font-size:10pt;color:#000;font-weight:600}
+  .xp-item p{font-size:9.5pt;margin-top:3px;max-width:none;color:#000}
+
+  /* ---- projeler / eğitimler: kart görünümü değil, düz kayıtlar ---- */
+  .proj{background:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-bottom:11px;break-inside:avoid;display:block}
+  .proj .ref{font-size:8.5pt;color:#000;margin-bottom:2px}
+  .proj h3{font-size:11pt;margin-bottom:2px}
+  .proj p{font-size:9.5pt;color:#000}
+  .proj a{display:inline;margin-top:0;font-size:9pt;color:#000}
+  .proj .links{margin-top:2px;gap:14px}
+
+  /* ---- etiketler: kutucuklar ayrı ayrı kelime sanılıyor, virgüllü tek satıra çeviriyoruz.
+     Ayraç HEM virgülle HEM de gerçek bir boşlukla veriliyor: virgül CSS üretilmiş içerik
+     (::after) ve bazı PDF metin çıkarıcıları onu atlıyor; margin ise fiziksel boşluk
+     bıraktığı için çıkarıcı kelimeleri her hâlükârda ayırabiliyor. ---- */
+  .xp-tags{display:block;margin-top:3px;max-width:none}
+  .tag{display:inline-block;background:none;border:none;padding:0;border-radius:0;font-size:9pt;color:#000}
+  /* ---- yetkinlikler: "BAŞLIK: a, b, c" — ATS'in en rahat okuduğu beceri biçimi ---- */
+  .skill-box{background:none;border:none;padding:0;margin-bottom:3px;break-inside:avoid}
+  .skill-box h3{display:inline-block;font-size:9.5pt;color:#000;margin:0}
+  .skill-box ul{display:inline;margin:0}
+  .skill-box li{display:inline-block;border:none;padding:0;font-size:9.5pt;color:#000}
+  .skill-box li::before{content:none}
+
+  /* Ayraçlar normalde beforeprint'te GERÇEK metin düğümü olarak ekleniyor (aşağıdaki
+     cvAyraclariEkle). Aşağıdaki kurallar yalnızca o çalışmadıysa (body'de .ayrac-var yoksa)
+     devreye giren yedek: CSS ::after kâğıda basılıyor ama üretilmiş içerik olduğu için
+     bazı PDF metin çıkarıcıları atlayabiliyor. İkisi aynı anda uygulanmıyor — çift virgül olmaz. */
+  body:not(.ayrac-var) .tag{margin-right:.32em}
+  body:not(.ayrac-var) .tag:not(:last-child)::after{content:','}
+  body:not(.ayrac-var) .skill-box h3{margin-right:.35em}
+  body:not(.ayrac-var) .skill-box h3::after{content:':'}
+  body:not(.ayrac-var) .skill-box li{margin-right:.32em}
+  body:not(.ayrac-var) .skill-box li:not(:last-child)::after{content:','}
+
+  /* ---- linkler: adres metnin yanına yazılıyor, yoksa kâğıtta tıklanamayan bir metin kalıyor ---- */
+  a{color:#000;text-decoration:none}
+  #projeler a[href^="http"]::after,#egitimler a[href^="http"]::after,#hobi a[href^="http"]::after{
+    content:' — ' attr(href);font-size:8.5pt;color:#000;word-break:break-all;
+  }
+  /* tek istisna: Pinterest pano adresi yüzde-kodlu ve üç satır sürüyor, CV'yi çöplüyor */
+  #hobi a[href*="pinterest"]::after{content:none}
+
+  p,li{orphans:2;widows:2}
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .cursor{animation:none}
+  .btn:hover,.proj:hover{transform:none}
+  .bg-circuit .pulses{display:none}
+  .sq-divider .pulse{display:none}
+  .term-bug{transition:none}
+  .terminal.disco{animation:none}
+  .kutlama-kart{animation:none}
+}
+/* yazi sayfasinda tek gorunum yazinin kendisi: SPA'nin gizledigi kutuyu geri aciyoruz */
+#post-view{display:block}
+.yazi-ust{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+.yazi-ust .back-btn{margin-bottom:0}
+.yazi-ust .araclar{display:flex;gap:8px}
+</style>
+<meta name="theme-color" content="#F7F8F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1712" media="(prefers-color-scheme: dark)">
+<script>
+/* koyu mod: kayitli tercih yoksa sistem tercihi; body cizilmeden uygulanir (flash onlemi) */
+(function(){
+  const t = localStorage.getItem('tema');
+  if(t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches))
+    document.documentElement.dataset.theme = 'dark';
+})();
+</script>
+<script>
+window.goatcounter = { path: function(p){ return location.pathname + location.search + location.hash } };
+</script>
+<script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script type="application/ld+json">{"@type":"BlogPosting","dateModified":"2026-07-10","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/merhaba-dunya/"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"url":"https://cemalkor.com.tr/blog/merhaba-dunya/","keywords":"Genel","image":"https://cemalkor.com.tr/og.png","description":"Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı.","@context":"https://schema.org","publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"datePublished":"2026-07-10","headline":"printf(\"Merhaba Dünya\"); — Bu Blog Neden Var?","inLanguage":"tr-TR"}</script>
+</head>
+<body>
+
+<main>
+<section id="blog">
+  <div id="post-view">
+    <div class="yazi-ust">
+      <a class="back-btn" href="/">← Tüm yazılar</a>
+      <span class="araclar">
+        <a class="lang-btn" href="/blog/merhaba-dunya/en/">EN</a>
+        <button id="tema-btn" class="lang-btn" type="button" aria-label="Koyu / açık tema">☾</button>
+      </span>
+    </div>
+    <article id="post-content">
+<div class="post-meta">2026-07-10 · Genel · 1 dk okuma</div>
+<h1>printf(&quot;Merhaba Dünya&quot;); — Bu Blog Neden Var?</h1>
+<p>Her gömülü yazılımcının kariyeri bir LED yakmakla başlar. Benimki de öyle başladı; bugünse pille 10 yıl çalışması beklenen akıllı su sayaçlarının firmware'ini yazıyorum.</p>
+<p>Bu blogda şunları paylaşmayı planlıyorum:</p>
+<ul>
+  <li><strong>Düşük güç tüketimi</strong> — uA seviyesinde akım avı, uyku modları, gerçek saha ölçümleri</li>
+  <li><strong>Haberleşme</strong> — Sigfox, NB-IoT, BLE ve AT komutlarıyla modem konuşturma maceraları</li>
+  <li><strong>STM32 ipuçları</strong> — register seviyesinde işler, HAL'in söylemedikleri</li>
+  <li><strong>Saha hikayeleri</strong> — datasheet'te yazmayan, ancak sahada öğrenilen dersler</li>
+</ul>
+<blockquote><p>Datasheet size cihazın ne yapması gerektiğini söyler. Saha, ne yaptığını gösterir.</p></blockquote>
+<p>Yeni yazılarda görüşmek üzere!</p>
+<p><em>P.S. Bu sitede birkaç easter egg saklı. Buraya kadar okuyana bir ipucu: ↑ ↑ ↓ ↓ ← → ← → B A — masaüstünde dene, devre yollarını izle. 🎮</em></p>
+</article>
+    <nav class="post-nav"><a class="post-nav-link sonraki" href="/blog/fuota-kurtarma-operasyonu/"><span class="yon">Sonraki yazı →</span><span class="ad">Mührü Bozmadan: Bir Güvenlik Açığını FUOTA ile Kapatmak</span></a></nav>
+  </div>
+</section>
+</main>
+
+<footer id="iletisim">
+  <div class="foot-in">
+    <div class="foot-links">
+      <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
+      <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
+      <a href="https://github.com/cemalkor" target="_blank" rel="me noopener">GitHub</a>
+      <a href="/feed.xml">RSS</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* tema dugmesi ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
+document.getElementById('tema-btn').addEventListener('click', ()=>{
+  const koyu = document.documentElement.dataset.theme === 'dark';
+  if(koyu) delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = 'dark';
+  localStorage.setItem('tema', koyu ? 'light' : 'dark');
+});
+document.querySelectorAll('#post-content pre').forEach(pre => {
+  const sar = document.createElement('div');
+  sar.className = 'kod-sar';
+  pre.parentNode.insertBefore(sar, pre);
+  sar.appendChild(pre);
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'kod-kopyala';
+  btn.textContent = 'kopyala';
+  btn.addEventListener('click', async () => {
+    let oldu = false;
+    try{ await navigator.clipboard.writeText(pre.innerText); oldu = true; }catch(e){}
+    btn.textContent = oldu ? 'kopyalandı ✓' : 'kopyalanamadı';
+    btn.classList.toggle('ok', oldu);
+    setTimeout(() => { btn.textContent = 'kopyala'; btn.classList.remove('ok'); }, 1600);
+  });
+  sar.appendChild(btn);
+});
+</script>
+</body>
+</html>

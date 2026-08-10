@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
+<!-- URETILEN DOSYA - elle duzenleme. Kaynak: index.html + tools/en-sayfa-uret.ps1
+     Icerik degisikligi index.html icinde (govde) ve I18N sozlugunde (Ingilizcesi) yapilir,
+     sonra .\tools\feed-uret.ps1 . calistirilir. -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cemal Kör — Gömülü Yazılım Mühendisi</title>
-<meta name="description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<title>Cemal Kör — Embedded Software Engineer</title>
+<meta name="description" content="Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.">
 <meta name="author" content="Cemal Kör">
 
 <!-- kanonik adres ve dil alternatifleri: TR kök adreste, EN ?lang=en üzerinde (updateMeta() route'a göre günceller) -->
-<link rel="canonical" href="https://cemalkor.com.tr/">
+<link rel="canonical" href="https://cemalkor.com.tr/en/">
 <link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/">
 <link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/en/">
 <link rel="alternate" hreflang="x-default" href="https://cemalkor.com.tr/">
@@ -20,20 +23,20 @@
 <!-- sosyal paylaşım kartı (Open Graph + Twitter) -->
 <meta property="og:type" content="profile">
 <meta property="og:site_name" content="Cemal Kör">
-<meta property="og:locale" content="tr_TR">
-<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="tr_TR">
 <meta property="profile:first_name" content="Cemal">
 <meta property="profile:last_name" content="Kör">
-<meta property="og:title" content="Cemal Kör — Gömülü Yazılım Mühendisi">
-<meta property="og:description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
-<meta property="og:url" content="https://cemalkor.com.tr/">
+<meta property="og:title" content="Cemal Kör — Embedded Software Engineer">
+<meta property="og:description" content="Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.">
+<meta property="og:url" content="https://cemalkor.com.tr/en/">
 <meta property="og:image" content="https://cemalkor.com.tr/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Cemal Kör — Gömülü Yazılım Mühendisi · cemalkor.com.tr">
+<meta property="og:image:alt" content="Cemal Kör — Embedded Software Engineer · cemalkor.com.tr">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Cemal Kör — Gömülü Yazılım Mühendisi">
-<meta name="twitter:description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
+<meta name="twitter:title" content="Cemal Kör — Embedded Software Engineer">
+<meta name="twitter:description" content="Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.">
 <meta name="twitter:image" content="https://cemalkor.com.tr/og.png">
 
 <!-- favicon: modern tarayicilar SVG'yi secer; .ico ve PNG, SVG desteklemeyen istemciler ve
@@ -565,8 +568,8 @@ window.goatcounter = {
       "name": "Cemal Kör",
       "givenName": "Cemal",
       "familyName": "Kör",
-      "jobTitle": "Gömülü Yazılım Mühendisi",
-      "description": "Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi.",
+      "jobTitle": "Embedded Software Engineer",
+      "description": "Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT.",
       "url": "https://cemalkor.com.tr/",
       "image": "https://cemalkor.com.tr/og.png",
       "email": "mailto:cemalkor94@gmail.com",
@@ -619,9 +622,10 @@ window.goatcounter = {
     },
     {
       "@type": "ProfilePage",
-      "@id": "https://cemalkor.com.tr/#profilepage",
-      "url": "https://cemalkor.com.tr/",
-      "name": "Cemal Kör — Gömülü Yazılım Mühendisi",
+      "@id": "https://cemalkor.com.tr/#profilepage-en",
+      "url": "https://cemalkor.com.tr/en/",
+      "inLanguage": "en",
+      "name": "Cemal Kör — Embedded Software Engineer",
       "isPartOf": { "@id": "https://cemalkor.com.tr/#website" },
       "mainEntity": { "@id": "https://cemalkor.com.tr/#cemalkor" },
       "about": { "@id": "https://cemalkor.com.tr/#cemalkor" }
@@ -699,14 +703,14 @@ window.goatcounter = {
   <div class="nav-in">
     <a class="logo" href="#top">cemal<b>@</b>kor:~$</a>
     <div class="nav-links">
-      <a href="#hakkimda" data-i18n="nav.about">Hakkımda</a>
-      <a href="#deneyim" data-i18n="nav.xp">Deneyim</a>
-      <a href="#projeler" data-i18n="nav.proj">Projeler</a>
-      <a href="#yetkinlikler" data-i18n="nav.skills">Yetkinlikler</a>
-      <a href="#egitimler" data-i18n="nav.edu">Eğitimler</a>
-      <a href="#hobi" data-i18n="nav.hobby">Hobi</a>
+      <a href="#hakkimda" data-i18n="nav.about">About</a>
+      <a href="#deneyim" data-i18n="nav.xp">Experience</a>
+      <a href="#projeler" data-i18n="nav.proj">Projects</a>
+      <a href="#yetkinlikler" data-i18n="nav.skills">Skills</a>
+      <a href="#egitimler" data-i18n="nav.edu">Workshops</a>
+      <a href="#hobi" data-i18n="nav.hobby">Hobby</a>
       <a href="#blog">Blog</a>
-      <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
+      <a href="#iletisim" data-i18n="nav.contact">Contact</a>
       <button id="lang-btn" class="lang-btn" aria-label="Türkçe / English">EN</button>
       <button id="tema-btn" class="lang-btn" aria-label="Koyu / açık tema">☾</button>
     </div>
@@ -718,23 +722,23 @@ window.goatcounter = {
 <!-- yalnızca yazdırmada görünür: nav ve terminal kâğıda gitmediği için künye buraya taşınıyor -->
 <div class="print-head">
   <h2>Cemal Kör</h2>
-  <div class="print-role" data-i18n="print.role">Gömülü Yazılım Mühendisi</div>
+  <div class="print-role" data-i18n="print.role">Embedded Software Engineer</div>
   <div class="print-contact">cemalkor94@gmail.com · Ankara, TR · cemalkor.com.tr · github.com/cemalkor · linkedin.com/in/cemalkor</div>
 </div>
 
 <header id="top">
   <div>
     <!-- ATS'ler "Özet / Summary" başlığını tanıyor; ekranda gereksiz, kâğıtta hero metnini konumlandırıyor -->
-    <div class="sec-head print-only"><h2 data-i18n="print.summary">Özet</h2></div>
-    <div class="eyebrow" data-i18n="hero.eyebrow">Gömülü Yazılım Mühendisi · Ankara</div>
-    <h1 data-i18n="hero.h1">IoT ekosistemindeki cihazlar için uçtan uca <span>güvenilir gömülü yazılım</span> çözümleri üretiyorum.</h1>
-    <p class="hero-sub" data-i18n="hero.sub">Akıllı su ve gaz sayaçları, düşük güç tüketimli IoT cihazlar. Sigfox, BLE ve NB-IoT ile pil ömrü yıllarla ölçülen ürünler geliştiriyorum.</p>
+    <div class="sec-head print-only"><h2 data-i18n="print.summary">Summary</h2></div>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Embedded Software Engineer · Ankara</div>
+    <h1 data-i18n="hero.h1">I build end-to-end, <span>reliable embedded software</span> solutions for devices in the IoT ecosystem.</h1>
+    <p class="hero-sub" data-i18n="hero.sub">Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">Projelerime bak</a>
+      <a class="btn btn-primary" href="#projeler" data-i18n="hero.cta">See my projects</a>
       <a class="btn btn-ghost" href="https://github.com/cemalkor" target="_blank" rel="noopener">GitHub →</a>
       <!-- CV ayrı bir dosya değil: sayfanın kendisi @media print ile özgeçmiş olarak dizilir,
            böylece CV hep siteyle aynı ve güncel kalıyor -->
-      <button type="button" class="btn btn-ghost" id="cv-btn" data-i18n="hero.cv">CV indir ↓</button>
+      <button type="button" class="btn btn-ghost" id="cv-btn" data-i18n="hero.cv">Download CV ↓</button>
     </div>
   </div>
   <div class="term-wrap">
@@ -752,24 +756,24 @@ window.goatcounter = {
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:6.5s;animation-delay:-1s" d="M0,12 H80 V2 H160 V12 H300 V2 H340 V12 H520 V2 H600 V12 H760 V2 H800 V12 H1032"/></svg></div>
 
 <section id="hakkimda">
-  <div class="sec-head"><h2 data-i18n="sec.about">Hakkımda</h2><span class="pin" aria-hidden="true" data-pin="about.c"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.about">About</h2><span class="pin" aria-hidden="true" data-pin="about.c"></span></div>
   <div class="about-grid">
     <div>
-      <p data-i18n="about.p1">Akıllı sayaçlardan medikal cihazlara kadar, gerçek dünyada aralıksız çalışan sistemlere yazılımlarımla hayat veriyorum. Gazi Üniversitesi Elektrik-Elektronik Mühendisliği mezunuyum ve temelim teknik liseye dayanıyor. Bu sayede kod yazmakla yetinmiyor; masa başında firmware geliştirirken de, osiloskop başında donanım hatalarını çözerken de aynı yetkinlikle hareket ediyorum.</p>
-      <p data-i18n="about.p2">Mühendislik yolculuğumun önemli bir parçası olan BESoft Teknoloji ile Aselsan UGES medikal cihaz projelerinde işin ucunda doğrudan insan sağlığı vardı. Hataya yer olmayan bu kritik sistemleri geliştirmek, bana güvenilirliğin teknik bir özellikten öte, sarsılmaz bir söz olduğunu öğretti. Orada edindiğim yüksek sorumluluk duygusunu ve "sıfır hata" disiplinini bugün de koruyorum.</p>
-      <p data-i18n="about.p3">Şu anda Inodya Teknoloji'de akıllı su ve gaz sayaçları geliştirerek ülkemizin su kaybı sorununa teknik çözümler üretiyorum. Bu projelerle birlikte Inodya'nın insan odaklı yazılım felsefesini de devam ettiriyor; her satır kodda insan hayatına ve geleceğimize değer katmayı hedefliyorum.</p>
+      <p data-i18n="about.p1">From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code — I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.</p>
+      <p data-i18n="about.p2">In the BESoft Teknoloji and Aselsan UGES medical device projects — a defining chapter of my engineering journey — human health was directly on the line. Developing these critical systems where there is no room for error taught me that reliability is more than a technical property; it is an unbreakable promise. The high sense of responsibility and the zero-defect discipline I built there, I carry with me to this day.</p>
+      <p data-i18n="about.p3">I am currently at Inodya Teknoloji, developing smart water and gas meters and delivering technical solutions to our country's water loss problem. Alongside these projects, I carry forward Inodya's human-centered software philosophy — aiming to add value to human lives and our shared future with every line of code I write.</p>
     </div>
     <div class="spec-card">
-      <h3 data-i18n="spec.h3">ÖZET / DATASHEET</h3>
-      <div class="spec-row"><span class="k" data-i18n="spec.name">Ad</span><span class="v">Cemal Kör</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.loc">Konum</span><span class="v">Ankara, TR</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.role">Rol</span><span class="v" data-i18n="spec.rolev">Gömülü Yazılım Müh.</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.exp">Uzmanlık</span><span class="v">Sigfox · BLE · Low-Power</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.langs">Diller</span><span class="v">C/C++ · C# · Python</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.os">Sistem</span><span class="v">Bare-metal · FreeRTOS · ThreadX</span></div>
+      <h3 data-i18n="spec.h3">SUMMARY / DATASHEET</h3>
+      <div class="spec-row"><span class="k" data-i18n="spec.name">Name</span><span class="v">Cemal Kör</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.loc">Location</span><span class="v">Ankara, TR</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.role">Role</span><span class="v" data-i18n="spec.rolev">Embedded SW Eng.</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.exp">Expertise</span><span class="v">Sigfox · BLE · Low-Power</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.langs">Languages</span><span class="v">C/C++ · C# · Python</span></div>
+      <div class="spec-row"><span class="k" data-i18n="spec.os">System</span><span class="v">Bare-metal · FreeRTOS · ThreadX</span></div>
       <div class="spec-row"><span class="k">MCU</span><span class="v">STM32 · ESP · PIC</span></div>
-      <div class="spec-row"><span class="k" data-i18n="spec.status">Durum</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Aktif — Inodya Teknoloji</span></div>
-      <div class="spec-row pil-row"><span class="k" data-i18n="spec.bat">Pil</span><span class="v pil-v">
+      <div class="spec-row"><span class="k" data-i18n="spec.status">Status</span><span class="v ok" style="color:var(--pcb)" data-i18n="spec.statusv">● Active — Inodya Teknoloji</span></div>
+      <div class="spec-row pil-row"><span class="k" data-i18n="spec.bat">Battery</span><span class="v pil-v">
         <svg class="pil-svg" viewBox="0 0 30 12" aria-hidden="true">
           <rect x="1" y="1" width="24" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
           <rect x="27" y="4" width="2.5" height="4" rx="1" fill="currentColor"/>
@@ -783,22 +787,22 @@ window.goatcounter = {
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:8s;animation-delay:-4s" d="M0,2 H120 V12 H200 V2 H380 V12 H420 V2 H620 V12 H700 V2 H900 V12 H1032"/></svg></div>
 
 <section id="deneyim">
-  <div class="sec-head"><h2 data-i18n="sec.xp">Deneyim</h2><span class="pin" aria-hidden="true" data-pin="experience.elf"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.xp">Experience</h2><span class="pin" aria-hidden="true" data-pin="experience.elf"></span></div>
   <div class="xp">
     <div class="xp-item current">
-      <div class="xp-date" data-i18n="xp.date1">2022 — Devam ediyor</div>
+      <div class="xp-date" data-i18n="xp.date1">2022 — Present</div>
       <h3>Inodya Teknoloji San. ve Tic. A.Ş.</h3>
-      <div class="xp-role" data-i18n="xp.role1">Gömülü Yazılım ve ARGE Mühendisi</div>
-      <p data-i18n="xp.inodya">Bugüne kadar birçok akıllı su ve gaz sayacı projesinin yazılımını uçtan uca geliştirdim: tek pille yıllarca çalışan, NFC ve Bluetooth destekli, Sigfox/NB-IoT ile uzaktan okunan cihazlar. Belediye Su ve Kanalizasyon İdareleriyle yürütülen projelerde yazılımın yanı sıra iş planı ve teknik sunum süreçlerinde de aktif rol alıyorum.</p>
+      <div class="xp-role" data-i18n="xp.role1">Embedded Software & R&D Engineer</div>
+      <p data-i18n="xp.inodya">To date I have developed the firmware of many smart water and gas meter projects end to end: devices that run for years on a single battery, with NFC and Bluetooth support, read remotely over Sigfox/NB-IoT. In projects run with municipal water utilities, I also take an active role in business planning and technical presentations.</p>
       <div class="xp-tags">
-        <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">STM32</span><span class="tag">Bare-metal</span><span class="tag">ThreadX</span><span class="tag">SPI</span><span class="tag">I2C</span><span class="tag">UART</span><span class="tag">ADC</span><span class="tag">CRC</span><span class="tag">AES</span><span class="tag">RNG</span><span class="tag">RTC</span><span class="tag" data-i18n="tag.touch">Dokunmatik Buton</span><span class="tag">Low-Power</span><span class="tag" data-i18n="tag.modular">Modüler Firmware</span>
+        <span class="tag">Sigfox</span><span class="tag">NB-IoT</span><span class="tag">BLE 5.4</span><span class="tag">NFC</span><span class="tag">STM32</span><span class="tag">Bare-metal</span><span class="tag">ThreadX</span><span class="tag">SPI</span><span class="tag">I2C</span><span class="tag">UART</span><span class="tag">ADC</span><span class="tag">CRC</span><span class="tag">AES</span><span class="tag">RNG</span><span class="tag">RTC</span><span class="tag" data-i18n="tag.touch">Touch Sensing</span><span class="tag">Low-Power</span><span class="tag" data-i18n="tag.modular">Modular Firmware</span>
       </div>
     </div>
     <div class="xp-item">
       <div class="xp-date">2022</div>
       <h3>Prodesa Savunma ve Havacılık</h3>
-      <div class="xp-role" data-i18n="xp.role5">Stajyer</div>
-      <p data-i18n="xp.prodesa">PIC işlemciler ile DC-DC converter tetikleme mekanizması geliştirdim.</p>
+      <div class="xp-role" data-i18n="xp.role5">Intern</div>
+      <p data-i18n="xp.prodesa">I built a DC-DC converter triggering mechanism with PIC microcontrollers.</p>
       <div class="xp-tags">
         <span class="tag">PIC</span><span class="tag">STM32</span><span class="tag">DC-DC</span>
       </div>
@@ -806,23 +810,23 @@ window.goatcounter = {
     <div class="xp-item">
       <div class="xp-date">2021 — 2022</div>
       <h3>BESoft Yazılım Teknolojileri</h3>
-      <div class="xp-role" data-i18n="xp.role2">Gömülü Yazılım Mühendisi</div>
-      <p data-i18n="xp.besoft">Aselsan UGES kapsamında sağlık sektörüne yönelik özel bir projede medikal cihazların haberleşmesi için firmware geliştirdim: kontrol ve simülasyon yazılımları ile C# test arayüzleri. Tüm geliştirme ASELSAN standartlarında (YATT, YGÖ, YTER) dokümante edildi.</p>
+      <div class="xp-role" data-i18n="xp.role2">Embedded Software Engineer</div>
+      <p data-i18n="xp.besoft">In a healthcare project under Aselsan UGES, I developed firmware for medical device communication: control and simulation software, plus C# test interfaces. All work was documented to ASELSAN standards (YATT, YGÖ, YTER).</p>
       <div class="xp-tags">
-        <span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag">DES</span><span class="tag">ESP32</span><span class="tag">C#</span><span class="tag" data-i18n="tag.medical">Medikal</span>
+        <span class="tag">FreeRTOS</span><span class="tag">UART/TCP/UDP</span><span class="tag">DES</span><span class="tag">ESP32</span><span class="tag">C#</span><span class="tag" data-i18n="tag.medical">Medical</span>
       </div>
     </div>
     <div class="xp-item">
       <div class="xp-date">2013</div>
       <h3>Mavi Elektronik</h3>
-      <div class="xp-role" data-i18n="xp.role3">Teknik Personel</div>
-      <p data-i18n="xp.mavi">LED'li uyarı cihazlarının lehimleme ve montajını yaptım.</p>
+      <div class="xp-role" data-i18n="xp.role3">Technician</div>
+      <p data-i18n="xp.mavi">I soldered and assembled LED warning devices.</p>
     </div>
     <div class="xp-item">
       <div class="xp-date">2012</div>
       <h3>Türk Telekom International</h3>
-      <div class="xp-role" data-i18n="xp.role4">Lise Stajı</div>
-      <p data-i18n="xp.tt">Konya bölgesine bağlı Türk Telekom tesis ve baz istasyonlarının alçak ve orta gerilim hatlarının izlenmesini ve jeneratör kontrollerini gerçekleştirdim.</p>
+      <div class="xp-role" data-i18n="xp.role4">High School Internship</div>
+      <p data-i18n="xp.tt">I monitored the low- and medium-voltage lines of Türk Telekom facilities and base stations in the Konya region and carried out generator checks.</p>
     </div>
   </div>
 </section>
@@ -830,46 +834,46 @@ window.goatcounter = {
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7s;animation-delay:-2.5s" d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
 
 <section id="projeler">
-  <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin" aria-hidden="true" data-pin="projects.hex"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.proj">Projects</h2><span class="pin" aria-hidden="true" data-pin="projects.hex"></span></div>
   <div class="proj-grid">
     <div class="proj">
       <div class="ref">REF-001 · INODYA</div>
-      <h3 data-i18n="proj1.h">Akıllı Sayaç Teknolojileri</h3>
-      <p data-i18n="proj1.p">Evlerden AVM ve okullara, OSB'ler gibi yüksek tüketimli noktalara kadar her ölçekte kullanılan, tek pille yıllarca çalışan akıllı su ve gaz sayaçları. Veriler BLE ile yerinde, Sigfox/NB-IoT ile uzaktan okunuyor; güç bütçesi mikroamper seviyesinde hesaplanan firmware sayesinde tek C tipi pille 15+ yıl pil ömrüne ulaşan cihazlar geliştirdim.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.field">Saha Ürünü</span><span class="tag" data-i18n="tag.product">Ticari Ürün</span></div>
+      <h3 data-i18n="proj1.h">Smart Metering Technologies</h3>
+      <p data-i18n="proj1.p">Smart water and gas meters deployed at every scale — from homes to malls, schools and high-consumption sites like industrial zones. Data is read locally over BLE and remotely via Sigfox/NB-IoT; thanks to firmware built on a microamp-level power budget, I've delivered devices that reach 15+ years of battery life on a single C-size cell.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.field">Field Product</span><span class="tag" data-i18n="tag.product">Commercial Product</span></div>
     </div>
     <div class="proj">
       <div class="ref">REF-002 · BESOFT</div>
-      <h3 data-i18n="proj2.h">Medikal Cihaz Haberleşme Yazılımları</h3>
-      <p data-i18n="proj2.p">Hataya yer olmayan bir alanda, medikal cihazların haberleşmesi için firmware: kontrol ve simülasyon yazılımları. FreeRTOS tabanlı, ASELSAN standartlarında geliştirildi ve dokümante edildi.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.medical">Medikal</span></div>
+      <h3 data-i18n="proj2.h">Medical Device Communication Software</h3>
+      <p data-i18n="proj2.p">Firmware for medical device communication in a field with no room for error: control and simulation software. FreeRTOS-based, developed and documented to ASELSAN standards.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.medical">Medical</span></div>
     </div>
     <div class="proj">
-      <div class="ref" data-i18n="proj3.ref">REF-003 · BİTİRME TEZİ</div>
-      <h3 data-i18n="proj3.h">IoT Kontrollü Akıllı Mantarhane</h3>
-      <p data-i18n="proj3.p">Mantar üretim tesisini kendi kendine yöneten sistem: sıcaklık, nem ve CO₂ sürekli izleniyor, ortam çiftçinin belirlediği aralıkta otomatik tutuluyor. Çalışma, EGE 6. Uluslararası Uygulamalı Bilimler Kongresi'nde (İzmir, 2022) sözlü bildiri olarak sunuldu ve sertifikayla tanındı.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.academic">Akademik</span><span class="tag" data-i18n="tag.paper">Bildiri</span></div>
-      <a href="https://avesis.gazi.edu.tr/yayin/5b25a76e-266d-4661-a03f-e57faa7cc5e8/iot-tabanli-mobil-cihazlar-ile-izlenebilen-ve-kontrol-edilebilen-yeni-ve-modern-bir-hassas-mantar-tarim-sistemi" target="_blank" rel="noopener" data-i18n="proj3.a">Bildiriyi incele (AVESİS) →</a>
+      <div class="ref" data-i18n="proj3.ref">REF-003 · THESIS PROJECT</div>
+      <h3 data-i18n="proj3.h">IoT-Controlled Smart Mushroom Farm</h3>
+      <p data-i18n="proj3.p">A system that runs a mushroom farm on its own: temperature, humidity and CO₂ are monitored continuously and kept within the range the farmer sets. The work was presented as an oral paper at the EGE 6th International Conference on Applied Sciences (İzmir, 2022) and recognized with a certificate.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.academic">Academic</span><span class="tag" data-i18n="tag.paper">Paper</span></div>
+      <a href="https://avesis.gazi.edu.tr/yayin/5b25a76e-266d-4661-a03f-e57faa7cc5e8/iot-tabanli-mobil-cihazlar-ile-izlenebilen-ve-kontrol-edilebilen-yeni-ve-modern-bir-hassas-mantar-tarim-sistemi" target="_blank" rel="noopener" data-i18n="proj3.a">View the paper (AVESİS) →</a>
     </div>
     <div class="proj">
-      <div class="ref" data-i18n="proj4.ref">REF-004 · AÇIK KAYNAK</div>
+      <div class="ref" data-i18n="proj4.ref">REF-004 · OPEN SOURCE</div>
       <h3>STM32 AT Command Library</h3>
-      <p data-i18n="proj4.p">NB-IoT ve GSM modem entegrasyonunu günlerden saatlere indiren açık kaynak AT komut kütüphanesi. STM32CubeMX ile herhangi bir projeye kolayca eklenebiliyor.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.oss">Açık Kaynak</span><span class="tag" data-i18n="tag.lib">Kütüphane</span></div>
+      <p data-i18n="proj4.p">An open-source AT command library that cuts NB-IoT and GSM modem integration from days down to hours. Drops easily into any project via STM32CubeMX.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.oss">Open Source</span><span class="tag" data-i18n="tag.lib">Library</span></div>
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
     </div>
     <div class="proj">
       <div class="ref">REF-005 · IEEE CSCON'25</div>
-      <h3 data-i18n="proj5.h">Gömülü Sistemlerde BLE</h3>
-      <p data-i18n="proj5.p">IEEE CSCON'25'te verdiğim BLE eğitimi için hazırladığım çalışma ve örnek kodlar; gömülü sistemlerde Bluetooth Low Energy'ye uygulamalı bir giriş.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.trainmat">Eğitim Materyali</span></div>
-      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="proj5.a">Repo'yu incele →</a>
+      <h3 data-i18n="proj5.h">BLE in Embedded Systems</h3>
+      <p data-i18n="proj5.p">The material and sample code I prepared for the BLE training I gave at IEEE CSCON'25; a hands-on introduction to Bluetooth Low Energy in embedded systems.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.trainmat">Training Material</span></div>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="proj5.a">Browse the repo →</a>
     </div>
     <div class="proj">
-      <div class="ref" data-i18n="proj6.ref">REF-006 · AÇIK KAYNAK</div>
-      <h3 data-i18n="proj6.h">Bellek Yönetim Kütüphaneleri</h3>
-      <p data-i18n="proj6.p">Harici flash ve EEPROM yongalarını yönetme derdini bir kez çözüp her projede kullanmak için yazdığım açık kaynak C kütüphaneleri: SPI-Flash-Manager ve I2C-EEPROM-Manager.</p>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.oss">Açık Kaynak</span><span class="tag" data-i18n="tag.lib">Kütüphane</span></div>
+      <div class="ref" data-i18n="proj6.ref">REF-006 · OPEN SOURCE</div>
+      <h3 data-i18n="proj6.h">Memory Management Libraries</h3>
+      <p data-i18n="proj6.p">Open-source C libraries I wrote to solve external flash and EEPROM management once and reuse it in every project: SPI-Flash-Manager and I2C-EEPROM-Manager.</p>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.oss">Open Source</span><span class="tag" data-i18n="tag.lib">Library</span></div>
       <a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor →</a>
     </div>
   </div>
@@ -878,34 +882,34 @@ window.goatcounter = {
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:9s;animation-delay:-6s" d="M0,2 H90 V12 H210 V2 H350 V12 H430 V2 H590 V12 H730 V2 H890 V12 H1032"/></svg></div>
 
 <section id="yetkinlikler">
-  <div class="sec-head"><h2 data-i18n="sec.skills">Yetkinlikler</h2><span class="pin" aria-hidden="true" data-pin="skills.h"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.skills">Skills</h2><span class="pin" aria-hidden="true" data-pin="skills.h"></span></div>
   <div class="skill-cols">
     <div class="skill-box">
-      <h3 data-i18n="sk.lang">DİLLER</h3>
-      <ul><li>Embedded C / C++</li><li data-i18n="sk.csharp">C# (test & arayüz)</li><li>Python</li><li data-i18n="sk.asm">Assembly → C çeviri</li></ul>
+      <h3 data-i18n="sk.lang">LANGUAGES</h3>
+      <ul><li>Embedded C / C++</li><li data-i18n="sk.csharp">C# (test &amp; UI)</li><li>Python</li><li data-i18n="sk.asm">Assembly → C translation</li></ul>
     </div>
     <div class="skill-box">
-      <h3 data-i18n="sk.comm">HABERLEŞME</h3>
+      <h3 data-i18n="sk.comm">COMMUNICATION</h3>
       <ul><li>Sigfox · NB-IoT · GPRS</li><li>BLE 5.4 · NFC · Zigbee</li><li>UART · I2C · SPI · USB</li><li>TCP · UDP · MQTT</li></ul>
     </div>
     <div class="skill-box">
       <h3>MCU / PLATFORM</h3>
-      <ul><li>STM32 (WBA, WB55)</li><li>ESP32 · ESP8266</li><li data-i18n="sk.pic">PIC 16F / 12F serisi</li><li>Raspberry Pi</li></ul>
+      <ul><li>STM32 (WBA, WB55)</li><li>ESP32 · ESP8266</li><li data-i18n="sk.pic">PIC 16F / 12F series</li><li>Raspberry Pi</li></ul>
     </div>
     <div class="skill-box">
-      <h3 data-i18n="sk.mod">MODÜLLER</h3>
+      <h3 data-i18n="sk.mod">MODULES</h3>
       <ul><li>SX126x</li><li>Telit NB-IoT</li><li>Quectel NB-IoT</li><li>Quectel BLE</li></ul>
     </div>
     <div class="skill-box">
-      <h3 data-i18n="sk.per">ÇEVRE BİRİMLERİ</h3>
-      <ul><li>AES · DES · RNG · CRC</li><li>ADC · RTC</li><li data-i18n="sk.touch">Dokunmatik buton</li></ul>
+      <h3 data-i18n="sk.per">PERIPHERALS</h3>
+      <ul><li>AES · DES · RNG · CRC</li><li>ADC · RTC</li><li data-i18n="sk.touch">Touch sensing</li></ul>
     </div>
     <div class="skill-box">
-      <h3 data-i18n="sk.sys">SİSTEM</h3>
-      <ul><li>Bare-metal · FreeRTOS · ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimizasyonu</li><li data-i18n="sk.modular">Modüler firmware mimarisi</li><li data-i18n="sk.dbg">Donanım hata ayıklama</li></ul>
+      <h3 data-i18n="sk.sys">SYSTEM</h3>
+      <ul><li>Bare-metal · FreeRTOS · ThreadX</li><li data-i18n="sk.lp">Low-power firmware optimization</li><li data-i18n="sk.modular">Modular firmware architecture</li><li data-i18n="sk.dbg">Hardware debugging</li></ul>
     </div>
     <div class="skill-box">
-      <h3 data-i18n="sk.tools">ARAÇLAR</h3>
+      <h3 data-i18n="sk.tools">TOOLS</h3>
       <ul><li>STM32CubeIDE</li><li>ESP-IDF · MPLAB X</li><li>Git · Jira · VS Code · Eclipse</li><li>Firebase · JSON</li></ul>
     </div>
   </div>
@@ -917,29 +921,29 @@ window.goatcounter = {
      "Hakkımda" metninin içinde geçiyor; ama özgeçmiş ayrıştırıcıları (ATS) bunu kendi başlığı
      altında arıyor. Yıl eklemek istersen xp-date satırını aç ve doldur. -->
 <section id="egitim-print" class="print-only">
-  <div class="sec-head"><h2 data-i18n="print.edu">Eğitim</h2></div>
+  <div class="sec-head"><h2 data-i18n="print.edu">Education</h2></div>
   <div class="xp">
     <div class="xp-item">
       <!-- <div class="xp-date">2018 — 2022</div> -->
       <h3>Gazi Üniversitesi</h3>
-      <div class="xp-role" data-i18n="print.edu.gazi">Elektrik-Elektronik Mühendisliği — Lisans</div>
+      <div class="xp-role" data-i18n="print.edu.gazi">Electrical & Electronics Engineering — BSc</div>
     </div>
   </div>
 </section>
 
 <section id="egitimler">
-  <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.edu">Volunteer Trainings</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
   <div class="proj-grid">
     <div class="proj">
-      <div class="ref" data-i18n="edu1.ref">CSCON'25 · GAZİ ÜNİVERSİTESİ · ANKARA</div>
-      <h3 data-i18n="edu1.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
-      <p data-i18n="edu1.p">IEEE CSCON'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'nin temelleri ve gömülü sistemlerde kullanımı. Eğitimin örnek kodları GitHub'da herkese açık.</p>
-      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="edu1.a">Eğitim materyalleri →</a>
+      <div class="ref" data-i18n="edu1.ref">CSCON'25 · GAZİ UNIVERSITY · ANKARA</div>
+      <h3 data-i18n="edu1.h">Bluetooth Low Energy in Embedded Systems</h3>
+      <p data-i18n="edu1.p">A volunteer training I gave as part of IEEE CSCON'25: BLE fundamentals and how to use it in embedded systems. The sample code is publicly available on GitHub.</p>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="edu1.a">Training materials →</a>
     </div>
     <div class="proj">
-      <div class="ref" data-i18n="edu2.ref">VES'25 · ANKARA BİLİM ÜNİVERSİTESİ · ANKARA</div>
-      <h3 data-i18n="edu2.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
-      <p data-i18n="edu2.p">VES'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'yi sahada geliştirdiğim gerçek ürünlerden örneklerle anlattım.</p>
+      <div class="ref" data-i18n="edu2.ref">VES'25 · ANKARA SCIENCE UNIVERSITY · ANKARA</div>
+      <h3 data-i18n="edu2.h">Bluetooth Low Energy in Embedded Systems</h3>
+      <p data-i18n="edu2.p">A volunteer training I gave as part of VES'25: I taught BLE through examples from real products I've built in the field.</p>
     </div>
   </div>
 </section>
@@ -947,22 +951,22 @@ window.goatcounter = {
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/><path class="pulse cu" pathLength="1000" style="animation-duration:6s;animation-delay:-1.5s" d="M0,12 H95 V2 H215 V12 H355 V2 H495 V12 H635 V2 H775 V12 H915 V2 H1032"/></svg></div>
 
 <section id="hobi">
-  <div class="sec-head"><h2 data-i18n="sec.hobby">Hobi</h2><span class="pin" aria-hidden="true" data-pin="hobby.mk"></span></div>
+  <div class="sec-head"><h2 data-i18n="sec.hobby">Hobby</h2><span class="pin" aria-hidden="true" data-pin="hobby.mk"></span></div>
   <div class="proj-grid">
     <div class="proj">
-      <div class="ref" data-i18n="hobby.ref">TECHNOPETTO · KİŞİSEL ATÖLYE</div>
-      <h3 data-i18n="hobby.h">Eski Elektroniklerden Maket Robotlar</h3>
-      <p data-i18n="hobby.p">Boş zamanlarımda eski elektronik parçaları — kondansatörler, motorlar, hurda kartlar — maket robotlara dönüştürüyorum. Gündüz firmware yazdığım türden parçalar, akşamları küçük karakterlere dönüşüyor.</p>
+      <div class="ref" data-i18n="hobby.ref">TECHNOPETTO · PERSONAL WORKSHOP</div>
+      <h3 data-i18n="hobby.h">Model Robots from Old Electronics</h3>
+      <p data-i18n="hobby.p">In my spare time I turn old electronic parts — capacitors, motors, scrap boards — into model robots. The same kind of parts I write firmware for by day become little characters in the evening.</p>
       <div class="links">
         <a href="https://www.instagram.com/technopetto/" target="_blank" rel="noopener">@technopetto (Instagram) →</a>
-        <a href="https://tr.pinterest.com/cemalkor94/robots/kendi-%C3%A7al%C4%B1%C5%9Fmalar%C4%B1m/" target="_blank" rel="noopener" data-i18n="hobby.pin">Pinterest panosu →</a>
+        <a href="https://tr.pinterest.com/cemalkor94/robots/kendi-%C3%A7al%C4%B1%C5%9Fmalar%C4%B1m/" target="_blank" rel="noopener" data-i18n="hobby.pin">Pinterest board →</a>
       </div>
-      <div class="xp-tags"><span class="tag" data-i18n="tag.upcycle">Geri Dönüşüm</span><span class="tag" data-i18n="tag.craft">El Yapımı</span></div>
+      <div class="xp-tags"><span class="tag" data-i18n="tag.upcycle">Upcycling</span><span class="tag" data-i18n="tag.craft">Handmade</span></div>
     </div>
     <div class="proj">
-      <div class="ref" data-i18n="hobby2.ref">AKILLI EV · EV LABORATUVARI</div>
-      <h3 data-i18n="hobby2.h">Home Assistant ile Akıllı Ev</h3>
-      <p data-i18n="hobby2.p">Evim Home Assistant üzerinde çalışıyor: aydınlatmadan sensörlere her şey Zigbee ile haberleşiyor. Hazır cihazların yetmediği yerde kendi Zigbee'li cihazlarımı tasarlayıp yapıyorum.</p>
+      <div class="ref" data-i18n="hobby2.ref">SMART HOME · HOME LAB</div>
+      <h3 data-i18n="hobby2.h">Smart Home with Home Assistant</h3>
+      <p data-i18n="hobby2.p">My home runs on Home Assistant: everything from lighting to sensors talks over Zigbee. Where off-the-shelf devices fall short, I design and build my own Zigbee devices.</p>
       <div class="xp-tags"><span class="tag">Home Assistant</span><span class="tag">Zigbee</span><span class="tag">DIY</span></div>
     </div>
   </div>
@@ -975,7 +979,7 @@ window.goatcounter = {
   <div id="etiket-bar" class="etiket-bar" role="group" aria-label="Etiket filtresi" hidden></div>
   <div id="blog-list"></div>
   <div id="post-view">
-    <a class="back-btn" id="geri-btn" href="/" data-i18n="blog.back">← Tüm yazılar</a>
+    <a class="back-btn" id="geri-btn" href="/" data-i18n="blog.back">← All posts</a>
     <article id="post-content"></article>
   </div>
 </section>
@@ -985,8 +989,8 @@ window.goatcounter = {
 <footer id="iletisim">
 
   <div class="foot-in">
-    <div class="sec-head"><h2 data-i18n="foot.h2">İletişim</h2><span class="pin" aria-hidden="true" data-pin="contact.cfg"></span></div>
-    <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
+    <div class="sec-head"><h2 data-i18n="foot.h2">Contact</h2><span class="pin" aria-hidden="true" data-pin="contact.cfg"></span></div>
+    <p data-i18n="foot.p">If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out.</p>
     <div class="foot-links">
       <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
       <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
@@ -995,7 +999,7 @@ window.goatcounter = {
       <!-- href'i applyLang() dile göre ayarlıyor -->
       <a id="rss-link" href="/feed.xml">RSS</a>
     </div>
-    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle, özellikle konami şifresini!<br>// Gizlemezsen herkes şunları buldum diye yazar sonra!!!</p>
+    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: hide the easter eggs on this site, especially the konami code!<br>// If you don't, everyone will write me saying they found them!!!</p>
     <div class="foot-bottom">
       <span class="easter-egg-wrap">
         <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
