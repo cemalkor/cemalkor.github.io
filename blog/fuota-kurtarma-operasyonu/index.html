@@ -151,8 +151,10 @@ body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-fi
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
-/* gap 18px: Eğitim bölümü menüye girince Türkçe etiketler 22px'te tek satıra sığmıyordu */
-.nav-links{display:flex;gap:18px;flex-wrap:wrap}
+/* gap 16px: dokuz Türkçe etiket 1080px'lik şeride 22px boşlukla sığmıyor, menü ikinci satıra
+   sarıyordu. 16px'te ~37px pay kalıyor — yazı tipi başka bir makinede biraz geniş gelse bile
+   tek satır kalsın diye. Menüye yeni bağlantı eklersen bu payı yeniden ölç. */
+.nav-links{display:flex;gap:16px;flex-wrap:wrap}
 .nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
 .nav-links a:hover{color:var(--pcb)}
 .nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
@@ -352,8 +354,9 @@ footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--l
 .foot-links a{color:var(--pcb);text-decoration:none}
 .foot-links a:hover{color:var(--copper)}
 .foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
-/* satırlar sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın (en uzun satır ~72ch × 0.6em) */
-.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/45),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
+/* satır sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın.
+   Bölen satırın uzunluğuna göre: en uzun sürüm ~43ch (İngilizcesi) × 0.6em ≈ 26 */
+.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/26),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
 
 /* ---------- easter eggs ---------- */
 .easter-egg-wrap{position:relative;display:inline-flex;align-items:center;max-width:100%}
@@ -504,7 +507,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 
   /* ---- linkler: adres metnin yanına yazılıyor, yoksa kâğıtta tıklanamayan bir metin kalıyor ---- */
   a{color:#000;text-decoration:none}
-  #projeler a[href^="http"]::after,#egitimler a[href^="http"]::after,#hobi a[href^="http"]::after{
+  #projeler a[href^="http"]::after,#seminerler a[href^="http"]::after,#hobi a[href^="http"]::after{
     content:' — ' attr(href);font-size:8.5pt;color:#000;word-break:break-all;
   }
   /* tek istisna: Pinterest pano adresi yüzde-kodlu ve üç satır sürüyor, CV'yi çöplüyor */
@@ -618,7 +621,7 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
       <a href="/#egitim" data-i18n="nav.edudeg">Eğitim</a>
       <a href="/#projeler" data-i18n="nav.proj">Projeler</a>
       <a href="/#yetkinlikler" data-i18n="nav.skills">Yetkinlikler</a>
-      <a href="/#egitimler" data-i18n="nav.edu">Eğitimler</a>
+      <a href="/#seminerler" data-i18n="nav.edu">Seminerler</a>
       <a href="/#hobi" data-i18n="nav.hobby">Hobi</a>
       <a href="/#blog">Blog</a>
       <a href="/#iletisim" data-i18n="nav.contact">İletişim</a>
@@ -673,17 +676,54 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
 </main>
 
 <footer id="iletisim">
+
   <div class="foot-in">
+    <div class="sec-head"><h2 data-i18n="foot.h2">İletişim</h2><span class="pin" aria-hidden="true" data-pin="contact.cfg"></span></div>
+    <p data-i18n="foot.p">Akıllı sayaçlar, düşük güç IoT veya gömülü sistemler üzerine konuşmak isterseniz bana ulaşabilirsiniz.</p>
     <div class="foot-links">
       <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
       <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
       <a href="https://github.com/cemalkor" target="_blank" rel="me noopener">GitHub</a>
-      <a href="/feed.xml">RSS</a>
+      <a href="https://www.instagram.com/cemalkor" target="_blank" rel="me noopener">Instagram</a>
+      <!-- href'i applyLang() dile göre ayarlıyor -->
+      <a id="rss-link" href="/feed.xml">RSS</a>
+    </div>
+    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle!</p>
+    <div class="foot-bottom">
+      <span class="easter-egg-wrap">
+        <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
+          <line x1="0" y1="8" x2="22" y2="8" stroke="#17251F" stroke-width="6" stroke-linecap="round"/>
+          <line x1="22" y1="8" x2="30" y2="8" stroke="#B87333" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="30" cy="8" r="1.5" fill="#fff" class="wire-glow"/>
+        </svg>
+        <span class="foot-text">
+          © <span id="yil"></span> Cemal Kör · <span data-i18n="foot.rights">Tüm hakları saklıdır.</span>
+          <svg class="arc-over-text" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
+            <path class="arc-path" d="M 0 12 L 10 5 L 20 18 L 30 8 L 45 15 L 60 4 L 75 20 L 90 9 L 100 12" fill="none" stroke="#0ff" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+            <path class="arc-path-2" d="M 0 12 L 15 17 L 25 6 L 40 19 L 55 5 L 70 16 L 85 7 L 100 12" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </span>
+        <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
+          <line x1="32" y1="8" x2="10" y2="8" stroke="#17251F" stroke-width="6" stroke-linecap="round"/>
+          <line x1="10" y1="8" x2="2" y2="8" stroke="#B87333" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="2" cy="8" r="1.5" fill="#fff" class="wire-glow"/>
+        </svg>
+      </span>
     </div>
   </div>
 </footer>
 
 <script>
+document.getElementById('yil').textContent = new Date().getFullYear();
+/* footer kivilcimi: masaustunde CSS :hover hallediyor, mobilde dokunusla tetikleniyor.
+   Ana sayfadaki surumden farki, kesif rozeti sayaci burada yok. */
+const footEl = document.querySelector('footer');
+footEl.addEventListener('touchstart', () => {
+  if(footEl.classList.contains('sparking')) return;
+  footEl.classList.add('sparking');
+  setTimeout(() => footEl.classList.remove('sparking'), 1200);
+}, {passive:true});
+
 /* tema, dil, menu ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
 document.getElementById('tema-btn').addEventListener('click', ()=>{
   const koyu = document.documentElement.dataset.theme === 'dark';

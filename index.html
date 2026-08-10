@@ -171,8 +171,10 @@ body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-fi
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
-/* gap 18px: Eğitim bölümü menüye girince Türkçe etiketler 22px'te tek satıra sığmıyordu */
-.nav-links{display:flex;gap:18px;flex-wrap:wrap}
+/* gap 16px: dokuz Türkçe etiket 1080px'lik şeride 22px boşlukla sığmıyor, menü ikinci satıra
+   sarıyordu. 16px'te ~37px pay kalıyor — yazı tipi başka bir makinede biraz geniş gelse bile
+   tek satır kalsın diye. Menüye yeni bağlantı eklersen bu payı yeniden ölç. */
+.nav-links{display:flex;gap:16px;flex-wrap:wrap}
 .nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
 .nav-links a:hover{color:var(--pcb)}
 .nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
@@ -372,8 +374,9 @@ footer{background:var(--mist);color:var(--ink-soft);border-top:1px solid var(--l
 .foot-links a{color:var(--pcb);text-decoration:none}
 .foot-links a:hover{color:var(--copper)}
 .foot-bottom{border-top:1px dashed var(--line);margin-top:22px;padding-top:14px;font-family:var(--mono);font-size:.72rem;color:var(--ink-soft)}
-/* satırlar sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın (en uzun satır ~72ch × 0.6em) */
-.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/45),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
+/* satır sarmasın; dar ekranda font viewport'a göre küçülür ki yatay taşma olmasın.
+   Bölen satırın uzunluğuna göre: en uzun sürüm ~43ch (İngilizcesi) × 0.6em ≈ 26 */
+.foot-in p.foot-egg-note{margin:18px 0 0;max-width:none;font-family:var(--mono);font-size:clamp(6px,calc((100vw - 48px)/26),.72rem);color:var(--ink-soft);opacity:.85;white-space:nowrap}
 
 /* ---------- easter eggs ---------- */
 .easter-egg-wrap{position:relative;display:inline-flex;align-items:center;max-width:100%}
@@ -524,7 +527,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 
   /* ---- linkler: adres metnin yanına yazılıyor, yoksa kâğıtta tıklanamayan bir metin kalıyor ---- */
   a{color:#000;text-decoration:none}
-  #projeler a[href^="http"]::after,#egitimler a[href^="http"]::after,#hobi a[href^="http"]::after{
+  #projeler a[href^="http"]::after,#seminerler a[href^="http"]::after,#hobi a[href^="http"]::after{
     content:' — ' attr(href);font-size:8.5pt;color:#000;word-break:break-all;
   }
   /* tek istisna: Pinterest pano adresi yüzde-kodlu ve üç satır sürüyor, CV'yi çöplüyor */
@@ -739,7 +742,7 @@ window.goatcounter = {
       <a href="#egitim" data-i18n="nav.edudeg">Eğitim</a>
       <a href="#projeler" data-i18n="nav.proj">Projeler</a>
       <a href="#yetkinlikler" data-i18n="nav.skills">Yetkinlikler</a>
-      <a href="#egitimler" data-i18n="nav.edu">Eğitimler</a>
+      <a href="#seminerler" data-i18n="nav.edu">Seminerler</a>
       <a href="#hobi" data-i18n="nav.hobby">Hobi</a>
       <a href="#blog">Blog</a>
       <a href="#iletisim" data-i18n="nav.contact">İletişim</a>
@@ -920,7 +923,7 @@ window.goatcounter = {
     <div class="proj">
       <div class="ref">REF-005 · IEEE CSCON'25</div>
       <h3 data-i18n="proj5.h">Gömülü Sistemlerde BLE</h3>
-      <p data-i18n="proj5.p">IEEE CSCON'25'te verdiğim BLE eğitimi için hazırladığım çalışma ve örnek kodlar; gömülü sistemlerde Bluetooth Low Energy'ye uygulamalı bir giriş.</p>
+      <p data-i18n="proj5.p">IEEE CSCON'25'te verdiğim BLE semineri için hazırladığım çalışma ve örnek kodlar; gömülü sistemlerde Bluetooth Low Energy'ye uygulamalı bir giriş.</p>
       <div class="xp-tags"><span class="tag" data-i18n="tag.trainmat">Eğitim Materyali</span></div>
       <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="proj5.a">Repo'yu incele →</a>
     </div>
@@ -972,19 +975,21 @@ window.goatcounter = {
 
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7.5s;animation-delay:-3s" d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
 
-<section id="egitimler">
-  <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
+<!-- Aldigim ogrenim (#egitim) ile verdigim seminerler ayri adlar tasiyor: menude
+     "Egitim" ve "Egitimler" yan yana duruyordu ve hangisinin ne oldugu anlasilmiyordu. -->
+<section id="seminerler">
+  <div class="sec-head"><h2 data-i18n="sec.edu">Seminerler</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
   <div class="proj-grid">
     <div class="proj">
       <div class="ref" data-i18n="edu1.ref">CSCON'25 · GAZİ ÜNİVERSİTESİ · ANKARA</div>
       <h3 data-i18n="edu1.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
-      <p data-i18n="edu1.p">IEEE CSCON'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'nin temelleri ve gömülü sistemlerde kullanımı. Eğitimin örnek kodları GitHub'da herkese açık.</p>
-      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="edu1.a">Eğitim materyalleri →</a>
+      <p data-i18n="edu1.p">IEEE CSCON'25 kapsamında gönüllü olarak verdiğim seminer: BLE'nin temelleri ve gömülü sistemlerde kullanımı. Seminerin örnek kodları GitHub'da herkese açık.</p>
+      <a href="https://github.com/cemalkor/IEEE-CSCON-25-Ble" target="_blank" rel="noopener" data-i18n="edu1.a">Seminer materyalleri →</a>
     </div>
     <div class="proj">
       <div class="ref" data-i18n="edu2.ref">VES'25 · ANKARA BİLİM ÜNİVERSİTESİ · ANKARA</div>
       <h3 data-i18n="edu2.h">Gömülü Sistemlerde Bluetooth Low Energy</h3>
-      <p data-i18n="edu2.p">VES'25 kapsamında gönüllü olarak verdiğim eğitim: BLE'yi sahada geliştirdiğim gerçek ürünlerden örneklerle anlattım.</p>
+      <p data-i18n="edu2.p">VES'25 kapsamında gönüllü olarak verdiğim seminer: BLE'yi sahada geliştirdiğim gerçek ürünlerden örneklerle anlattım.</p>
     </div>
   </div>
 </section>
@@ -1053,7 +1058,7 @@ window.goatcounter = {
       <!-- href'i applyLang() dile göre ayarlıyor -->
       <a id="rss-link" href="/feed.xml">RSS</a>
     </div>
-    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle, özellikle konami şifresini!<br>// Gizlemezsen herkes şunları buldum diye yazar sonra!!!</p>
+    <p class="foot-egg-note" data-i18n="foot.egg">// TODO: sitedeki easter egg'leri gizle!</p>
     <div class="foot-bottom">
       <span class="easter-egg-wrap">
         <svg class="wire-svg" viewBox="0 0 32 16" aria-hidden="true">
@@ -1062,7 +1067,7 @@ window.goatcounter = {
           <circle cx="30" cy="8" r="1.5" fill="#fff" class="wire-glow"/>
         </svg>
         <span class="foot-text">
-          © <span id="yil"></span> Cemal Kör · [0.000] system halted. goodbye.
+          © <span id="yil"></span> Cemal Kör · <span data-i18n="foot.rights">Tüm hakları saklıdır.</span>
           <svg class="arc-over-text" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true">
             <path class="arc-path" d="M 0 12 L 10 5 L 20 18 L 30 8 L 45 15 L 60 4 L 75 20 L 90 9 L 100 12" fill="none" stroke="#0ff" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
             <path class="arc-path-2" d="M 0 12 L 15 17 L 25 6 L 40 19 L 55 5 L 70 16 L 85 7 L 100 12" fill="none" stroke="#fff" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
@@ -1172,7 +1177,7 @@ const I18N = {
   'hero.cta':'See my projects','hero.cv':'Download CV ↓',
   'print.role':'Embedded Software Engineer',
   'print.summary':'Summary',
-  'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edudeg':'Education','sec.edu':'Volunteer Trainings',
+  'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edudeg':'Education','sec.edu':'Workshops',
   'edu.gazi':'Faculty of Technology — Electrical & Electronics Engineering (BSc)',
   'edu.lise':'Electrical & Electronics Dept. — Electrical/Electronic Maintenance and Repair Technology',
   'edu.gazi.p':'At the Faculty of Technology I carried on the hands-on grounding I had built in high school, and added the theory on top of it. A family matter meant I had to pause my studies for a while.',
@@ -1199,24 +1204,25 @@ const I18N = {
   'proj4.ref':'REF-004 · OPEN SOURCE',
   'proj4.p':'An open-source AT command library that cuts NB-IoT and GSM modem integration from days down to hours. Drops easily into any project via STM32CubeMX.',
   'proj5.h':'BLE in Embedded Systems',
-  'proj5.p':"The material and sample code I prepared for the BLE training I gave at IEEE CSCON'25; a hands-on introduction to Bluetooth Low Energy in embedded systems.",
+  'proj5.p':"The material and sample code I prepared for the BLE workshop I gave at IEEE CSCON'25; a hands-on introduction to Bluetooth Low Energy in embedded systems.",
   'proj5.a':'Browse the repo →',
   'proj6.ref':'REF-006 · OPEN SOURCE','proj6.h':'Memory Management Libraries',
   'proj6.p':'Open-source C libraries I wrote to solve external flash and EEPROM management once and reuse it in every project: SPI-Flash-Manager and I2C-EEPROM-Manager.',
   'sk.lang':'LANGUAGES','sk.comm':'COMMUNICATION','sk.sys':'SYSTEM','sk.tools':'TOOLS','sk.mod':'MODULES','sk.per':'PERIPHERALS',
   'sk.csharp':'C# (test &amp; UI)','sk.asm':'Assembly → C translation','sk.pic':'PIC 16F / 12F series','sk.lp':'Low-power firmware optimization','sk.touch':'Touch sensing','sk.modular':'Modular firmware architecture','sk.dbg':'Hardware debugging',
   'edu1.ref':"CSCON'25 · GAZİ UNIVERSITY · ANKARA",'edu1.h':'Bluetooth Low Energy in Embedded Systems',
-  'edu1.p':"A volunteer training I gave as part of IEEE CSCON'25: BLE fundamentals and how to use it in embedded systems. The sample code is publicly available on GitHub.",
-  'edu1.a':'Training materials →',
+  'edu1.p':"A volunteer workshop I gave as part of IEEE CSCON'25: BLE fundamentals and how to use it in embedded systems. The sample code is publicly available on GitHub.",
+  'edu1.a':'Workshop materials →',
   'edu2.ref':"VES'25 · ANKARA SCIENCE UNIVERSITY · ANKARA",'edu2.h':'Bluetooth Low Energy in Embedded Systems',
-  'edu2.p':"A volunteer training I gave as part of VES'25: I taught BLE through examples from real products I've built in the field.",
+  'edu2.p':"A volunteer workshop I gave as part of VES'25: I taught BLE through examples from real products I've built in the field.",
   'sec.hobby':'Hobby','hobby.ref':'TECHNOPETTO · PERSONAL WORKSHOP','hobby.h':'Model Robots from Old Electronics',
   'hobby.p':'In my spare time I turn old electronic parts — capacitors, motors, scrap boards — into model robots. The same kind of parts I write firmware for by day become little characters in the evening.',
   'hobby.pin':'Pinterest board →','tag.upcycle':'Upcycling','tag.craft':'Handmade',
   'hobby2.ref':'SMART HOME · HOME LAB','hobby2.h':'Smart Home with Home Assistant',
   'hobby2.p':'My home runs on Home Assistant: everything from lighting to sensors talks over Zigbee. Where off-the-shelf devices fall short, I design and build my own Zigbee devices.',
   'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out.",
-  'foot.egg':"// TODO: hide the easter eggs on this site, especially the konami code!<br>// If you don't, everyone will write me saying they found them!!!"
+  'foot.egg':'// TODO: hide the easter eggs on this site!',
+  'foot.rights':'All rights reserved.'
 };
 const MSG = {
   tr:{

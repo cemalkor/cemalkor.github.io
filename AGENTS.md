@@ -77,6 +77,14 @@ Her görsel/davranışsal değişiklik için:
 `offsetHeight`). Ekran görüntüsü alırken sayfa yumuşak kaydırma (`scroll-behavior:smooth`)
 yüzünden hâlâ hareket hâlinde olabilir — ölçmeden önce oturmasını bekle.
 
+Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
+
+- **Viewport'u yeniden boyutlandırdıktan sonra sayfayı yeniden yükle.** Yoksa `innerWidth`
+  yeni değeri, düzen ise eskisini gösteriyor; ölçümler ve çıpa kaydırması saçmalıyor.
+  Ölçümle ekran görüntüsü çelişiyorsa sebebi budur — sayfayı değil paneli suçla.
+- **Sunucu içeriği önbelleğe alıyor.** Üreteci çalıştırdıktan sonra sayfa eski hâlini
+  gösteriyorsa adrese `?v=<zaman>` ekleyip yeniden yükle.
+
 ## 5. Commit ve push
 
 - **İstenmedikçe commit atma, istenmedikçe push etme.** Bir seferlik izin sonraki
@@ -105,8 +113,12 @@ yüzünden hâlâ hareket hâlinde olabilir — ölçmeden önce oturmasını be
   `html { scroll-padding-top: var(--nav-h) }`. `--nav-h`'yi JS nav'ın ölçülen
   yüksekliğinden hesaplıyor, çünkü menü dar ekranda iki-üç satıra sarıyor. Sabit bir
   piksel değeri yazma.
-- **Menüye yeni bağlantı eklemek bedava değil**: Türkçe etiketler 1080px'lik menü
-  şeridine ancak sığıyor. Ekledikten sonra 1280px'te menünün tek satır kaldığını doğrula.
+- **Menüye yeni bağlantı eklemek bedava değil**: dokuz Türkçe etiket 1080px'lik menü
+  şeridine ancak sığıyor (`.nav-links` boşluğu bu yüzden 22px değil 16px, ~37px pay kalıyor).
+  Ekledikten sonra 1280px'te menünün tek satır kaldığını **ölçerek** doğrula.
+- **"Eğitim" ile "Seminerler" ayrı şeyler**: `#egitim` aldığı öğrenim (okullar),
+  `#seminerler` verdiği gönüllü seminerler. Menüde "Eğitim/Eğitimler" yan yana durunca
+  kimse ayırt edemiyordu; adları bilerek birbirinden uzaklaştırıldı.
 - **Devre yolu ayraçları** (`.sq-divider`) bölümler arasında yeşil/bakır (`.pulse` /
   `.pulse.cu`) sırayla gidiyor. Bölüm ekler veya kaldırırsan sırayı düzelt.
 - **Deneyim → Eğitim** arasında bilerek ayraç yok; boşluk kayıt arası ölçekte tutuldu ki
@@ -115,6 +127,9 @@ yüzünden hâlâ hareket hâlinde olabilir — ölçmeden önce oturmasını be
   Sayfadaki `renderList()` yalnızca etiket filtresinde devreye giriyor ve **birebir aynı
   biçimi** üretmeli — `tools/ortak.ps1` içindeki `BlogKartlariHtml` ile senkron kalmalı,
   yoksa sayfa yüklenince görünüm oynar.
+- **Footer tek kaynaktan**: yazı sayfaları `<footer id="iletisim">` bloğunu `index.html`'den
+  olduğu gibi alıyor (eskiden elle yazılmış, sadece bağlantılardan oluşan ayrı bir sürümü
+  vardı). Footer'ı `index.html`'de düzenle, üreteci çalıştır; her sayfada aynı olur.
 - **Terminal** (hero'daki `#term-in`) gerçek bir komut satırı; `about`, `help`, easter
   egg'ler var. Sitedeki bilgiyi değiştirirsen terminaldeki karşılığını da güncelle.
 - Sitede easter egg'ler var (konami, pil/uyku modu, keşif rozeti). Bilmeden kırma.

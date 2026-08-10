@@ -213,6 +213,9 @@ $indexHtml = Get-Content -Raw -Encoding UTF8 $indexYol
 $CSS     = (BlokAl $indexHtml '(?sm)^<style>(.*?)\r?\n</style>' '<style> blogu').Trim()
 $DEVRE   = BlokAl $indexHtml '(?sm)^<svg class="bg-circuit".*?\r?\n</svg>' 'arka plan SVG''si'
 $NAV_HAM = BlokAl $indexHtml '(?sm)^<nav>\r?\n\s*<div class="nav-in">.*?\r?\n</nav>' 'ust menu'
+# Footer da tek kaynaktan: yazi sayfalarinda eskiden elle yazilmis sade bir surumu vardi
+# (yalniz baglantilar), ana sayfadakiyle ayni degildi. Artik ikisi ayni.
+$FOOT_HAM = BlokAl $indexHtml '(?sm)^<footer id="iletisim">.*?\r?\n</footer>' 'footer'
 $I18N    = I18NOku $indexHtml
 
 # Yanlis yeri kesmek sessizce bozuk sayfa uretiyor; boyut sinirlari bunu erken yakalasin.
@@ -232,6 +235,17 @@ function NavUret($dil) {
   # Dugmenin kendisi <button> kaliyor, hedefi sayfa sonundaki JS bagliyor (ana sayfadaki gibi).
   if ($dil -eq "en") { $n = $n -replace '(<button id="lang-btn"[^>]*>)EN(</button>)', '$1TR$2' }
   $n
+}
+
+# Footer ana sayfadakinin aynisi. Iki fark var: RSS baglantisinin adresini ana sayfada
+# applyLang() ayarliyor, burada dogrudan yaziliyor; "iletisim" capasi da bu sayfada
+# footer'in kendisi oldugu icin oldugu gibi kaliyor.
+function FooterUret($dil) {
+  $f = $FOOT_HAM
+  if ($dil -eq "en") { $f = (I18NUygula $f $I18N).html }
+  $besleme = if ($dil -eq "en") { "/feed.en.xml" } else { "/feed.xml" }
+  $f = $f -replace '(<a id="rss-link" href=")[^"]*(")', "`${1}$besleme`${2}"
+  $f
 }
 
 Write-Host "$($yazilar.Count) yazi, $($CSS.Length) karakter CSS, $($I18N.Count) ceviri anahtari."
@@ -302,7 +316,6 @@ function SayfaUret($y, $dil, $indeks) {
   $htmlDil    = if ($dil -eq "en") { "en" } else { "tr" }
   $ogLocale   = if ($dil -eq "en") { "en_US" } else { "tr_TR" }
   $ogAlt      = if ($dil -eq "en") { "tr_TR" } else { "en_US" }
-  $feed       = if ($dil -eq "en") { "/feed.en.xml" } else { "/feed.xml" }
   $digerDil   = if ($dil -eq "en") { "tr" } else { "en" }
   $digerUrl   = YaziYolu $y.slug $digerDil
 
@@ -389,18 +402,19 @@ $govde</article>$nav
 </section>
 </main>
 
-<footer id="iletisim">
-  <div class="foot-in">
-    <div class="foot-links">
-      <a href="mailto:cemalkor94@gmail.com">cemalkor94@gmail.com</a>
-      <a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="me noopener">LinkedIn</a>
-      <a href="https://github.com/cemalkor" target="_blank" rel="me noopener">GitHub</a>
-      <a href="$feed">RSS</a>
-    </div>
-  </div>
-</footer>
+$(FooterUret $dil)
 
 <script>
+document.getElementById('yil').textContent = new Date().getFullYear();
+/* footer kivilcimi: masaustunde CSS :hover hallediyor, mobilde dokunusla tetikleniyor.
+   Ana sayfadaki surumden farki, kesif rozeti sayaci burada yok. */
+const footEl = document.querySelector('footer');
+footEl.addEventListener('touchstart', () => {
+  if(footEl.classList.contains('sparking')) return;
+  footEl.classList.add('sparking');
+  setTimeout(() => footEl.classList.remove('sparking'), 1200);
+}, {passive:true});
+
 /* tema, dil, menu ve kod kopyalama — ana sayfadaki karsiliklarinin sade hali */
 document.getElementById('tema-btn').addEventListener('click', ()=>{
   const koyu = document.documentElement.dataset.theme === 'dark';

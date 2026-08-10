@@ -126,9 +126,9 @@ giriyor ve aynı biçimi üretiyor — biri değişirse diğeri de değişmeli
 (`tools/ortak.ps1` → `BlogKartlariHtml`).
 
 **Site metnini `index.html` içinde değiştirdiysen de bu komutu çalıştır** — yoksa `en/index.html`
-eski metinde kalır. Aynı şekilde tema/renk/menü değişikliğinden sonra da: yazı sayfaları
-`index.html`'den **CSS'i, üst menüyü ve arka plandaki devre yollarını** olduğu gibi alıyor, tek
-kaynak orası. Menü çıpaları yazı sayfasında ana sayfaya çevriliyor (`#projeler` → `/#projeler`).
+eski metinde kalır. Aynı şekilde tema/renk/menü/footer değişikliğinden sonra da: yazı sayfaları
+`index.html`'den **CSS'i, üst menüyü, footer'ı ve arka plandaki devre yollarını** olduğu gibi
+alıyor, tek kaynak orası. Menü çıpaları yazı sayfasında ana sayfaya çevriliyor (`#projeler` → `/#projeler`).
 
 ⚠️ `index.html`'in CSS'inde veya JS'inde **yorum içine `<nav>` gibi düz etiket yazma** — üreteç
 menüyü ve arka plan SVG'sini metin araması ile buluyor, yoruma takılıp yanlış yeri kesiyor. Bir kez
