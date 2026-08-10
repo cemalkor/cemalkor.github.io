@@ -7,7 +7,8 @@
 <meta name="description" content="Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.">
 <meta name="author" content="Cemal Kör">
 
-<!-- kanonik adres ve dil alternatifleri: TR kök adreste, EN ?lang=en üzerinde (updateMeta() route'a göre günceller) -->
+<!-- kanonik adres ve dil alternatifleri: TR kök adreste, EN /en/ altında. Statik: iki dil iki
+     ayrı dosya, JS bu etiketlere dokunmuyor (EN sürümü tools/en-sayfa-uret.ps1 üretiyor). -->
 <link rel="canonical" href="https://cemalkor.com.tr/">
 <link rel="alternate" hreflang="tr" href="https://cemalkor.com.tr/">
 <link rel="alternate" hreflang="en" href="https://cemalkor.com.tr/en/">
@@ -546,10 +547,11 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 })();
 </script>
 <script>
-/* GoatCounter ziyaretçi sayacı: ?yazi= ve ?lang= rotaları ayrı sayfa olarak sayılsın
-   (sayfa içi geçişleri sayan sayfaSay() aşağıdaki ana script'te) */
+/* GoatCounter ziyaretçi sayacı. Hash bilerek dışarıda: her sayfa artık gerçek bir dosya,
+   #projeler gibi bölüm çıpaları ayrı sayfa değil. Eskiden hash de sayılıyordu ve tek bir
+   ziyaret, gezilen her bölüm için ayrı satır açıp sayıları şişiriyordu. */
 window.goatcounter = {
-  path: function(p){ return location.pathname + location.search + location.hash }
+  path: function(p){ return location.pathname + location.search }
 };
 </script>
 <script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
@@ -974,10 +976,6 @@ window.goatcounter = {
   <div class="sec-head"><h2>Blog</h2><span class="pin" aria-hidden="true" data-pin="posts.a"></span></div>
   <div id="etiket-bar" class="etiket-bar" role="group" aria-label="Etiket filtresi" hidden></div>
   <div id="blog-list"></div>
-  <div id="post-view">
-    <a class="back-btn" id="geri-btn" href="/" data-i18n="blog.back">← Tüm yazılar</a>
-    <article id="post-content"></article>
-  </div>
 </section>
 
 </main>
@@ -1145,7 +1143,6 @@ const I18N = {
   'hobby.pin':'Pinterest board →','tag.upcycle':'Upcycling','tag.craft':'Handmade',
   'hobby2.ref':'SMART HOME · HOME LAB','hobby2.h':'Smart Home with Home Assistant',
   'hobby2.p':'My home runs on Home Assistant: everything from lighting to sensors talks over Zigbee. Where off-the-shelf devices fall short, I design and build my own Zigbee devices.',
-  'blog.back':'← All posts',
   'foot.h2':'Contact','foot.p':"If you'd like to talk smart meters, low-power IoT or embedded systems, feel free to reach out.",
   'foot.egg':"// TODO: hide the easter eggs on this site, especially the konami code!<br>// If you don't, everyone will write me saying they found them!!!"
 };
@@ -1155,29 +1152,21 @@ const MSG = {
     desc:'Cemal Kör — Akıllı sayaçlar, düşük güç tüketimli IoT cihazlar, Sigfox, BLE ve NB-IoT üzerine uzman gömülü yazılım mühendisi. Ankara, Türkiye.',
     empty:'Henüz yazı yok. İlk yazını eklemek için <code>posts/</code> klasörüne bir <code>.md</code> dosyası koyup <code>posts.json</code>\'a bir satır ekle.',
     loadErr:'⚠ Yazılar yüklenemedi. Bu site bir sunucu üzerinden (ör. GitHub Pages) açıldığında blog otomatik çalışır. Bilgisayarında denemek için klasörde <code>python -m http.server</code> çalıştırıp <code>localhost:8000</code> adresini aç.',
-    postErr:'Yazı yüklenemedi.',
-    dk:'dk okuma', tumu:'Tümü', etiketBos:'Bu etikette yazı yok.',
-    onceki:'← Önceki yazı', sonraki:'Sonraki yazı →',
-    kopyala:'kopyala', kopyalandi:'kopyalandı ✓', kopyaHata:'kopyalanamadı'
+    dk:'dk okuma', tumu:'Tümü', etiketBos:'Bu etikette yazı yok.'
   },
   en:{
     docTitle:'Cemal Kör — Embedded Software Engineer',
     desc:'Cemal Kör — Embedded software engineer specializing in smart meters, low-power IoT devices, Sigfox, BLE and NB-IoT. Ankara, Türkiye.',
     empty:'No posts yet.',
     loadErr:'⚠ Posts could not be loaded. The blog works automatically when the site is served over HTTP (e.g. GitHub Pages).',
-    postErr:'Could not load this post.',
-    dk:'min read', tumu:'All', etiketBos:'No posts with this tag.',
-    onceki:'← Previous post', sonraki:'Next post →',
-    kopyala:'copy', kopyalandi:'copied ✓', kopyaHata:'copy failed'
+    dk:'min read', tumu:'All', etiketBos:'No posts with this tag.'
   }
 };
 /* ---------- adres şeması: TR kök adreste, EN ?lang=en üzerinde, yazılar ?yazi=slug ----------
    Her dil ve yazı kendi adresine sahip olsun diye dil URL'den okunuyor. Tarayıcı diline göre
    otomatik seçim bilinçli olarak yok: Googlebot'un dili en-US olduğu için kök adres aksi halde
    İngilizce indekslenir ve Türkçe sürüm aramaya hiç çıkmazdı. */
-const SITE = 'https://cemalkor.com.tr';
 function urlParams(){ return new URLSearchParams(location.search); }
-function aktifSlug(){ return urlParams().get('yazi') || ''; }
 function cozDil(){
   /* İngilizce ana sayfa artık /en/ altında gerçek bir dosya; dili adres belirliyor */
   if(location.pathname.indexOf('/en/') === 0) return 'en';
@@ -1185,12 +1174,9 @@ function cozDil(){
   if(p === 'en' || p === 'tr') return p;
   return localStorage.getItem('lang') === 'en' ? 'en' : 'tr';   /* Googlebot'ta localStorage yok → kök adres hep TR */
 }
-function rotaUrl(slug, dil){
-  /* yazılar artık kendi sayfasında; slug verilen çağrılar oraya gider */
-  if(slug) return yaziUrl(slug, dil);
-  return dil === 'en' ? '/en/' : '/';
-}
-/* tools/yazi-sayfa-uret.ps1 aynı şemayı üretiyor — biri değişirse diğeri de değişmeli */
+/* Adres şeması — tools/yazi-sayfa-uret.ps1 ve tools/en-sayfa-uret.ps1 aynısını üretiyor;
+   biri değişirse diğerleri de değişmeli. */
+function anaUrl(dil){ return dil === 'en' ? '/en/' : '/'; }
 function yaziUrl(slug, dil){ return '/blog/' + slug + (dil === 'en' ? '/en/' : '/'); }
 let lang = cozDil();
 /* Kayıtlı tercih EN ise İngilizce sayfaya geç. Adresi history ile değiştirmek yetmiyor:
@@ -1215,7 +1201,7 @@ function applyLang(){
 document.getElementById('lang-btn').addEventListener('click', ()=>{
   const yeni = lang==='en' ? 'tr' : 'en';
   localStorage.setItem('lang', yeni);
-  location.href = rotaUrl(aktifSlug(), yeni) + location.hash;
+  location.href = anaUrl(yeni) + location.hash;
 });
 applyLang();
 
@@ -1830,9 +1816,10 @@ document.addEventListener('touchend', e => {
 }, {passive:true});
 
 /* ---------- blog motoru ---------- */
+/* Bu script yalnızca ana sayfayı çalıştırıyor: yazı listesi ve etiket filtresi.
+   Yazının kendisi /blog/slug/ altında statik sayfa (tools/yazi-sayfa-uret.ps1), burada
+   render edilmiyor — o yüzden markdown çevirici, yazı görünümü ve SPA gezinmesi yok. */
 const listEl = document.getElementById('blog-list');
-const viewEl = document.getElementById('post-view');
-const contentEl = document.getElementById('post-content');
 const etiketBarEl = document.getElementById('etiket-bar');
 let posts = [];
 /* okuma süreleri posts.json'da değil ayrı ve ÜRETİLEN dosyada: posts.json elle yazılıyor,
@@ -1840,119 +1827,17 @@ let posts = [];
 let okuma = {};
 let aktifEtiket = '';   /* '' = tümü; sadece bellekte, adrese yazılmıyor */
 
-/* marked yalnızca bir yazı açılınca indirilir — ana sayfayı açan ziyaretçi bu ~40 KB'ı hiç çekmez */
-let markedSozu = null;
-function loadMarked(){
-  if(window.marked) return Promise.resolve();
-  if(!markedSozu) markedSozu = new Promise((tamam, hata)=>{
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js';
-    s.onload = tamam;
-    s.onerror = ()=>{ markedSozu = null; hata(new Error('marked yüklenemedi')); };
-    document.head.appendChild(s);
-  });
-  return markedSozu;
-}
-
-/* ---------- SEO: başlık, açıklama, canonical, hreflang ve paylaşım kartı adrese göre güncellenir ---------- */
-function metaBilgi(){
-  const slug = aktifSlug();
-  const p = slug ? posts.find(x => x.slug === slug) : null;
-  if(!p) return {slug:'', post:null, title:MSG[lang].docTitle, desc:MSG[lang].desc};
-  const baslik = (lang==='en' && p.title_en) ? p.title_en : p.title;
-  const ozet   = (lang==='en' && p.summary_en) ? p.summary_en : (p.summary || '');
-  return {slug, post:p, title:`${baslik} — Cemal Kör`, desc:ozet || MSG[lang].desc};
-}
-
-function metaYaz(sec, deger){
-  const el = document.head.querySelector(sec);
-  if(el) el.setAttribute('content', deger);
-}
-
-function yaziLd(p, url){
-  let el = document.getElementById('ld-yazi');
-  if(!p){ if(el) el.remove(); return; }
-  if(!el){
-    el = document.createElement('script');
-    el.type = 'application/ld+json';
-    el.id = 'ld-yazi';
-    document.head.appendChild(el);
-  }
-  el.textContent = JSON.stringify({
-    '@context':'https://schema.org',
-    '@type':'BlogPosting',
-    headline: (lang==='en' && p.title_en) ? p.title_en : p.title,
-    description: (lang==='en' && p.summary_en) ? p.summary_en : (p.summary || ''),
-    datePublished: p.date,
-    dateModified: p.date,
-    inLanguage: lang==='en' ? 'en' : 'tr-TR',
-    keywords: (p.tags || []).join(', '),
-    url: url,
-    mainEntityOfPage: {'@type':'WebPage','@id':url},
-    author: {'@id': SITE + '/#cemalkor'},
-    publisher: {'@id': SITE + '/#cemalkor'},
-    image: SITE + '/og.png'
-  });
-}
-
-function updateMeta(){
-  const m = metaBilgi();
-  const url = SITE + rotaUrl(m.slug, lang);
-  document.title = m.title;
-  metaYaz('meta[name="description"]', m.desc);
-  document.head.querySelector('link[rel="canonical"]').setAttribute('href', url);
-  document.head.querySelector('link[hreflang="tr"]').setAttribute('href', SITE + rotaUrl(m.slug, 'tr'));
-  document.head.querySelector('link[hreflang="en"]').setAttribute('href', SITE + rotaUrl(m.slug, 'en'));
-  document.head.querySelector('link[hreflang="x-default"]').setAttribute('href', SITE + rotaUrl(m.slug, 'tr'));
-  metaYaz('meta[property="og:type"]', m.post ? 'article' : 'profile');
-  metaYaz('meta[property="og:title"]', m.title);
-  metaYaz('meta[property="og:description"]', m.desc);
-  metaYaz('meta[property="og:url"]', url);
-  metaYaz('meta[property="og:locale"]', lang==='en' ? 'en_US' : 'tr_TR');
-  metaYaz('meta[property="og:locale:alternate"]', lang==='en' ? 'tr_TR' : 'en_US');
-  metaYaz('meta[name="twitter:title"]', m.title);
-  metaYaz('meta[name="twitter:description"]', m.desc);
-  yaziLd(m.post, url);
-}
-
-/* ---------- sayfa içi gezinme: adres değişir, sayfa yeniden yüklenmez ---------- */
-let sonSayilanYol = location.pathname + location.search + location.hash;
-function sayfaSay(){
-  const yol = location.pathname + location.search + location.hash;
-  if(yol === sonSayilanYol) return;
-  sonSayilanYol = yol;
-  if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: yol});
-}
-
-function git(url){
-  history.pushState(null, '', url);
-  renderRoute();
-  sayfaSay();
-}
-
-/* kartlar ve geri linki gerçek <a> — crawler takip eder, kullanıcıda SPA gibi çalışır */
-document.addEventListener('click', e=>{
-  if(e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-  const a = e.target.closest('a.post-card, a.back-btn, a.post-nav-link');
-  if(!a) return;
-  e.preventDefault();
-  git(a.getAttribute('href'));
-});
-
-window.addEventListener('popstate', ()=>{
-  const yeniDil = cozDil();
-  if(yeniDil !== lang){ lang = yeniDil; applyLang(); terminalSifirla(); }
-  renderRoute();
-  sayfaSay();
-});
-window.addEventListener('hashchange', sayfaSay);
+/* Başlık, açıklama, canonical, hreflang ve paylaşım kartı artık JS ile güncellenmiyor:
+   TR ve EN iki ayrı statik dosya, her biri kendi doğru head'iyle geliyor (index.html ve
+   tools/en-sayfa-uret.ps1'in ürettiği en/index.html). Yazı sayfaları da öyle.
+   Blog kartları gerçek <a> — tıklama yakalanmıyor, tarayıcı normal şekilde gidiyor. */
 
 async function loadPosts(){
   try{
     const r = await fetch('/posts/posts.json', {cache:'no-store'});
     if(!r.ok) throw new Error();
     posts = await r.json();
-    renderRoute();
+    renderList();
   }catch(e){
     listEl.innerHTML = `<div class="blog-note">${MSG[lang].loadErr}</div>`;
     return;
@@ -1960,7 +1845,7 @@ async function loadPosts(){
   /* okuma süreleri ayrı ve isteğe bağlı: gelmezse blog aynen çalışır, sadece süre yazmaz */
   try{
     const r = await fetch('/posts/okuma.json', {cache:'no-store'});
-    if(r.ok){ okuma = await r.json(); renderRoute(); }
+    if(r.ok){ okuma = await r.json(); renderList(); }
   }catch(e){ /* sessiz geç */ }
 }
 
@@ -1993,7 +1878,6 @@ etiketBarEl.addEventListener('click', e => {
 });
 
 function renderList(){
-  viewEl.style.display = 'none';
   listEl.style.display = 'grid';
   if(!posts.length){
     etiketBarEl.hidden = true;
@@ -2010,7 +1894,7 @@ function renderList(){
     const sure = okumaMetni(p.slug);
     const meta = [p.date, (p.tags||[]).join(' · '), sure].filter(Boolean).join(' · ');
     return `
-    <a class="post-card" href="${rotaUrl(p.slug, lang)}">
+    <a class="post-card" href="${yaziUrl(p.slug, lang)}">
       <div class="meta">${meta}</div>
       <h3>${baslikOf(p)}</h3>
       <p>${(lang==='en' && p.summary_en) ? p.summary_en : (p.summary||'')}</p>
@@ -2018,104 +1902,6 @@ function renderList(){
   }).join('');
 }
 
-/* yazılar yeniden eskiye sıralı: önceki = daha eski (sonraki indeks), sonraki = daha yeni */
-function postNavHtml(slug){
-  const i = posts.findIndex(x => x.slug === slug);
-  if(i === -1) return '';
-  const yeni = posts[i-1], eski = posts[i+1];
-  if(!yeni && !eski) return '';
-  const kart = (p, sinif, yon) => p
-    ? `<a class="post-nav-link ${sinif}" href="${rotaUrl(p.slug, lang)}"><span class="yon">${yon}</span><span class="ad">${baslikOf(p)}</span></a>`
-    : '';
-  return `<nav class="post-nav">${kart(eski, 'onceki', MSG[lang].onceki)}${kart(yeni, 'sonraki', MSG[lang].sonraki)}</nav>`;
-}
-
-/* Pano yazımı: modern API izin ister ve belge odakta değilse reddeder. Reddedilirse
-   seçim + execCommand ile yazıyoruz — eski ama izinsiz çalışıyor. İkisi de olmazsa false. */
-async function panoyaYaz(metin){
-  try{
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(metin);
-      return true;
-    }
-  }catch(e){ /* yedek yola düş */ }
-  try{
-    const ta = document.createElement('textarea');
-    ta.value = metin;
-    ta.setAttribute('readonly', '');
-    ta.style.cssText = 'position:fixed;top:0;left:-9999px;opacity:0';
-    document.body.appendChild(ta);
-    ta.select();
-    const oldu = document.execCommand('copy');
-    ta.remove();
-    return oldu;
-  }catch(e){ return false; }
-}
-
-/* her kod bloğuna kopyala butonu; pre'yi sarmalayıp butonu sarmalayıcıya koyuyoruz ki
-   uzun satırlarda yatay kaydırma butonu ekrandan kaçırmasın */
-function kodKopyalaEkle(){
-  contentEl.querySelectorAll('pre').forEach(pre => {
-    if(pre.parentElement.classList.contains('kod-sar')) return;
-    const sar = document.createElement('div');
-    sar.className = 'kod-sar';
-    pre.parentNode.insertBefore(sar, pre);
-    sar.appendChild(pre);
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'kod-kopyala';
-    btn.textContent = MSG[lang].kopyala;
-    btn.addEventListener('click', async () => {
-      const oldu = await panoyaYaz(pre.innerText);
-      btn.textContent = oldu ? MSG[lang].kopyalandi : MSG[lang].kopyaHata;
-      btn.classList.toggle('ok', oldu);
-      setTimeout(() => { btn.textContent = MSG[lang].kopyala; btn.classList.remove('ok'); }, 1600);
-    });
-    sar.appendChild(btn);
-  });
-}
-
-async function renderPost(slug){
-  const p = posts.find(x => x.slug === slug);
-  /* olmayan yazı: adresi listeye çevir, 404 gibi boş sayfa bırakma */
-  if(!p){ history.replaceState(null, '', rotaUrl('', lang)); renderList(); updateMeta(); return; }
-  document.getElementById('geri-btn').setAttribute('href', rotaUrl('', lang));
-  listEl.style.display = 'none';
-  etiketBarEl.hidden = true;
-  viewEl.style.display = 'block';
-  try{
-    const file = (lang==='en' && p.file_en) ? p.file_en : p.file;
-    const [r] = await Promise.all([fetch(`/posts/${file}`, {cache:'no-store'}), loadMarked()]);
-    if(!r.ok) throw new Error();
-    const sure = okumaMetni(p.slug);
-    const ust = `<div class="post-meta">${[p.date, (p.tags||[]).join(' · '), sure].filter(Boolean).join(' · ')}</div>`;
-    contentEl.innerHTML = ust + marked.parse(await r.text());
-    kodKopyalaEkle();
-    postNavYaz(slug);
-    document.getElementById('blog').scrollIntoView();
-  }catch(e){
-    contentEl.innerHTML = `<p>${MSG[lang].postErr}</p>`;
-    postNavYaz(null);
-  }
-}
-
-/* önceki/sonraki bloğu article'ın dışında duruyor — post-content'in kart zemini onu sarmasın */
-function postNavYaz(slug){
-  const eski = viewEl.querySelector('.post-nav');
-  if(eski) eski.remove();
-  if(!slug) return;
-  const html = postNavHtml(slug);
-  if(html) viewEl.insertAdjacentHTML('beforeend', html);
-}
-
-function renderRoute(){
-  const slug = aktifSlug();
-  /* yazılar henüz yüklenmediyse listede kal; loadPosts bitince renderRoute tekrar çağrılıyor */
-  if(slug && posts.length) renderPost(slug);
-  else renderList();
-  updateMeta();
-}
-updateMeta();
 loadPosts();
 </script>
 </body>
