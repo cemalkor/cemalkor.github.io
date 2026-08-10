@@ -379,7 +379,7 @@ $(NavUret $dil)
 <main>
 <section id="blog">
   <div id="post-view">
-    <a class="back-btn" href="$(if ($dil -eq 'en') { '/en/' } else { '/' })">$(Kacir $t.geri)</a>
+    <a class="back-btn" href="$(if ($dil -eq 'en') { '/en/#blog' } else { '/#blog' })">$(Kacir $t.geri)</a>
     <article id="post-content">
 <div class="post-meta">$(Kacir $meta)</div>
 $govde</article>$nav

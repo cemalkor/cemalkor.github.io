@@ -1875,12 +1875,25 @@ let aktifEtiket = '';   /* '' = tümü; sadece bellekte, adrese yazılmıyor */
    tools/en-sayfa-uret.ps1'in ürettiği en/index.html). Yazı sayfaları da öyle.
    Blog kartları gerçek <a> — tıklama yakalanmıyor, tarayıcı normal şekilde gidiyor. */
 
+/* Sayfaya /#blog ile gelindiğinde (yazı sayfasındaki "Tüm yazılar" bağlantısı böyle geliyor)
+   tarayıcı hedefe kartlar basılmadan zıplıyor: belge o an blog listesi kadar kısa olduğu için
+   istenen konuma inemiyor, hedefin yukarısında kalıyor. Liste dolunca bir kez daha hizalıyoruz.
+   Kullanıcı bu arada kendi kaydırdıysa yerini çalmıyoruz. */
+let kullaniciKaydirdi = false;
+['wheel','touchmove','keydown'].forEach(olay =>
+  addEventListener(olay, () => { kullaniciKaydirdi = true; }, {once:true, passive:true}));
+function blogaHizala(){
+  if(kullaniciKaydirdi || location.hash !== '#blog') return;
+  document.getElementById('blog').scrollIntoView({behavior:'auto'});
+}
+
 async function loadPosts(){
   try{
     const r = await fetch('/posts/posts.json', {cache:'no-store'});
     if(!r.ok) throw new Error();
     posts = await r.json();
     renderList();
+    blogaHizala();
   }catch(e){
     listEl.innerHTML = `<div class="blog-note">${MSG[lang].loadErr}</div>`;
     return;
@@ -1888,7 +1901,7 @@ async function loadPosts(){
   /* okuma süreleri ayrı ve isteğe bağlı: gelmezse blog aynen çalışır, sadece süre yazmaz */
   try{
     const r = await fetch('/posts/okuma.json', {cache:'no-store'});
-    if(r.ok){ okuma = await r.json(); renderList(); }
+    if(r.ok){ okuma = await r.json(); renderList(); blogaHizala(); }
   }catch(e){ /* sessiz geç */ }
 }
 

@@ -596,12 +596,12 @@ window.goatcounter = {
         {
           "@type": "CollegeOrUniversity",
           "name": "Gazi Üniversitesi",
-          "department": "Faculty of Technology, Electrical and Electronics Engineering"
+          "department": "Teknoloji Fakültesi, Elektrik ve Elektronik Mühendisliği"
         },
         {
           "@type": "HighSchool",
           "name": "Selçuklu Teknik Lise",
-          "department": "Electrical and Electronics Department"
+          "department": "Elektrik Elektronik Bölümü"
         }
       ],
       "address": {
@@ -865,13 +865,13 @@ window.goatcounter = {
     <div class="xp-item">
       <div class="xp-date">2012 — 2022</div>
       <h3>Gazi Üniversitesi</h3>
-      <div class="xp-role" data-i18n="edu.gazi">Faculty of Technology — Electrical &amp; Electronics Engineering (BSc)</div>
+      <div class="xp-role" data-i18n="edu.gazi">Faculty of Technology — Electrical & Electronics Engineering (BSc)</div>
       <p data-i18n="edu.gazi.p">At the Faculty of Technology I carried on the hands-on grounding I had built in high school, and added the theory on top of it. A family matter meant I had to pause my studies for a while.</p>
     </div>
     <div class="xp-item">
       <div class="xp-date">2008 — 2012</div>
       <h3>Selçuklu Teknik Lise</h3>
-      <div class="xp-role" data-i18n="edu.lise">Electrical &amp; Electronics Dept. — Electrical/Electronic Maintenance and Repair Technology</div>
+      <div class="xp-role" data-i18n="edu.lise">Electrical & Electronics Dept. — Electrical/Electronic Maintenance and Repair Technology</div>
       <p data-i18n="edu.lise.p">An interest in electronics that began early started to take shape during high school. This is where I took my first step into embedded software, with the PIC16F series.</p>
     </div>
   </div>
@@ -1879,12 +1879,25 @@ let aktifEtiket = '';   /* '' = tümü; sadece bellekte, adrese yazılmıyor */
    tools/en-sayfa-uret.ps1'in ürettiği en/index.html). Yazı sayfaları da öyle.
    Blog kartları gerçek <a> — tıklama yakalanmıyor, tarayıcı normal şekilde gidiyor. */
 
+/* Sayfaya /#blog ile gelindiğinde (yazı sayfasındaki "Tüm yazılar" bağlantısı böyle geliyor)
+   tarayıcı hedefe kartlar basılmadan zıplıyor: belge o an blog listesi kadar kısa olduğu için
+   istenen konuma inemiyor, hedefin yukarısında kalıyor. Liste dolunca bir kez daha hizalıyoruz.
+   Kullanıcı bu arada kendi kaydırdıysa yerini çalmıyoruz. */
+let kullaniciKaydirdi = false;
+['wheel','touchmove','keydown'].forEach(olay =>
+  addEventListener(olay, () => { kullaniciKaydirdi = true; }, {once:true, passive:true}));
+function blogaHizala(){
+  if(kullaniciKaydirdi || location.hash !== '#blog') return;
+  document.getElementById('blog').scrollIntoView({behavior:'auto'});
+}
+
 async function loadPosts(){
   try{
     const r = await fetch('/posts/posts.json', {cache:'no-store'});
     if(!r.ok) throw new Error();
     posts = await r.json();
     renderList();
+    blogaHizala();
   }catch(e){
     listEl.innerHTML = `<div class="blog-note">${MSG[lang].loadErr}</div>`;
     return;
@@ -1892,7 +1905,7 @@ async function loadPosts(){
   /* okuma süreleri ayrı ve isteğe bağlı: gelmezse blog aynen çalışır, sadece süre yazmaz */
   try{
     const r = await fetch('/posts/okuma.json', {cache:'no-store'});
-    if(r.ok){ okuma = await r.json(); renderList(); }
+    if(r.ok){ okuma = await r.json(); renderList(); blogaHizala(); }
   }catch(e){ /* sessiz geç */ }
 }
 
