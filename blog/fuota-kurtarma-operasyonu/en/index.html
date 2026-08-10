@@ -148,7 +148,8 @@ body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-fi
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
-.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+/* gap 18px: Eğitim bölümü menüye girince Türkçe etiketler 22px'te tek satıra sığmıyordu */
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}
 .nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
 .nav-links a:hover{color:var(--pcb)}
 .nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
@@ -604,6 +605,7 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
     <div class="nav-links">
       <a href="/en/#hakkimda" data-i18n="nav.about">About</a>
       <a href="/en/#deneyim" data-i18n="nav.xp">Experience</a>
+      <a href="/en/#egitim" data-i18n="nav.edudeg">Education</a>
       <a href="/en/#projeler" data-i18n="nav.proj">Projects</a>
       <a href="/en/#yetkinlikler" data-i18n="nav.skills">Skills</a>
       <a href="/en/#egitimler" data-i18n="nav.edu">Workshops</a>

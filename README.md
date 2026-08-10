@@ -221,13 +221,14 @@ python -m http.server
 
 ## CV'yi değiştirmek
 
-CV'nin içeriği sayfanın kendisi — bölümleri düzenlersen CV de değişir. İki istisna, `index.html` içinde
-`print-only` sınıfıyla işaretli, **yalnızca kâğıtta** görünen bloklar:
+CV'nin içeriği sayfanın kendisi — bölümleri düzenlersen CV de değişir. Tek istisna, `index.html` içinde
+`print-only` sınıfıyla işaretli, **yalnızca kâğıtta** görünen blok:
 
 - **künye** (`.print-head`) — ad, unvan, iletişim satırı. Nav ve terminal kâğıda gitmediği için burada duruyor
-- **Eğitim bölümü** (`#egitim-print`) — sitede ayrı bir "Eğitim" bölümü yok, diploma bilgisi "Hakkımda"
-  metninin içinde geçiyor; ATS ise bunu kendi başlığı altında arıyor. **Yıl bilgisi bilinçli olarak boş** —
-  uydurmamak için eklenmedi; içindeki `xp-date` satırının yorumunu kaldırıp doldurabilirsin
+
+**Eğitim bölümü** (`#egitim`) hem sitede hem CV'de görünür, Deneyim'in hemen altında duruyor
+(Gazi Üniversitesi 2012—2022, Selçuklu Teknik Lise 2008—2012). ATS'ler diploma bilgisini kendi başlığı
+altında aradığı için "Hakkımda" metnindeki cümleden ayrı bir bölüm olarak duruyor.
 
 Yazdırma düzenini denemek için Ctrl+P yeter; tarayıcının önizlemesi son hâli gösteriyor.
 

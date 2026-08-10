@@ -96,7 +96,10 @@
 }
 [data-theme="dark"] .bg-circuit .traces{opacity:.11}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* scroll-padding-top: nav yapışkan, bağlantıyla gelen bölümün başlığı altında kalmasın.
+   Değeri nav'ın gerçek yüksekliğinden JS hesaplıyor (menü dar ekranda iki satıra sarıyor);
+   aşağıdaki 56px yalnızca JS çalışmadan önceki ilk kare için yedek. */
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h,56px)}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
 ::selection{background:var(--pcb);color:var(--btn-ink)}
 
@@ -155,7 +158,8 @@ body > nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-fi
 .nav-in{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-family:var(--mono);font-weight:600;font-size:.95rem;color:var(--ink);text-decoration:none}
 .logo b{color:var(--pcb)}
-.nav-links{display:flex;gap:22px;flex-wrap:wrap}
+/* gap 18px: Eğitim bölümü menüye girince Türkçe etiketler 22px'te tek satıra sığmıyordu */
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}
 .nav-links a{font-family:var(--mono);font-size:.82rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.02em}
 .nav-links a:hover{color:var(--pcb)}
 .nav-links a::before{content:'/';color:var(--copper);margin-right:3px}
@@ -260,6 +264,13 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .xp-tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
 .xp-item .xp-tags{max-width:66ch}
 .tag{font-family:var(--mono);font-size:.7rem;background:var(--mist);border:1px solid var(--line);color:var(--ink-soft);padding:3px 9px;border-radius:4px}
+/* Deneyim → Eğitim: aralarında ayraç yok; boşluğu da bölüm arası (64px) değil, zaman çizelgesi
+   kayıtları arası (30px) ölçekte tutuyoruz ki ikisi tek bir akış gibi okunsun.
+   Yalnızca ekranda: kâğıttaki bölüm boşluklarını @media print belirliyor. */
+@media screen{
+  #deneyim{padding-bottom:32px}
+  #egitim{padding-top:0}
+}
 
 /* ---------- projeler ---------- */
 .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
@@ -578,11 +589,18 @@ window.goatcounter = {
         "@type": "Organization",
         "name": "Inodya Teknoloji San. ve Tic. A.Ş."
       },
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Gazi Üniversitesi",
-        "department": "Elektrik-Elektronik Mühendisliği"
-      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "Gazi Üniversitesi",
+          "department": "Teknoloji Fakültesi, Elektrik ve Elektronik Mühendisliği"
+        },
+        {
+          "@type": "HighSchool",
+          "name": "Selçuklu Teknik Lise",
+          "department": "Elektrik Elektronik Bölümü"
+        }
+      ],
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Ankara",
@@ -705,6 +723,7 @@ window.goatcounter = {
     <div class="nav-links">
       <a href="#hakkimda" data-i18n="nav.about">Hakkımda</a>
       <a href="#deneyim" data-i18n="nav.xp">Deneyim</a>
+      <a href="#egitim" data-i18n="nav.edudeg">Eğitim</a>
       <a href="#projeler" data-i18n="nav.proj">Projeler</a>
       <a href="#yetkinlikler" data-i18n="nav.skills">Yetkinlikler</a>
       <a href="#egitimler" data-i18n="nav.edu">Eğitimler</a>
@@ -831,7 +850,30 @@ window.goatcounter = {
   </div>
 </section>
 
-<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7s;animation-delay:-2.5s" d="M0,12 H100 V2 H240 V12 H320 V2 H480 V12 H640 V2 H720 V12 H880 V2 H1032"/></svg></div>
+<!-- Deneyim ile Eğitim arasında bilerek ayraç yok: ikisi aynı zaman çizelgesi (.xp) düzenini
+     kullanıyor, aradaki boşluk da daraltıldı; ekranda tek bir akış gibi okunsunlar.
+     Diploma bilgisi "Hakkımda" metninde de geçiyor ama özgeçmiş ayrıştırıcıları (ATS)
+     bunu kendi başlığı altında arıyor; bu yüzden ayrı bölüm. Sitede de, CV çıktısında da görünür.
+     Deneyim'in hemen altında: özgeçmiş sıralamasında beklenen yer burası. -->
+<section id="egitim">
+  <div class="sec-head"><h2 data-i18n="sec.edudeg">Eğitim</h2><span class="pin" aria-hidden="true" data-pin="education.cmake"></span></div>
+  <div class="xp">
+    <div class="xp-item">
+      <div class="xp-date">2012 — 2022</div>
+      <h3>Gazi Üniversitesi</h3>
+      <div class="xp-role" data-i18n="edu.gazi">Teknoloji Fakültesi — Elektrik ve Elektronik Mühendisliği (Lisans)</div>
+      <p data-i18n="edu.gazi.p">Lisede edindiğim pratik birikimi Teknoloji Fakültesi'nde sürdürürken üzerine teorik temeli de koydum. Ailevi bir durum nedeniyle eğitimime bir süre ara vermem gerekti.</p>
+    </div>
+    <div class="xp-item">
+      <div class="xp-date">2008 — 2012</div>
+      <h3>Selçuklu Teknik Lise</h3>
+      <div class="xp-role" data-i18n="edu.lise">Elektrik Elektronik Bölümü — Elektrik/Elektronik Bakımı ve Onarım Teknolojisi</div>
+      <p data-i18n="edu.lise.p">Küçük yaşta başlayan elektronik ilgim lise yıllarında olgunlaşmaya başladı. Gömülü yazılıma ilk adımımı burada, PIC16F serisiyle attım.</p>
+    </div>
+  </div>
+</section>
+
+<div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H120 V12 H260 V2 H400 V12 H540 V2 H680 V12 H820 V2 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:6.5s;animation-delay:-2s" d="M0,2 H120 V12 H260 V2 H400 V12 H540 V2 H680 V12 H820 V2 H1032"/></svg></div>
 
 <section id="projeler">
   <div class="sec-head"><h2 data-i18n="sec.proj">Projeler</h2><span class="pin" aria-hidden="true" data-pin="projects.hex"></span></div>
@@ -916,20 +958,6 @@ window.goatcounter = {
 </section>
 
 <div class="sq-divider"><svg viewBox="0 0 1032 14" preserveAspectRatio="none"><path d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/><path class="pulse" pathLength="1000" style="animation-duration:7.5s;animation-delay:-3s" d="M0,2 H70 V12 H190 V2 H330 V12 H450 V2 H610 V12 H750 V2 H910 V12 H1032"/></svg></div>
-
-<!-- Yalnızca yazdırmada (CV'de) görünür. Sitede ayrı bir "Eğitim" bölümü yok, diploma bilgisi
-     "Hakkımda" metninin içinde geçiyor; ama özgeçmiş ayrıştırıcıları (ATS) bunu kendi başlığı
-     altında arıyor. Yıl eklemek istersen xp-date satırını aç ve doldur. -->
-<section id="egitim-print" class="print-only">
-  <div class="sec-head"><h2 data-i18n="print.edu">Eğitim</h2></div>
-  <div class="xp">
-    <div class="xp-item">
-      <!-- <div class="xp-date">2018 — 2022</div> -->
-      <h3>Gazi Üniversitesi</h3>
-      <div class="xp-role" data-i18n="print.edu.gazi">Elektrik-Elektronik Mühendisliği — Lisans</div>
-    </div>
-  </div>
-</section>
 
 <section id="egitimler">
   <div class="sec-head"><h2 data-i18n="sec.edu">Gönüllü Eğitimler</h2><span class="pin" aria-hidden="true" data-pin="workshops.bin"></span></div>
@@ -1087,6 +1115,15 @@ document.getElementById('cv-btn').addEventListener('click', () => window.print()
 
 /* ---------- mobil nav: aşağı kayarken gizle, yukarı kayarken göster ---------- */
 const navEl = document.querySelector('body > nav');
+
+/* Bağlantıyla bir bölüme atlarken başlık yapışkan nav'ın altında kalmasın diye
+   scroll-padding-top'u nav'ın ölçülen yüksekliğinden besliyoruz: menü dar ekranda
+   iki satıra sardığında yükseklik değişiyor, sabit bir değer tutmuyor. */
+function navYuksekligiOlc(){
+  document.documentElement.style.setProperty('--nav-h', (navEl.offsetHeight + 12) + 'px');
+}
+navYuksekligiOlc();
+window.addEventListener('resize', navYuksekligiOlc, {passive:true});
 const navMobil = window.matchMedia('(max-width:840px)');
 let sonScrollY = window.scrollY;
 window.addEventListener('scroll', () => {
@@ -1098,15 +1135,18 @@ window.addEventListener('scroll', () => {
 
 /* ---------- dil desteği (TR/EN) ---------- */
 const I18N = {
-  'nav.about':'About','nav.xp':'Experience','nav.proj':'Projects','nav.skills':'Skills','nav.edu':'Workshops','nav.hobby':'Hobby','nav.contact':'Contact',
+  'nav.about':'About','nav.xp':'Experience','nav.proj':'Projects','nav.skills':'Skills','nav.edudeg':'Education','nav.edu':'Workshops','nav.hobby':'Hobby','nav.contact':'Contact',
   'hero.eyebrow':'Embedded Software Engineer · Ankara',
   'hero.h1':'I build end-to-end, <span>reliable embedded software</span> solutions for devices in the IoT ecosystem.',
   'hero.sub':'Smart water and gas meters, low-power IoT devices. I build products with battery life measured in years, using Sigfox, BLE and NB-IoT.',
   'hero.cta':'See my projects','hero.cv':'Download CV ↓',
   'print.role':'Embedded Software Engineer',
-  'print.summary':'Summary','print.edu':'Education',
-  'print.edu.gazi':'Electrical & Electronics Engineering — BSc',
-  'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edu':'Volunteer Trainings',
+  'print.summary':'Summary',
+  'sec.about':'About','sec.xp':'Experience','sec.proj':'Projects','sec.skills':'Skills','sec.edudeg':'Education','sec.edu':'Volunteer Trainings',
+  'edu.gazi':'Faculty of Technology — Electrical & Electronics Engineering (BSc)',
+  'edu.lise':'Electrical & Electronics Dept. — Electrical/Electronic Maintenance and Repair Technology',
+  'edu.gazi.p':'At the Faculty of Technology I carried on the hands-on grounding I had built in high school, and added the theory on top of it. A family matter meant I had to pause my studies for a while.',
+  'edu.lise.p':'An interest in electronics that began early started to take shape during high school. This is where I took my first step into embedded software, with the PIC16F series.',
   'about.p1':"From smart meters to medical devices, I bring always-on, real-world systems to life with my software. I hold an Electrical & Electronics Engineering degree from Gazi University, built on a technical high school foundation. That's why I don't stop at writing code — I work with the same competence developing firmware at a desk and tracking down hardware faults behind an oscilloscope.",
   'about.p2':"In the BESoft Teknoloji and Aselsan UGES medical device projects — a defining chapter of my engineering journey — human health was directly on the line. Developing these critical systems where there is no room for error taught me that reliability is more than a technical property; it is an unbreakable promise. The high sense of responsibility and the zero-defect discipline I built there, I carry with me to this day.",
   'about.p3':"I am currently at Inodya Teknoloji, developing smart water and gas meters and delivering technical solutions to our country's water loss problem. Alongside these projects, I carry forward Inodya's human-centered software philosophy — aiming to add value to human lives and our shared future with every line of code I write.",
@@ -1327,7 +1367,8 @@ function komutCalistir(ham){
       satirYaz(`<span class="ok">cemal_kor</span><span class="val"> — ${en ? 'Embedded software engineer' : 'Gömülü yazılım mühendisi'} · Ankara, TR</span>`);
       break;
     case 'about':
-      satirYaz(ozellik('edu:   ', en ? 'Gazi University — Electrical &amp; Electronics Eng.' : 'Gazi Üniversitesi — Elektrik-Elektronik Müh.'));
+      satirYaz(ozellik('edu:   ', en ? 'Gazi University — Electrical &amp; Electronics Eng. (2012—2022)' : 'Gazi Üniversitesi — Elektrik-Elektronik Müh. (2012—2022)'));
+      satirYaz(ozellik('edu:   ', en ? 'Selçuklu Technical High School — Electrical &amp; Electronics (2008—2012)' : 'Selçuklu Teknik Lise — Elektrik Elektronik (2008—2012)'));
       satirYaz(ozellik('work:  ', en ? 'Inodya Teknoloji — smart water &amp; gas meters' : 'Inodya Teknoloji — akıllı su &amp; gaz sayaçları'));
       satirYaz(ozellik('prev:  ', en ? 'Aselsan UGES medical device projects (BESoft)' : 'Aselsan UGES medikal cihaz projeleri (BESoft)'));
       satirYaz(ozellik('focus: ', en ? 'Low-power IoT running for years on one battery' : 'Tek pille yıllarca çalışan düşük güçlü IoT'));
