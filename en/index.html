@@ -1373,6 +1373,21 @@ const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about',
   scotty:'beam', mrspock:'spock', cevap:'42', answer:'42', deepthought:'42', derindusunce:'42',
   panik:'panic', 'dont-panic':'panic', dont:'panic', "don't":'panic', havlu:'towel'};
 
+/* ---------- egg komutlarında sanal klavyeyi kapat ----------
+   Egg'ler ya ekranı kaplıyor (böcek, UFO, matrix, ışınlanma, uyku) ya da keşif rozetini
+   sağ alt köşede gösteriyor — telefonda klavye açıkken ikisi de görünmüyor, egg'i bulan
+   kişi bulduğunu fark etmiyor. Egg komutlarında odağı bırakıp klavyeyi indiriyoruz;
+   sıradan komutlarda (help, about, skills...) klavye açık kalsın ki arka arkaya yazılabilsin.
+   Yalnızca dokunmatikte: fiziksel klavyede odağı almak kullanıcıyı boşuna yavaşlatır. */
+const dokunmatik = window.matchMedia('(hover:none) and (pointer:coarse)');
+function klavyeyiKapat(){
+  if(dokunmatik.matches) termIn.blur();
+}
+/* Terminalden tetiklenen egg'ler. KESIF_EGGLER'den ayrı bir liste: oradaki id'ler konami ve
+   footer kıvılcımı gibi komutla çalışmayan egg'leri de kapsıyor, burada yalnızca komutlar var.
+   'rm' burada yok — sadece -rf ile egg oluyor, klavyeyi rmPanik içinde kapatıyoruz. */
+const EGG_KOMUTLARI = new Set(['disco', 'bug', 'scan', 'matrix', 'beam', '42', 'exit']);
+
 function komutCalistir(ham){
   const girdi = ham.trim();
   if(!girdi){ satirYaz('<span class="ok">$</span>'); return; }
@@ -1383,6 +1398,7 @@ function komutCalistir(ham){
   const hamIlk = girdi.split(/\s+/)[0];
   let kmt = norm.split(/\s+/)[0];
   kmt = takma[kmt] || kmt;
+  if(EGG_KOMUTLARI.has(kmt)) klavyeyiKapat();
   switch(kmt){
     case 'help':
       satirYaz(`<span class="t">${en ? 'Available commands:' : 'Komutlar:'}</span>`);
@@ -1506,6 +1522,8 @@ function rmPanik(norm){
     satirYaz(`<span class="val">rm: ${en ? 'Permission denied — file system is read-only' : 'İzin reddedildi — dosya sistemi salt okunur'}</span>`);
     return;
   }
+  /* buraya kadar geldiyse -rf var, yani egg gerçekten tetiklendi */
+  klavyeyiKapat();
   if(kesifBildir('rm')) return;
   islemde = true;
   const dizinler = ['/bin', '/boot', '/etc', '/home/cemal', '/lib'];

@@ -132,6 +132,9 @@ Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
   vardı). Footer'ı `index.html`'de düzenle, üreteci çalıştır; her sayfada aynı olur.
 - **Terminal** (hero'daki `#term-in`) gerçek bir komut satırı; `about`, `help`, easter
   egg'ler var. Sitedeki bilgiyi değiştirirsen terminaldeki karşılığını da güncelle.
+  Yeni bir egg komutu eklersen `EGG_KOMUTLARI` kümesine de yaz: dokunmatik cihazda o
+  komutlarda sanal klavye indiriliyor, yoksa animasyonu ve sağ alttaki keşif rozetini
+  klavye kapatıyor. Sıradan komutlarda klavye bilerek açık kalıyor.
 - Sitede easter egg'ler var (konami, pil/uyku modu, keşif rozeti). Bilmeden kırma.
 
 ## 8. Yeni blog yazısı ekleme
