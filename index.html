@@ -1259,9 +1259,11 @@ function yaziUrl(slug, dil){ return '/blog/' + slug + (dil === 'en' ? '/en/' : '
 let lang = cozDil();
 /* Kayıtlı tercih EN ise İngilizce sayfaya geç. Adresi history ile değiştirmek yetmiyor:
    iki dil artık iki ayrı dosya, içeriğin gelmesi için gerçek sayfa geçişi gerekiyor.
-   Googlebot'ta localStorage olmadığı için kök adres onda hep TR kalıyor. */
+   Googlebot'ta localStorage olmadığı için kök adres onda hep TR kalıyor.
+   Sorgu dizesi taşınıyor: NFC kartının adresi /?nfc, EN tercihli bir telefonda
+   parametre burada düşerse karşılama mesajı hiç görünmezdi. */
 if(lang === 'en' && location.pathname === '/')
-  location.replace('/en/' + location.hash);
+  location.replace('/en/' + location.search + location.hash);
 
 const trCache = {};
 function applyLang(){
@@ -1279,7 +1281,7 @@ function applyLang(){
 document.getElementById('lang-btn').addEventListener('click', ()=>{
   const yeni = lang==='en' ? 'tr' : 'en';
   localStorage.setItem('lang', yeni);
-  location.href = anaUrl(yeni) + location.hash;
+  location.href = anaUrl(yeni) + location.search + location.hash;
 });
 applyLang();
 
@@ -1731,6 +1733,29 @@ document.querySelector('.terminal').addEventListener('click', () => {
   termIn.focus();
 });
 terminalSifirla();
+
+/* ---------- NFC kartından gelenler: /?nfc ----------
+   Karta yazılı adres bu. Kartı okutan telefonda tarayıcı açılınca iki şey oluyor:
+   terminal ekrana geliyor ve karşılama satırları düşüyor. Sayfanın geri kalanı normal,
+   parametre başka hiçbir şeyi değiştirmiyor; canonical "/" olduğu için arama motorları
+   da bunu ayrı bir sayfa saymıyor.
+   Odağı bilerek almıyoruz: telefonda klavye açılıp tam da göstermek istediğimiz yeri
+   kapatırdı (bkz. EGG_KOMUTLARI'ndaki aynı gerekçe). */
+function nfcKarsila(){
+  if(!urlParams().has('nfc')) return;
+  const en = lang === 'en';
+  satirYaz(`<span class="t">[ NFC ]</span> <span class="val">MIFARE Classic 1K · 13.56 MHz — ${en ? 'link established' : 'bağlantı kuruldu'}</span>`);
+  satirYaz(`<span class="ok">${en ? 'Hello! You tapped the card, so we have met.' : 'Merhaba! Kartı okuttuğuna göre tanışmışız demektir.'}</span>`);
+  satirYaz(`<span class="t">${en ? "This terminal is real — type 'help' and take it from there." : "Bu terminal gerçek — 'help' yaz, gerisi sana kalmış."}</span>`);
+  /* Kaydırma load'dan sonra: script gövdenin sonunda çalışıyor ama tarayıcı yükleme
+     bitince kaydırma konumunu geri alıyor, burada yapılan kaydırma siliniyordu.
+     Terminal zaten tamamen ekrandaysa (masaüstünde hero'nun içinde) dokunmuyoruz. */
+  addEventListener('load', () => {
+    const sar = document.querySelector('.term-wrap');
+    if(sar.getBoundingClientRect().bottom > innerHeight) sar.scrollIntoView({block:'center'});
+  }, {once:true});
+}
+nfcKarsila();
 
 /* ---------- easter egg: bug ---------- */
 function bocekSaldir(){

@@ -127,6 +127,11 @@ Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
   Sayfadaki `renderList()` yalnızca etiket filtresinde devreye giriyor ve **birebir aynı
   biçimi** üretmeli — `tools/ortak.ps1` içindeki `BlogKartlariHtml` ile senkron kalmalı,
   yoksa sayfa yüklenince görünüm oynar.
+- **`/?nfc` fiziksel bir karta yazılı**: Cemal'in dağıttığı NFC kartı bu adrese gidiyor;
+  parametre terminale karşılama satırları düşürüyor ve terminali ekrana getiriyor.
+  **Adı değiştirilemez, kaldırılamaz** — karta yazılan adres sonradan güncellenemiyor,
+  kırılırsa eldeki kartların hepsi ölür. Dil yönlendirmesi ve dil düğmesi `location.search`
+  taşımak zorunda, yoksa EN tercihli telefonda parametre düşüyor.
 - **Footer tek kaynaktan**: yazı sayfaları `<footer id="iletisim">` bloğunu `index.html`'den
   olduğu gibi alıyor (eskiden elle yazılmış, sadece bağlantılardan oluşan ayrı bir sürümü
   vardı). Footer'ı `index.html`'de düzenle, üreteci çalıştır; her sayfada aynı olur.
