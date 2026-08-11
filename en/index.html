@@ -233,6 +233,19 @@ h1 span{color:var(--pcb)}
   60%{opacity:.5;filter:brightness(3) blur(1.4px);transform:translateY(-5px)}
   100%{opacity:0;filter:brightness(4) blur(5px);transform:translateY(-16px)}
 }
+/* NFC karşılaması: terminalin çevresinde konfeti.
+   Parçalar terminalin kenarından doğup dışarı uçuyor — ortadan çıksalar okunan metnin
+   üstünden geçerlerdi. Yatay mesafeyi JS kısıtlıyor: dar ekranda terminal viewport'a
+   yakın duruyor, taşan mutlak konumlu parça yatay kaydırma çubuğu yaratır. */
+.konfeti{position:absolute;inset:0;z-index:12;pointer-events:none}
+.konfeti i{position:absolute;left:50%;top:50%;width:7px;height:12px;border-radius:2px;
+  background:var(--k);opacity:0;
+  animation:konfetiUc var(--sure) cubic-bezier(.15,.65,.35,1) var(--gecikme) forwards}
+@keyframes konfetiUc{
+  0%{opacity:0;transform:translate(calc(-50% + var(--sx)),calc(-50% + var(--sy))) rotate(0)}
+  12%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--sx) + var(--x)),calc(-50% + var(--sy) + var(--y))) rotate(var(--don))}
+}
 /* easter egg: don't panic — kitabın kapağındaki dostça harfler */
 .panik{display:inline-block;color:#E8C48A;font-weight:600;letter-spacing:.22em;animation:panikYanip 1.5s steps(1) 3}
 @keyframes panikYanip{50%{color:var(--term-green)}}
@@ -1745,18 +1758,61 @@ terminalSifirla();
    da bunu ayrı bir sayfa saymıyor.
    Odağı bilerek almıyoruz: telefonda klavye açılıp tam da göstermek istediğimiz yeri
    kapatırdı (bkz. EGG_KOMUTLARI'ndaki aynı gerekçe). */
+function konfetiPatlat(){
+  if(reduced) return;   /* reduced-motion açıkken sitenin geri kalanı gibi sessiz kal */
+  const sar = document.querySelector('.term-wrap');
+  const r = sar.getBoundingClientRect();
+  /* Yatay mesafe, terminalin viewport kenarına olan boşluğuyla sınırlı: taşan parça
+     yatay kaydırma çubuğu yaratıyor. Dikeyde sorun yok — yukarısı kırpılıyor, aşağıda
+     zaten sayfa devam ediyor. */
+  const yatayMax = Math.max(24, Math.min(130, r.left - 8));
+  const kat = document.createElement('div');
+  kat.className = 'konfeti';
+  const renkler = ['var(--pcb)', 'var(--copper)', 'var(--term-green)', '#E8C48A', '#fff'];
+  const adet = 46;
+  for(let i = 0; i < adet; i++){
+    const aci = (Math.PI * 2 * i) / adet + Math.random() * 0.22;
+    const p = document.createElement('i');
+    /* başlangıç noktası: dikdörtgenin kenarı, açıya göre */
+    p.style.setProperty('--sx', (Math.cos(aci) * r.width / 2).toFixed(1) + 'px');
+    p.style.setProperty('--sy', (Math.sin(aci) * r.height / 2).toFixed(1) + 'px');
+    p.style.setProperty('--x', (Math.cos(aci) * (yatayMax * (0.55 + Math.random() * 0.45))).toFixed(1) + 'px');
+    /* +55px: yerçekimi, hepsi sonunda biraz aşağı düşsün */
+    p.style.setProperty('--y', (Math.sin(aci) * (70 + Math.random() * 70) + 55).toFixed(1) + 'px');
+    p.style.setProperty('--don', (Math.random() * 720 - 360).toFixed(0) + 'deg');
+    p.style.setProperty('--sure', (950 + Math.random() * 750).toFixed(0) + 'ms');
+    p.style.setProperty('--gecikme', (Math.random() * 320).toFixed(0) + 'ms');
+    p.style.setProperty('--k', renkler[i % renkler.length]);
+    kat.appendChild(p);
+  }
+  sar.appendChild(kat);
+  setTimeout(() => kat.remove(), 2400);
+}
+
 function nfcKarsila(){
   if(!urlParams().has('nfc')) return;
   const en = lang === 'en';
-  satirYaz(`<span class="t">[ NFC ]</span> <span class="val">MIFARE Classic 1K · 13.56 MHz — ${en ? 'link established' : 'bağlantı kuruldu'}</span>`);
-  satirYaz(`<span class="ok">${en ? 'Hello! You tapped the card, so we have met.' : 'Merhaba! Kartı okuttuğuna göre tanışmışız demektir.'}</span>`);
-  satirYaz(`<span class="t">${en ? "This terminal is real — type 'help' and take it from there." : "Bu terminal gerçek — 'help' yaz, gerisi sana kalmış."}</span>`);
-  /* Kaydırma load'dan sonra: script gövdenin sonunda çalışıyor ama tarayıcı yükleme
-     bitince kaydırma konumunu geri alıyor, burada yapılan kaydırma siliniyordu.
-     Terminal zaten tamamen ekrandaysa (masaüstünde hero'nun içinde) dokunmuyoruz. */
+  const satirlar = en
+    ? ['Card link established...', 'If you tapped the card, we have met.', 'Hope you enjoy the site.']
+    : ['Kart ile bağlantı sağlandı...', 'Kartı okuttuysan tanışmışız demektir.', 'Umarım sitede eğlenirsin.'];
+  const sinif = ['t', 'ok', 'val'];
+
+  /* Her şey load'dan sonra: script gövdenin sonunda çalışıyor ama tarayıcı yükleme bitince
+     kaydırma konumunu geri alıyor, burada yapılan kaydırma siliniyordu. Konfeti de
+     terminalin son yerini bilmeli. Terminal zaten tamamen ekrandaysa (masaüstünde hero'nun
+     içinde) kaydırmıyoruz. */
   addEventListener('load', () => {
     const sar = document.querySelector('.term-wrap');
     if(sar.getBoundingClientRect().bottom > innerHeight) sar.scrollIntoView({block:'center'});
+    setTimeout(() => {
+      konfetiPatlat();
+      /* Satırlar tek tek düşüyor: mesaj "yazılıyormuş" gibi görünsün ve konfetiyle aynı
+         anda aksın. Karakter karakter yazmıyoruz — #term-out aria-live="polite", her
+         karakterde ekran okuyucuya yeni bir bildirim giderdi. */
+      satirlar.forEach((s, i) => {
+        setTimeout(() => satirYaz(`<span class="${sinif[i]}">${kacir(s)}</span>`), i * 620);
+      });
+    }, 420);   /* kaydırma otursun, konfeti doğru konumdan patlasın */
   }, {once:true});
 }
 nfcKarsila();

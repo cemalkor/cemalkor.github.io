@@ -210,6 +210,19 @@ h1 span{color:var(--pcb)}
   60%{opacity:.5;filter:brightness(3) blur(1.4px);transform:translateY(-5px)}
   100%{opacity:0;filter:brightness(4) blur(5px);transform:translateY(-16px)}
 }
+/* NFC karşılaması: terminalin çevresinde konfeti.
+   Parçalar terminalin kenarından doğup dışarı uçuyor — ortadan çıksalar okunan metnin
+   üstünden geçerlerdi. Yatay mesafeyi JS kısıtlıyor: dar ekranda terminal viewport'a
+   yakın duruyor, taşan mutlak konumlu parça yatay kaydırma çubuğu yaratır. */
+.konfeti{position:absolute;inset:0;z-index:12;pointer-events:none}
+.konfeti i{position:absolute;left:50%;top:50%;width:7px;height:12px;border-radius:2px;
+  background:var(--k);opacity:0;
+  animation:konfetiUc var(--sure) cubic-bezier(.15,.65,.35,1) var(--gecikme) forwards}
+@keyframes konfetiUc{
+  0%{opacity:0;transform:translate(calc(-50% + var(--sx)),calc(-50% + var(--sy))) rotate(0)}
+  12%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--sx) + var(--x)),calc(-50% + var(--sy) + var(--y))) rotate(var(--don))}
+}
 /* easter egg: don't panic — kitabın kapağındaki dostça harfler */
 .panik{display:inline-block;color:#E8C48A;font-weight:600;letter-spacing:.22em;animation:panikYanip 1.5s steps(1) 3}
 @keyframes panikYanip{50%{color:var(--term-green)}}
