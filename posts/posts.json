@@ -7,6 +7,7 @@
     "title_en": "Without Breaking the Seal: Closing a Security Hole with FUOTA",
     "date": "2026-08-08",
     "tags": ["FUOTA", "BLE", "Saha"],
+    "tags_en": ["FUOTA", "BLE", "Field"],
     "summary": "Kahve molasında fark ettiğimiz bir güvenlik açığı, sevk edilmiş 1900 cihaz ve açılmamış kutular. Yazarken en sevmediğim kodun beni nasıl kurtardığı, iki bilgisayarın iki ayrı BLE karakteri ve bir öğleden sonrada 160 cihaz.",
     "summary_en": "A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon."
   },
@@ -18,6 +19,7 @@
     "title_en": "printf(\"Hello World\"); — Why Does This Blog Exist?",
     "date": "2026-07-10",
     "tags": ["Genel"],
+    "tags_en": ["General"],
     "summary": "Gömülü sistemler, akıllı sayaçlar ve sahada öğrendiklerim üzerine yazacağım bu blogun açılış yazısı.",
     "summary_en": "The opening post of a blog about embedded systems, smart meters and lessons learned in the field."
   }

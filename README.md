@@ -191,6 +191,7 @@ Bu `feed-uret.ps1` için de geçerli. `favicon.svg` elle yazılmış — ikon mo
   "title_en": "BLE Connection Issues and Fixes",
   "date": "2026-08-01",
   "tags": ["BLE", "STM32"],
+  "tags_en": ["BLE", "STM32"],
   "summary": "Sahada karşılaştığım BLE bağlantı kopmalarının kök nedenleri.",
   "summary_en": "Root causes of the BLE disconnects I ran into in the field."
 }

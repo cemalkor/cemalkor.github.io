@@ -15,7 +15,7 @@
       <description>A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.</description>
       <category>FUOTA</category>
       <category>BLE</category>
-      <category>Saha</category>
+      <category>Field</category>
     </item>
     <item>
       <title>printf(&quot;Hello World&quot;); — Why Does This Blog Exist?</title>
@@ -23,7 +23,7 @@
       <guid isPermaLink="true">https://cemalkor.com.tr/blog/merhaba-dunya/en/</guid>
       <pubDate>Fri, 10 Jul 2026 00:00:00 +0000</pubDate>
       <description>The opening post of a blog about embedded systems, smart meters and lessons learned in the field.</description>
-      <category>Genel</category>
+      <category>General</category>
     </item>
   </channel>
 </rss>

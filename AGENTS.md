@@ -41,8 +41,9 @@ görmezden gelme.
   içindeki `const I18N = {...}` sözlüğünde durur.
 - **Yeni metin eklerken `data-i18n` vermeyi ve sözlüğe İngilizcesini yazmayı unutma.**
   Üreteç "N eleman I18N'de yok (Türkçe kaldı)" diye uyarır — bu sayı **0 olmalı**.
-- Blog kartlarının başlık/özetleri `posts.json`'daki `title_en` / `summary_en` alanlarından
-  gelir, I18N'den değil.
+- Blog kartlarının başlık/özet/etiketleri `posts.json`'daki `title_en` / `summary_en` /
+  `tags_en` alanlarından gelir, I18N'den değil. `tags_en` yoksa Türkçe etiket İngilizce
+  sayfada da öyle kalır — kartta, filtre çipinde, EN beslemede ve JSON-LD keywords'te.
 
 ## 3. Sayfa aynı zamanda CV
 
@@ -87,6 +88,15 @@ Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
 
 ## 5. Commit ve push
 
+- **Önce pull kontrolü, sonra iş.** Dosyaya dokunmadan `git fetch origin` çalıştır, sonra
+  `git rev-list --left-right --count origin/main...main` ile bak. Remote ileriyse **DUR**:
+  kendi başına pull/rebase/merge etme, kullanıcıya söyle, birlikte alın. Sebep: burada
+  `index.html` tek kaynak ve ondan üretilen bir sürü dosya var; bayat bir ağacın üstünde
+  çalışıp üreteci koşturmak remote'daki işi sessizce geri alıyor.
+- **Üretilen dosyayı elle düzeltme — üreteci düzelt.** Yazı sayfalarındaki nav script'i
+  `tools/yazi-sayfa-uret.ps1` içinde yaşıyor; `blog/**/index.html`'e elle yazılan bir
+  düzeltme ilk `feed-uret.ps1` koşusunda geri alınıyor. Önce üretece yaz, sonra üret.
+  (Bir kez oldu: nav esik degeri blog sayfalarina elle girmis, uretece girmemisti.)
 - **İstenmedikçe commit atma, istenmedikçe push etme.** Bir seferlik izin sonraki
   değişikliği kapsamaz; her seferinde sor.
 - Dal: doğrudan `main`. Push GitHub Pages'e deploy demektir.
@@ -111,8 +121,13 @@ Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
 
 - **Yapışkan nav**: bağlantıyla bölüme atlarken başlık menünün altında kalmasın diye
   `html { scroll-padding-top: var(--nav-h) }`. `--nav-h`'yi JS nav'ın ölçülen
-  yüksekliğinden hesaplıyor, çünkü menü dar ekranda iki-üç satıra sarıyor. Sabit bir
+  yüksekliğinden hesaplıyor, çünkü menü dar ekranda birkaç satıra sarıyor. Sabit bir
   piksel değeri yazma.
+- **600px altında logo kendi satırında**: `.nav-in{flex-wrap:wrap}` + `.nav-links{flex-basis:100%}`.
+  Yoksa bağlantılar logonun yanındaki ~200px'e sıkışıyor; şerit 375px'te altı satıra sarıp
+  yapışkan nav ekranın %29'unu yiyor (239px). Bu kuralla üç satır / 157px. Sınır 600px:
+  üstünde bağlantılar logonun yanında zaten daha kısa duruyor, erken uygularsan logo
+  satırı boşuna yer alıyor. Dokunursan 320/375/480/640'ta ölçerek doğrula.
 - **Menüye yeni bağlantı eklemek bedava değil**: dokuz Türkçe etiket 1080px'lik menü
   şeridine ancak sığıyor (`.nav-links` boşluğu bu yüzden 22px değil 16px, ~37px pay kalıyor).
   Ekledikten sonra 1280px'te menünün tek satır kaldığını **ölçerek** doğrula.
@@ -146,7 +161,7 @@ Tarayıcı panelinde iki tuzak var, ikisine de yakalandım:
 
 1. `posts/<slug>.md` ve `posts/<slug>.en.md` yaz.
 2. `posts/posts.json`'a bir kayıt ekle (`slug`, `file`, `file_en`, `title`, `title_en`,
-   `date`, `tags`, `summary`, `summary_en`).
+   `date`, `tags`, `tags_en`, `summary`, `summary_en`).
 3. `.\tools\feed-uret.ps1 .` çalıştır — yazı sayfaları, feed, sitemap, okuma süreleri ve
    ana sayfadaki kart listesi kendiliğinden güncellenir.
 4. Yayına aldıktan sonra `tools/indexnow-bildir.ps1` ile arama motorlarına haber verilebilir.

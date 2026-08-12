@@ -93,6 +93,11 @@
    Değeri nav'ın gerçek yüksekliğinden JS hesaplıyor (menü dar ekranda iki satıra sarıyor);
    aşağıdaki 56px yalnızca JS çalışmadan önceki ilk kare için yedek. */
 html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h,56px)}
+/* Terminale odaklanılınca yumuşak kaydırma kapanıyor: telefonda klavye açılırken tarayıcı,
+   giriş alanını klavyenin üstünde tutmak için sayfayı kaydırmak zorunda. smooth açıkken bu
+   kaydırma ağır ağır akıyor ve ekran kendiliğinden kayıyormuş gibi duruyor; kapalıyken tek
+   karede oluyor. Odak bırakılınca menü bağlantıları yine yumuşak kayıyor. */
+html.klavye-acik{scroll-behavior:auto}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
 ::selection{background:var(--pcb);color:var(--btn-ink)}
 
@@ -244,7 +249,7 @@ h1 span{color:var(--pcb)}
 /* ---------- section genel ---------- */
 main{display:block}
 section{max-width:1080px;margin:0 auto;padding:64px 24px}
-.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px;flex-wrap:wrap}   /* wrap: // etiketi tek satirlik mono metin, cok dar ekranda (280px) basligin yanina sigmayip tasiyordu */
 .sec-head h2{font-family:var(--disp);font-size:1.7rem;font-weight:600;letter-spacing:-.01em}
 .sec-head .pin{font-family:var(--mono);font-size:.75rem;color:var(--copper)}
 /* pin metni CSS ile üretilir: ATS/ekran okuyucu metin çıkarımına girmez */
@@ -281,7 +286,10 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 }
 
 /* ---------- projeler ---------- */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+/* minmax(min(300px,100%),1fr) — duz 300px degil: sabit taban, kapsayici 300px'in altina
+   inince kolonu kucultmuyor ve sayfa yatay kayiyor (320px'lik telefon). min() ile taban
+   dar ekranda kapsayiciya uyuyor; genis ekranda auto-fill davranisi aynen suruyor. */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:20px}
 .proj{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;display:flex;flex-direction:column;transition:border-color .15s, transform .15s}
 .proj:hover{border-color:var(--pcb);transform:translateY(-3px)}
 .proj .ref{font-family:var(--mono);font-size:.7rem;color:var(--copper);margin-bottom:10px}
@@ -294,7 +302,7 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 .proj .links a{margin-top:0}
 
 /* ---------- yetkinlikler ---------- */
-.skill-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px}
+.skill-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:20px}   /* min(): bkz. .proj-grid */
 .skill-box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
 .skill-box h3{font-family:var(--mono);font-size:.8rem;color:var(--pcb);margin-bottom:12px;letter-spacing:.04em}
 .skill-box ul{list-style:none}
@@ -346,7 +354,12 @@ section{max-width:1080px;margin:0 auto;padding:64px 24px}
 #post-content blockquote{border-left:3px solid var(--copper);padding-left:16px;color:var(--ink-soft);margin-bottom:1em}
 /* max-height dikey (portre) fotograflar icin: sadece max-width olunca 900px'i asip
    ekrani tek basina dolduruyorlardi. Ikisi de "en fazla" oldugu icin oran korunuyor. */
-#post-content img{max-width:100%;max-height:560px;width:auto;height:auto;border-radius:8px;display:block;margin:1.2em auto}
+/* Görseller lazy yükleniyor ve ölçüleri CSS'te auto: tarayıcı yer ayıramadığı için görsel
+   gelince altındaki metin aşağı zıplıyordu (okurken satır kaydırıyor). Üreteç ölçüsünü
+   okuyabildiği görsele .olculu ve --oran veriyor; genişlik baştan belli olunca yükseklik
+   orandan çıkıyor ve yer önceden ayrılıyor. Ölçüsü okunamayanda eski davranış sürüyor. */
+#post-content img{--gorsel-max-h:560px;max-width:100%;max-height:var(--gorsel-max-h);width:auto;height:auto;border-radius:8px;display:block;margin:1.2em auto}
+#post-content img.olculu{width:min(100%, calc(var(--gorsel-max-h) * var(--oran)))}
 #post-content a{color:var(--pcb)}
 /* tablo: dar ekranda kırpılmasın diye kendi içinde yatay kayıyor */
 #post-content table{display:block;overflow-x:auto;width:100%;border-collapse:collapse;margin-bottom:1em;font-size:.92rem}
@@ -399,7 +412,10 @@ footer.sparking .arc-path-2{animation:arcFlash2 1s forwards}
 footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 @keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
 @media (max-width:480px){.foot-text{white-space:normal}}
-.term-wrap{position:relative;align-self:start;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
+/* min-width:0 — grid hücresinin otomatik alt sınırı min-content: 'login <isim>' ile prompt uzayınca
+   terminal hücreyi genişletiyor, telefonda sayfaya yatay kaydırma geliyordu. Taşan içerik artık
+   .term-body içinde kayıyor. */
+.term-wrap{position:relative;align-self:start;min-width:0;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
 .term-bug.eating{animation:bugEat 0.25s infinite}
@@ -416,6 +432,15 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
   .nav-links{gap:14px}
   #post-content{padding:24px 20px}
   .bg-circuit{opacity:.55}
+}
+/* Dar ekranda menü logonun yanına sıkışıyordu: 375px'te dokuz bağlantıya kalan yer 200px,
+   şerit altı satıra sarıp yapışkan nav ekranın %29'unu yiyordu. Logo kendi satırında kalsın,
+   bağlantılar tam genişliği kullansın — aynı menü, altı satır yerine üç (239px → 156px).
+   Sınır 600px, ölçümle: bunun üstünde bağlantılar logonun yanında zaten daha kısa duruyor,
+   erken uygularsak logo satırı boşuna yer alıyor. Değiştirirsen 320/375/480/640'ta ölç. */
+@media (max-width:600px){
+  .nav-in{flex-wrap:wrap;gap:10px 16px}
+  .nav-links{flex-basis:100%}
 }
 /* ---------- yazdırma: sayfanın kendisi özgeçmiş olarak diziliyor ----------
    Ayrı bir CV dosyası tutulmuyor; "CV indir" düğmesi window.print() çağırıyor.
@@ -558,7 +583,7 @@ footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 window.goatcounter = { path: function(p){ return location.pathname + location.search + location.hash } };
 </script>
 <script data-goatcounter="https://cemalkor.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Without Breaking the Seal: Closing a Security Hole with FUOTA","description":"A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.","datePublished":"2026-08-08","dateModified":"2026-08-08","inLanguage":"en","keywords":"FUOTA, BLE, Saha","url":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"image":"https://cemalkor.com.tr/og.png"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Without Breaking the Seal: Closing a Security Hole with FUOTA","description":"A security hole we spotted over a coffee break, 1,900 already-shipped devices and a pile of unopened boxes. How the code I liked least ended up saving me, two computers with two different BLE personalities, and 160 devices in one afternoon.","datePublished":"2026-08-08","dateModified":"2026-08-08","inLanguage":"en","keywords":"FUOTA, BLE, Field","url":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/","mainEntityOfPage":{"@type":"WebPage","@id":"https://cemalkor.com.tr/blog/fuota-kurtarma-operasyonu/en/"},"author":{"@id":"https://cemalkor.com.tr/#cemalkor"},"publisher":{"@id":"https://cemalkor.com.tr/#cemalkor"},"image":"https://cemalkor.com.tr/og.png"}</script>
 </head>
 <body>
 
@@ -649,7 +674,7 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
   <div id="post-view">
     <a class="back-btn" href="/en/#blog">← All posts</a>
     <article id="post-content">
-<div class="post-meta">2026-08-08 · FUOTA · BLE · Saha · 5 min read</div>
+<div class="post-meta">2026-08-08 · FUOTA · BLE · Field · 5 min read</div>
 <h1>Without Breaking the Seal: Closing a Security Hole with FUOTA</h1>
 <p>Yesterday we were on the last break of the day. My colleague Semi Avcı and I had grabbed a coffee and were chatting. The subject was work again, but we weren't at our desks; we were talking with that break-time head on — looser sentences, more &quot;what if&quot; in the questions.</p>
 <p>Then something occurred to me and I asked Semi. Before I'd finished the question his face changed too. We both understood at the same moment.</p>
@@ -664,7 +689,7 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
 <p>Yesterday evening I realised those weeks of hesitation were the most profitable investment in the project.</p>
 <p>Because a sealed box means this: you have a cable in your hand and nowhere to plug it in. Break the seal and the device can't reach the customer &quot;never opened&quot; any more — repacking, resealing, reshipping, and a fresh chance of error at every step. Without FUOTA the job would have become: open 1,900 boxes one by one, cable them one by one, put them back one by one. Instead the boxes stayed shut, and we just talked to the radio on the other side of the lid.</p>
 <p>The devices that hadn't been boxed yet were flashed over the wire with the current firmware, along with the new features we'd added to our production application.</p>
-<p><img src="/posts/gorseller/fuota-kutular.jpg" alt="The recalled boxes and the crate of modules waiting to be updated" loading="lazy" decoding="async"></p>
+<p><img src="/posts/gorseller/fuota-kutular.jpg" alt="The recalled boxes and the crate of modules waiting to be updated" width="1148" height="1528" class="olculu" style="--oran:calc(1148 / 1528)" loading="lazy" decoding="async"></p>
 <h2>Same software, two computers, two different personalities</h2>
 <p>The thing that surprised me most today was a technical inconsistency. Same application, same devices, two different computers:</p>
 <ul>
@@ -673,7 +698,7 @@ window.goatcounter = { path: function(p){ return location.pathname + location.se
 </ul>
 <p>Same firmware, same room, same distance. The only variable was the radio on the other end and the stack driving it.</p>
 <p>I haven't measured the cause yet. My first suspect is the laptop's combined Wi-Fi/Bluetooth chip: it shares the 2.4 GHz band, and in most designs the antenna too, with Wi-Fi — the two take turns on the air. On the external adapter, both the radio and the antenna work alone. But for now that's only a hypothesis; I won't claim anything until I switch Wi-Fi off on the laptop and repeat the same test. When I measure it, I'll write it up here.</p>
-<p><img src="/posts/gorseller/fuota-masaustu.jpg" alt="Two FUOTA sessions running in parallel on two screens, both showing the &quot;device firmware updating&quot; view" loading="lazy" decoding="async"></p>
+<p><img src="/posts/gorseller/fuota-masaustu.jpg" alt="Two FUOTA sessions running in parallel on two screens, both showing the &quot;device firmware updating&quot; view" width="1600" height="900" class="olculu" style="--oran:calc(1600 / 900)" loading="lazy" decoding="async"></p>
 <p>This is exactly where the gap between a test in the office and the actual job shows up. The character of a link isn't set by the device you built alone; every piece of hardware you put on the other end reshapes it.</p>
 <h2>Mistakes and people</h2>
 <p>My first feeling, once the break was over and we were back at our desks, was fear. What suppressed it wasn't a technical fix — it was our general manager Tahsin Önkol's reaction: instead of fixating on the mistake and getting angry, he cleared the way for us to focus on the fix. The fastest way for a mistake to get closed is for the person who finds it not to hesitate before speaking up. I saw that first-hand yesterday.</p>

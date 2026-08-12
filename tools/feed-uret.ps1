@@ -150,7 +150,7 @@ function FeedUret($dil) {
     [void]$sb.Append("      <guid isPermaLink=`"true`">$u</guid>`n")
     [void]$sb.Append("      <pubDate>$(Rfc822 $y.date)</pubDate>`n")
     [void]$sb.Append("      <description>$(Kacir $o)</description>`n")
-    foreach ($e in @($y.tags)) {
+    foreach ($e in (Etiketler $y $dil)) {
       if ($e) { [void]$sb.Append("      <category>$(Kacir $e)</category>`n") }
     }
     [void]$sb.Append("    </item>`n")

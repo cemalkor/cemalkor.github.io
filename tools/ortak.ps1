@@ -15,6 +15,15 @@ function Kacir($s) {
   $s.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace('"', "&quot;")
 }
 
+# Yazinin etiketleri, dile gore. EN sayfada tags_en varsa o kullanilir, yoksa TR
+# etiketlerine dusuyor. Kural title_en / summary_en ile ayni olsun diye tek yerde:
+# eskiden her uretici dogrudan $y.tags okuyordu ve "Saha", "Genel" gibi Turkce etiketler
+# Ingilizce sayfada, EN beslemede ve JSON-LD keywords'te oldugu gibi kaliyordu.
+function Etiketler($y, $dil) {
+  $e = if ($dil -eq "en" -and $y.tags_en) { $y.tags_en } else { $y.tags }
+  @($e) | Where-Object { $_ }
+}
+
 # index.html'deki 'const I18N = { ... };' blogunu sozluge cevirir.
 # Degerler HTML ve kesme isareti icerdigi icin regex yerine karakter karakter taranir;
 # tirnak turu ve \ kacislari korunur.
@@ -111,7 +120,7 @@ function BlogKartlariHtml($yazilar, $okuma, $dil) {
 
     # meta satiri: tarih · etiketler · okuma suresi (bos olanlar atlanir)
     $parca  = @($y.date)
-    $etiket = (@($y.tags) | Where-Object { $_ }) -join " · "
+    $etiket = (Etiketler $y $dil) -join " · "
     if ($etiket) { $parca += $etiket }
     $o = $okuma[$y.slug]
     if ($o) {

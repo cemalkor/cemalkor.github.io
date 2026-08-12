@@ -54,6 +54,27 @@ function AdresDuzelt($u) {
   return "/$u"
 }
 
+# Gorselin gercek olculeri. Gorseller loading="lazy" ve olcusuz gidiyordu: tarayici yer
+# ayiramadigi icin gorsel gelince altindaki metin asagi zipliyordu (okurken satir kaydiriyor,
+# Core Web Vitals'ta CLS olarak dusuyor). width/height tek basina yetmiyor — CSS'te genislik
+# auto oldugu icin kutu yine 0 kaliyordu; .olculu + --oran ile genislik bastan belli oluyor
+# (bkz. index.html'de #post-content img). Oran ondalik degil tamsayi bolmesi: PowerShell'in
+# ondalik ayraci yerel ayara gore virgul olabiliyor, o da CSS'i bozardi.
+# Yerel olmayan ya da okunamayan gorselde sessizce bos donuyor — uretici bu yuzden durmasin.
+Add-Type -AssemblyName System.Drawing -ErrorAction SilentlyContinue
+function GorselOlcu($src) {
+  if ($src -notmatch '^/') { return "" }
+  $yol = Join-Path $kokTam ($src.TrimStart('/') -replace '/', '\')
+  if (-not (Test-Path $yol)) { return "" }
+  try {
+    $akis = [System.IO.File]::OpenRead($yol)
+    try {
+      $img = [System.Drawing.Image]::FromStream($akis, $false, $false)
+      try { return " width=`"$($img.Width)`" height=`"$($img.Height)`" class=`"olculu`" style=`"--oran:calc($($img.Width) / $($img.Height))`"" } finally { $img.Dispose() }
+    } finally { $akis.Dispose() }
+  } catch { return "" }
+}
+
 # ---------- markdown: satir ici ----------
 function Satirici($t) {
   $s = Kacir $t
@@ -71,7 +92,7 @@ function Satirici($t) {
   $s = [regex]::Replace($s, '!\[([^\]]*)\]\(([^)\s]+)\)', {
     param($m)
     $src = AdresDuzelt $m.Groups[2].Value
-    "<img src=`"$src`" alt=`"$($m.Groups[1].Value)`" loading=`"lazy`" decoding=`"async`">"
+    "<img src=`"$src`" alt=`"$($m.Groups[1].Value)`"$(GorselOlcu $src) loading=`"lazy`" decoding=`"async`">"
   })
 
   $s = [regex]::Replace($s, '\[([^\]]+)\]\(([^)\s]+)\)', {
@@ -277,7 +298,7 @@ function SayfaUret($y, $dil, $indeks) {
     $d = if ($dil -eq "en") { if ($kayit.en) { $kayit.en } else { $kayit.tr } } else { $kayit.tr }
     if ($d) { $dk = "$d $($t.dk)" }
   }
-  $meta = (@($y.date, (@($y.tags) -join ' · '), $dk) | Where-Object { $_ }) -join ' · '
+  $meta = (@($y.date, ((Etiketler $y $dil) -join ' · '), $dk) | Where-Object { $_ }) -join ' · '
 
   # onceki/sonraki: liste yeniden eskiye sirali, once = daha eski (sonraki indeks)
   $yeni = if ($indeks -gt 0) { $yazilar[$indeks - 1] } else { $null }
@@ -305,7 +326,7 @@ function SayfaUret($y, $dil, $indeks) {
     datePublished = $y.date
     dateModified  = $y.date
     inLanguage = if ($dil -eq "en") { 'en' } else { 'tr-TR' }
-    keywords   = (@($y.tags) -join ', ')
+    keywords   = ((Etiketler $y $dil) -join ', ')
     url        = $url
     mainEntityOfPage = [ordered]@{ '@type' = 'WebPage'; '@id' = $url }
     author     = @{ '@id' = "$SITE/#cemalkor" }
@@ -431,8 +452,14 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 const navEl = document.querySelector('body > nav');
 const navMobil = matchMedia('(max-width:840px)');
 let sonScrollY = window.scrollY;
+/* Telefonda sayfa, kullanici kaydirmadan da birkac piksel oynuyor (adres cubugunun
+   toplanmasi, odak degisimi). Nav bu oynamalarda kendiliginden acilip kapaniyordu:
+   esigin altindaki fark kaydirma sayilmiyor. sonScrollY esik altinda guncellenmiyor ki
+   yavas kaydirmada fark birikip esigi yine gecsin. Ana sayfadakiyle ayni davranis. */
+const NAV_ESIK = 12;
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
+  if(Math.abs(y - sonScrollY) < NAV_ESIK) return;
   if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
   else navEl.classList.remove('nav-hidden');
   sonScrollY = y;
