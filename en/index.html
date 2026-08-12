@@ -422,7 +422,10 @@ footer.sparking .arc-path-2{animation:arcFlash2 1s forwards}
 footer.sparking .wire-glow{animation:wireFlash 1s forwards}
 @keyframes wireFlash{0%,100%{opacity:0} 5%,95%{opacity:1;filter:drop-shadow(0 0 4px #0ff)}}
 @media (max-width:480px){.foot-text{white-space:normal}}
-.term-wrap{position:relative;align-self:start;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
+/* min-width:0 — grid hücresinin otomatik alt sınırı min-content: 'login <isim>' ile prompt uzayınca
+   terminal hücreyi genişletiyor, telefonda sayfaya yatay kaydırma geliyordu. Taşan içerik artık
+   .term-body içinde kayıyor. */
+.term-wrap{position:relative;align-self:start;min-width:0;margin-top:35px} /* 35px = eyebrow yüksekliği + boşluğu; terminal üstü h1 ile hizalanır */
 .term-bug{position:absolute;left:0;top:0;font-size:1.5rem;opacity:0;z-index:10;pointer-events:none;transform:rotate(180deg)}
 @keyframes bugEat{0%,100%{margin-top:0}50%{margin-top:-6px}}
 .term-bug.eating{animation:bugEat 0.25s infinite}
@@ -798,7 +801,7 @@ window.goatcounter = {
       <div class="term-bar"><i></i><i></i><i></i><span class="term-title">UART0 · 115200 8N1</span></div>
       <div class="term-body" id="konsol">
         <div id="term-out" role="log" aria-live="polite"></div>
-        <form id="term-form"><span class="ok">cemal@kor:~$&nbsp;</span><span class="cursor"></span><input id="term-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal komut girişi"></form>
+        <form id="term-form"><span class="ok" id="term-prompt">guest:~$&nbsp;</span><span class="cursor"></span><input id="term-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal komut girişi"></form>
       </div>
     </div>
     <div class="term-bug">🪲</div>
@@ -1353,6 +1356,16 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const termBody = document.getElementById('konsol');
 const termOut = document.getElementById('term-out');
 const termIn = document.getElementById('term-in');
+/* prompt'taki kullanıcı adı. Varsayılan 'guest': yazan ziyaretçi, ben değilim — 'cemal@kor'
+   ile ziyaretçi benim ağzımdan yazıyormuş gibi oluyordu. 'login <isim>' ile değişiyor,
+   hiçbir yere kaydedilmiyor; sekme kapanınca isim de gidiyor. */
+const termPrompt = document.getElementById('term-prompt');
+let kullanici = 'guest';
+function kullaniciAyarla(ad){
+  kullanici = ad;
+  /* \u00a0 = HTML'deki &nbsp;: prompt ile imleç arasındaki boşluk */
+  termPrompt.textContent = ad + ':~$\u00a0';
+}
 let islemde = false; /* rm -rf / gibi uzun çıktılar sürerken giriş kilitli */
 const gecmis = [];
 let gecmisIdx = 0;
@@ -1375,7 +1388,7 @@ function normallestir(s){
 }
 const takma = {yardim:'help', komutlar:'help', kimim:'whoami', hakkimda:'about', ben:'about',
   yetenekler:'skills', beceriler:'skills', projeler:'projects', iletisim:'contact',
-  temizle:'clear', cikis:'exit', pavyon:'disco', bocek:'bug', tara:'scan',
+  temizle:'clear', cikis:'exit', giris:'login', pavyon:'disco', bocek:'bug', tara:'scan',
   kismet:'fortune', fal:'fortune',
   /* "siteyi kim yaptı", "kim yaptı", "who made this site" gibi girdiler de kredilere düşsün:
      komut ilk kelimeden çözüldüğü için baştaki kelimelerin hepsi alias */
@@ -1417,6 +1430,7 @@ function komutCalistir(ham){
        ['skills',  en ? 'Technical skills' : 'Teknik yetenekler'],
        ['projects',en ? 'Projects'         : 'Projeler'],
        ['contact', en ? 'Contact info'     : 'İletişim'],
+       ['login',   en ? 'Set your name — e.g. login alex' : 'Adını yaz — örn: login ayşe'],
        ['clear',   en ? 'Clear the screen' : 'Ekranı temizle']
       ].forEach(([k,a]) => satirYaz(`<span class="ok" style="white-space:pre">  ${k.padEnd(10)}</span><span class="t">${a}</span>`));
       /* egg sayılmayan keyif komutları: listede dursunlar, egg'ler gizli kalsın */
@@ -1430,6 +1444,10 @@ function komutCalistir(ham){
       satirYaz(`<span class="t"># ${en ? 'Some commands are not on this list...' : 'Bazı komutlar bu listede yok...'}</span>`);
       break;
     case 'whoami':
+      /* prompt artık 'guest', yani cevabın ilk satırı gerçekten karşıdaki kişi. Ama bu komutu
+         yazan aslında beni soruyor; şaka bitince asıl satır yine geliyor. */
+      satirYaz(`<span class="ok">${kacir(kullanici)}</span><span class="val"> — ${en ? "that's you." : 'yani sen.'}</span>`);
+      satirYaz(`<span class="t">${en ? 'You probably meant the guy whose house this is:' : 'Ama sen galiba bu evin sahibini sordun:'}</span>`);
       satirYaz(`<span class="ok">cemal_kor</span><span class="val"> — ${en ? 'Embedded software engineer' : 'Gömülü yazılım mühendisi'} · Ankara, TR</span>`);
       break;
     case 'about':
@@ -1455,6 +1473,19 @@ function komutCalistir(ham){
       satirYaz(ozellik('github:   ', '<a href="https://github.com/cemalkor" target="_blank" rel="noopener">github.com/cemalkor</a>'));
       satirYaz(ozellik('linkedin: ', '<a href="https://www.linkedin.com/in/cemalkor/" target="_blank" rel="noopener">linkedin.com/in/cemalkor</a>'));
       break;
+    case 'login': {
+      /* İsim ham girdiden alınıyor: normallestir() büyük harfleri ve türkçe karakterleri
+         düzlerdi, insanın adı yazdığı gibi kalsın. 16 karakter sınırı, uzun isim telefonda
+         prompt'un yanındaki giriş alanını yemesin diye. */
+      const ad = girdi.slice(hamIlk.length).trim().replace(/\s+/g, ' ').slice(0, 16);
+      if(!ad){
+        satirYaz(`<span class="val">${en ? 'usage: login &lt;name&gt;' : 'kullanım: login &lt;isim&gt;'}</span>`);
+        break;
+      }
+      kullaniciAyarla(ad);
+      satirYaz(`<span class="ok">${en ? 'Welcome' : 'Hoş geldin'}, ${kacir(ad)}.</span> <span class="t">${en ? '(back to guest: login guest)' : '(geri dönmek için: login guest)'}</span>`);
+      break;
+    }
     case 'clear':
       termOut.innerHTML = '';
       break;
