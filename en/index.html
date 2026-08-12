@@ -116,6 +116,11 @@
    Değeri nav'ın gerçek yüksekliğinden JS hesaplıyor (menü dar ekranda iki satıra sarıyor);
    aşağıdaki 56px yalnızca JS çalışmadan önceki ilk kare için yedek. */
 html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h,56px)}
+/* Terminale odaklanılınca yumuşak kaydırma kapanıyor: telefonda klavye açılırken tarayıcı,
+   giriş alanını klavyenin üstünde tutmak için sayfayı kaydırmak zorunda. smooth açıkken bu
+   kaydırma ağır ağır akıyor ve ekran kendiliğinden kayıyormuş gibi duruyor; kapalıyken tek
+   karede oluyor. Odak bırakılınca menü bağlantıları yine yumuşak kayıyor. */
+html.klavye-acik{scroll-behavior:auto}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.65;font-size:16px}
 ::selection{background:var(--pcb);color:var(--btn-ink)}
 
@@ -1178,8 +1183,18 @@ navYuksekligiOlc();
 window.addEventListener('resize', navYuksekligiOlc, {passive:true});
 const navMobil = window.matchMedia('(max-width:840px)');
 let sonScrollY = window.scrollY;
+/* Telefonda sayfa, kullanıcı kaydırmadan da oynuyor: klavye açılıp kapanırken, terminale
+   satır düştükçe tarayıcı odaktaki alanı görünür tutmaya çalışıyor, adres çubuğu toplanıp
+   açılıyor. Ham scroll olayına bakan nav bu birkaç piksellik oynamalarda kendiliğinden
+   açılıp kapanıyordu — özellikle terminale yazarken.
+   - Terminale yazılırken (klavye açıkken) nav'a hiç dokunmuyoruz, olduğu gibi kalıyor.
+   - Eşik altındaki oynamalar kaydırma sayılmıyor. sonScrollY bu durumda güncellenmiyor:
+     yavaş kaydırmada fark birikip eşiği yine geçsin, gerçek kaydırma kaçmasın. */
+const NAV_ESIK = 12;
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
+  if(document.activeElement && document.activeElement.id === 'term-in'){ sonScrollY = y; return; }
+  if(Math.abs(y - sonScrollY) < NAV_ESIK) return;
   if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
   else navEl.classList.remove('nav-hidden');
   sonScrollY = y;
@@ -1356,6 +1371,9 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const termBody = document.getElementById('konsol');
 const termOut = document.getElementById('term-out');
 const termIn = document.getElementById('term-in');
+/* bkz. html.klavye-acik: odak terminaldeyken sayfanın yumuşak kaydırması kapalı */
+termIn.addEventListener('focus', () => document.documentElement.classList.add('klavye-acik'));
+termIn.addEventListener('blur', () => document.documentElement.classList.remove('klavye-acik'));
 /* prompt'taki kullanıcı adı. Varsayılan 'guest': yazan ziyaretçi, ben değilim — 'cemal@kor'
    ile ziyaretçi benim ağzımdan yazıyormuş gibi oluyordu. 'login <isim>' ile değişiyor,
    hiçbir yere kaydedilmiyor; sekme kapanınca isim de gidiyor. */

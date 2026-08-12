@@ -753,8 +753,14 @@ document.getElementById('lang-btn').addEventListener('click', ()=>{
 const navEl = document.querySelector('body > nav');
 const navMobil = matchMedia('(max-width:840px)');
 let sonScrollY = window.scrollY;
+/* Telefonda sayfa, kullanici kaydirmadan da birkac piksel oynuyor (adres cubugunun
+   toplanmasi, odak degisimi). Nav bu oynamalarda kendiliginden acilip kapaniyordu:
+   esigin altindaki fark kaydirma sayilmiyor. sonScrollY esik altinda guncellenmiyor ki
+   yavas kaydirmada fark birikip esigi yine gecsin. Ana sayfadakiyle ayni davranis. */
+const NAV_ESIK = 12;
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
+  if(Math.abs(y - sonScrollY) < NAV_ESIK) return;
   if(navMobil.matches && y > sonScrollY && y > 80) navEl.classList.add('nav-hidden');
   else navEl.classList.remove('nav-hidden');
   sonScrollY = y;
